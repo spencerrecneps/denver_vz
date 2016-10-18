@@ -32,6 +32,12 @@ ANALYZE generated.denver_streets;
 --------------------
 -- meld highways
 --------------------
+-- create temporary buffers
+ALTER TABLE generated.denver_streets ADD COLUMN tmp_buffers geometry(multipolygon,2231);
+UPDATE generated.denver_streets SET tmp_buffers = ST_Multi(ST_Buffer(geom,40,'endcap=flat'));
+CREATE INDEX tsidx_dnvrstrtstmpbuff ON generated.denver_streets USING GIST (tmp_buffers);
+ANALYZE generated.denver_streets (tmp_buffers);
+
 -- first pass
 SELECT  tdg.tdgMeldBuffers(
     'generated.denver_streets',
@@ -41,6 +47,7 @@ SELECT  tdg.tdgMeldBuffers(
     'tdg_id',
     'geom',
     tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
     only_nulls_ := 'f'
 );
 
@@ -53,6 +60,7 @@ SELECT  tdg.tdgMeldBuffers(
     'tdg_id',
     'geom',
     tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
     min_target_length_ := 300,
     min_shared_length_pct_ := 0.5,
     only_nulls_ := 't'
