@@ -75,7 +75,14 @@ SELECT  tdg.tdgMeldAzimuths(
     'tdg_id',
     'geom',
     tolerance_ := 40,
-    only_nulls_ := 't',
-    min_target_length_ := 300,
-    min_shared_length_pct_ := 0.5
+    buffer_geom_ := 'tmp_buffers',
+    max_angle_diff_ := 10,
+    only_nulls_ := 't'
 );
+
+
+
+select  tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,13)
+
+FROM    cdot_highways, denver_streets
+WHERE   denver_streets.id=238 and cdot_highways.id = 6423
