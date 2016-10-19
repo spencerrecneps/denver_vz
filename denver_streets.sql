@@ -80,9 +80,30 @@ SELECT  tdg.tdgMeldAzimuths(
     only_nulls_ := 't'
 );
 
+-- drop temporary bufffers
+ALTER TABLE generated.denver_streets DROP COLUMN tmp_buffers;
 
 
-select  tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,13)
+--------------------
+-- meld major roads
+--------------------
+
+
+-- remove false positives
+UPDATE  generated.denver_streets
+SET     tdgid_cdot_highways = NULL
+FROM    cdot_highways
+WHERE   tdgid_cdot_highways IS NOT NULL
+AND     cdot_highways.tdg_id = denver_streets.tdgid_cdot_highways
+AND     (
+            tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) < 100
+
+
+        AND tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,10) < 100
+        );
+
+
+select  tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,10)
 
 FROM    cdot_highways, denver_streets
 WHERE   denver_streets.id=238 and cdot_highways.id = 6423
