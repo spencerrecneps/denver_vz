@@ -8,6 +8,7 @@ CREATE TABLE generated.denver_streets (
     geom geometry(linestring,2231),
     seg_length INT,
     tdgid_denver_street_centerline VARCHAR(36),
+    tdgid_denver_bicycle_facilities VARCHAR(36),
     tdgid_cdot_highways VARCHAR(36),
     tdgid_cdot_major_roads VARCHAR(36),
     tdgid_cdot_local_roads VARCHAR(36)
@@ -74,17 +75,19 @@ SELECT  tdg.tdgMeldAzimuths(
     'received.cdot_highways',
     'tdg_id',
     'geom',
-    tolerance_ := 40,
-    buffer_geom_ := 'tmp_buffers',
+    tolerance_ := 100,
+    --buffer_geom_ := 'tmp_buffers',
     max_angle_diff_ := 10,
     only_nulls_ := 't'
 );
 
--- filter to where volclass = arterial in denver centerlines and nullify others
-
-
-
-
+-- filter out non arterial matches
+UPDATE  denver_streets
+SET     tdgid_cdot_highways = NULL
+FROM    received.denver_street_centerline ds
+WHERE   ds.tdg_id = tdgid_denver_street_centerline
+AND     tdgid_cdot_highways IS NOT NULL
+AND     volclass IN ('LOCAL','COLLECTOR');
 
 -- remove false positives
 UPDATE  generated.denver_streets
@@ -95,22 +98,26 @@ WHERE   EXISTS (
             WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
         );
 
--- -- fill remaining gaps
--- UPDATE  generated.denver_streets
--- SET     tdgid_cdot_highways = (
---             SELECT      cdot_highways.tdg_id
---             FROM        cdot_highways
---             WHERE       NOT EXISTS (
---                             SELECT  1
---                             FROM    generated.denver_streets s
---                             WHERE   cdot_highways.tdg_id = s.tdgid_cdot_highways
---                         )
---             AND         ST_DWithin(denver_streets.geom,cdot_highways.geom,50)
---             AND         tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) < 50
---             ORDER BY    tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) ASC
---             LIMIT       1
---         )
--- WHERE   denver_streets.tdgid_cdot_highways IS NULL;
+-- grab stragglers
+UPDATE  generated.denver_streets
+SET     tdgid_cdot_highways = (
+            SELECT      cdot_highways.tdg_id
+            FROM        cdot_highways
+            WHERE       NOT EXISTS (
+                            SELECT  1
+                            FROM    generated.denver_streets s
+                            WHERE   cdot_highways.tdg_id = s.tdgid_cdot_highways
+                        )
+            AND         ST_DWithin(denver_streets.geom,cdot_highways.geom,50)
+            AND         tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) < 50
+            ORDER BY    ST_Length(cdot_highways.geom) DESC
+            LIMIT       1
+        )
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.cdot_highways_stragglers stragglers
+            WHERE   stragglers.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
+        );
 
 
 --------------------
@@ -158,6 +165,105 @@ SELECT  tdg.tdgMeldAzimuths(
     only_nulls_ := 't'
 );
 
+-- filter out highway matches
+UPDATE  denver_streets
+SET     tdgid_cdot_major_roads = NULL
+WHERE   tdgid_cdot_major_roads IS NOT NULL
+AND     tdgid_cdot_highways IS NOT NULL;
+
+-- remove false positives
+UPDATE  generated.denver_streets
+SET     tdgid_cdot_major_roads = NULL
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.cdot_major_roads_false_positives fp
+            WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
+        );
+
+--------------------
+-- meld local roads
+--------------------
+-- first pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_cdot_local_roads',
+    'geom',
+    'received.cdot_local_roads',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    only_nulls_ := 'f'
+);
+
+-- second pass
+SELECT  tdg.tdgMeldAzimuths(
+    'generated.denver_streets',
+    'tdgid_cdot_local_roads',
+    'geom',
+    'received.cdot_local_roads',
+    'tdg_id',
+    'geom',
+    tolerance_ := 10,
+    buffer_geom_ := 'tmp_buffers',
+    max_angle_diff_ := 10,
+    only_nulls_ := 't'
+);
+
+-- remove false positives
+UPDATE  generated.denver_streets
+SET     tdgid_cdot_local_roads = NULL
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.cdot_local_roads_false_positives fp
+            WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
+        );
+
+-- remove previous matches
+UPDATE  denver_streets
+SET     tdgid_cdot_local_roads = NULL
+FROM    received.denver_street_centerline ds
+WHERE   ds.tdg_id = tdgid_denver_street_centerline
+AND     tdgid_cdot_local_roads IS NOT NULL
+AND     (tdgid_cdot_highways IS NOT NULL OR tdgid_cdot_major_roads IS NOT NULL)
+AND     volclass != 'LOCAL';
+
+-- remove matches to locals from the others
+UPDATE  denver_streets
+SET     tdgid_cdot_major_roads = NULL,
+        tdgid_cdot_highways = NULL
+FROM    received.denver_street_centerline ds
+WHERE   ds.tdg_id = tdgid_denver_street_centerline
+AND     tdgid_cdot_local_roads IS NOT NULL
+AND     (tdgid_cdot_highways IS NOT NULL OR tdgid_cdot_major_roads IS NOT NULL)
+AND     volclass = 'LOCAL';
+
+
+--------------------
+-- meld denver bike facilities
+--------------------
+-- trails
+INSERT INTO generated.denver_streets (
+    tdgid_denver_bicycle_facilities, geom
+)
+SELECT  tdg_id,
+        geom
+FROM    denver_bicycle_facilities
+WHERE   COALESCE(phase,'Existing') = 'Existing'
+AND     existing_f IN ('RT','MT','SWBP','SUP');
+
+-- first pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_denver_bicycle_facilities',
+    'geom',
+    'received.denver_bicycle_facilities',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    only_nulls_ := 't'
+);
 
 
 
