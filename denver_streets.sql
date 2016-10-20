@@ -80,30 +80,88 @@ SELECT  tdg.tdgMeldAzimuths(
     only_nulls_ := 't'
 );
 
--- drop temporary bufffers
-ALTER TABLE generated.denver_streets DROP COLUMN tmp_buffers;
+-- filter to where volclass = arterial in denver centerlines and nullify others
 
 
---------------------
--- meld major roads
---------------------
+
 
 
 -- remove false positives
 UPDATE  generated.denver_streets
 SET     tdgid_cdot_highways = NULL
-FROM    cdot_highways
-WHERE   tdgid_cdot_highways IS NOT NULL
-AND     cdot_highways.tdg_id = denver_streets.tdgid_cdot_highways
-AND     (
-            tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) < 100
-
-
-        AND tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,10) < 100
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.cdot_highways_false_positives fp
+            WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
         );
 
+-- -- fill remaining gaps
+-- UPDATE  generated.denver_streets
+-- SET     tdgid_cdot_highways = (
+--             SELECT      cdot_highways.tdg_id
+--             FROM        cdot_highways
+--             WHERE       NOT EXISTS (
+--                             SELECT  1
+--                             FROM    generated.denver_streets s
+--                             WHERE   cdot_highways.tdg_id = s.tdgid_cdot_highways
+--                         )
+--             AND         ST_DWithin(denver_streets.geom,cdot_highways.geom,50)
+--             AND         tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) < 50
+--             ORDER BY    tdg.tdgCompareLines(cdot_highways.geom,denver_streets.geom,10) ASC
+--             LIMIT       1
+--         )
+-- WHERE   denver_streets.tdgid_cdot_highways IS NULL;
 
-select  tdg.tdgCompareLines(denver_streets.geom,cdot_highways.geom,10)
 
-FROM    cdot_highways, denver_streets
-WHERE   denver_streets.id=238 and cdot_highways.id = 6423
+--------------------
+-- meld major roads
+--------------------
+-- first pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_cdot_major_roads',
+    'geom',
+    'received.cdot_major_roads',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    only_nulls_ := 'f'
+);
+
+-- second pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_cdot_major_roads',
+    'geom',
+    'received.cdot_major_roads',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    min_target_length_ := 300,
+    min_shared_length_pct_ := 0.5,
+    only_nulls_ := 't'
+);
+
+-- third pass
+SELECT  tdg.tdgMeldAzimuths(
+    'generated.denver_streets',
+    'tdgid_cdot_major_roads',
+    'geom',
+    'received.cdot_major_roads',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    max_angle_diff_ := 10,
+    only_nulls_ := 't'
+);
+
+
+
+
+
+
+-- drop temporary bufffers
+ALTER TABLE generated.denver_streets DROP COLUMN tmp_buffers;
