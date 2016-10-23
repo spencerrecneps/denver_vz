@@ -11,7 +11,9 @@ CREATE TABLE generated.denver_streets (
     tdgid_denver_bicycle_facilities VARCHAR(36),
     tdgid_cdot_highways VARCHAR(36),
     tdgid_cdot_major_roads VARCHAR(36),
-    tdgid_cdot_local_roads VARCHAR(36)
+    tdgid_cdot_local_roads VARCHAR(36),
+    speed_limit INTEGER,
+    speed_limit_source TEXT
 );
 
 -- add base road segments from denver centerlines
@@ -30,15 +32,22 @@ CREATE INDEX sidx_denstreetsgeom ON generated.denver_streets USING GIST (geom);
 CREATE INDEX idx_denstreetctrlntdgid ON generated.denver_streets (tdgid_denver_street_centerline);
 ANALYZE generated.denver_streets;
 
---------------------
--- meld highways
---------------------
 -- create temporary buffers
 ALTER TABLE generated.denver_streets ADD COLUMN tmp_buffers geometry(multipolygon,2231);
-UPDATE generated.denver_streets SET tmp_buffers = ST_Multi(ST_Buffer(geom,40,'endcap=flat'));
+UPDATE  generated.denver_streets
+SET     tmp_buffers = ST_Multi(
+            ST_Buffer(
+                ST_Buffer(geom,42,'endcap=flat'),
+                -2
+            )
+        );
 CREATE INDEX tsidx_dnvrstrtstmpbuff ON generated.denver_streets USING GIST (tmp_buffers);
 ANALYZE generated.denver_streets (tmp_buffers);
 
+
+--------------------
+-- meld highways
+--------------------
 -- first pass
 SELECT  tdg.tdgMeldBuffers(
     'generated.denver_streets',
@@ -119,6 +128,9 @@ WHERE   EXISTS (
             WHERE   stragglers.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
         );
 
+-- index
+CREATE INDEX idx_denstreetcdothwytdgid ON generated.denver_streets (tdgid_cdot_highways);
+
 
 --------------------
 -- meld major roads
@@ -180,6 +192,10 @@ WHERE   EXISTS (
             WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
         );
 
+-- index
+CREATE INDEX idx_denstreetcdotmjrrdtdgid ON generated.denver_streets (tdgid_cdot_major_roads);
+
+
 --------------------
 -- meld local roads
 --------------------
@@ -238,19 +254,27 @@ AND     tdgid_cdot_local_roads IS NOT NULL
 AND     (tdgid_cdot_highways IS NOT NULL OR tdgid_cdot_major_roads IS NOT NULL)
 AND     volclass = 'LOCAL';
 
+-- index
+CREATE INDEX idx_denstreetcdotlclrdtdgid ON generated.denver_streets (tdgid_cdot_local_roads);
+
+
+--------------------
+-- meld drcog_bicycle_facility_inventory
+--------------------
+
 
 --------------------
 -- meld denver bike facilities
 --------------------
--- trails
-INSERT INTO generated.denver_streets (
-    tdgid_denver_bicycle_facilities, geom
-)
-SELECT  tdg_id,
-        geom
-FROM    denver_bicycle_facilities
-WHERE   COALESCE(phase,'Existing') = 'Existing'
-AND     existing_f IN ('RT','MT','SWBP','SUP');
+-- tighten up the buffers
+UPDATE  generated.denver_streets
+SET     tmp_buffers = ST_Multi(
+            ST_Buffer(
+                ST_Buffer(geom,12,'endcap=flat'),
+                -2
+            )
+        );
+ANALYZE generated.denver_streets (tmp_buffers);
 
 -- first pass
 SELECT  tdg.tdgMeldBuffers(
@@ -265,9 +289,67 @@ SELECT  tdg.tdgMeldBuffers(
     only_nulls_ := 't'
 );
 
+-- second pass
+SELECT  tdg.tdgMeldAzimuths(
+    'generated.denver_streets',
+    'tdgid_denver_bicycle_facilities',
+    'geom',
+    'received.denver_bicycle_facilities',
+    'tdg_id',
+    'geom',
+    tolerance_ := 5,
+    buffer_geom_ := 'tmp_buffers',
+    max_angle_diff_ := 5,
+    only_nulls_ := 't'
+);
+
+-- remove false positives
+UPDATE  generated.denver_streets
+SET     tdgid_denver_bicycle_facilities = NULL
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.denver_bicycle_facilities_false_positives fp
+            WHERE   fp.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
+        );
+
+-- grab stragglers
+UPDATE  generated.denver_streets
+SET     tdgid_denver_bicycle_facilities = (
+            SELECT      denver_bicycle_facilities.tdg_id
+            FROM        denver_bicycle_facilities
+            WHERE       ST_Intersects(denver_streets.tmp_buffers,denver_bicycle_facilities.geom)
+            ORDER BY    tdg.tdgCompareLines(denver_streets.geom,denver_bicycle_facilities.geom,10) ASC
+            LIMIT       1
+        )
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.denver_bicycle_facilities_stragglers stragglers
+            WHERE   stragglers.tdgid_denver_street_centerline = denver_streets.tdgid_denver_street_centerline
+        );
+
+-- index
+CREATE INDEX idx_denstreetbcyclfactdgid ON generated.denver_streets (tdgid_denver_bicycle_facilities);
+
+
 
 
 
 
 -- drop temporary bufffers
 ALTER TABLE generated.denver_streets DROP COLUMN tmp_buffers;
+
+
+--------------------
+-- add trails from denver_bicycle_facilities
+--------------------
+INSERT INTO generated.denver_streets (
+    tdgid_denver_bicycle_facilities, geom
+)
+SELECT  tdg_id,
+        geom
+FROM    denver_bicycle_facilities
+WHERE   COALESCE(phase,'Existing') = 'Existing'
+AND     existing_f IN ('RT','MT','SWBP','SUP');
+
+-- analyze
+ANALYZE generated.denver_streets;

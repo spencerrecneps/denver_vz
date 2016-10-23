@@ -1,20 +1,29 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="" version="2.16.3">
+<qgis projectname="" version="2.18.0">
   <title></title>
   <autotransaction active="0"/>
   <evaluateDefaultValues active="0"/>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
-    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="denver_streets_geom20161019204349633" name="denver_streets-major_roads">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="denver_streets_tmp_buffers20161022145654587" name="denver_streets.tmp_buffers">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="cdot_highways_false_positives20161019203545417" name="cdot_highways_false_positives">
+    <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="denver_streets_geom20161022142736566" name="denver_streets-bicycle_facilities">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Checked" id="denver_streets20161017205518477" name="denver_streets-highways">
+    <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="denver_streets_geom20161019204349633" name="denver_streets-major_roads">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="0" checked="Qt::Unchecked" id="denver_streets20161017205518477" name="denver_streets-highways">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="0" checked="Qt::Checked" id="drcog_bicycle_facility_inventory20161022153830119" name="drcog_bicycle_facility_inventory">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="cdot_major_roads20161017195131049" name="cdot_major_roads">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="denver_bicycle_facilities20161022142943053" name="denver_bicycle_facilities">
       <customproperties/>
     </layer-tree-layer>
     <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="cdot_local_roads20161017195131025" name="cdot_local_roads">
@@ -26,7 +35,7 @@
     <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="cdot_highways20161019182039241" name="cdot_highways">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer expanded="1" checked="Qt::Checked" id="cdot_highways20161017195130790" name="cdot_highways">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="cdot_highways20161017195130790" name="cdot_highways">
       <customproperties/>
     </layer-tree-layer>
   </layer-tree-group>
@@ -34,10 +43,10 @@
   <mapcanvas>
     <units>feet</units>
     <extent>
-      <xmin>3141650.14628823101520538</xmin>
-      <ymin>1159182.93473753263242543</ymin>
-      <xmax>3146715.90410073101520538</xmax>
-      <ymax>1163510.16930782725103199</ymax>
+      <xmin>3142204.46185547858476639</xmin>
+      <ymin>1150737.92407056922093034</ymin>
+      <xmax>3144737.34076172858476639</xmax>
+      <ymax>1152901.54135570162907243</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -58,9 +67,17 @@
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets20161017205518477"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="Buffer20161017222517410"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="cdot_highways20161017195130790"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_bicycle_facilities20161022142943053"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="cdot_highways_false_positives20161019203545417"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets_tmp_buffers20161022152007741"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets_geom20161022142736566"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_bicycle_facilities_false_positives20161022150033216"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_bicycle_facilities_stragglers20161022153123930"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="drcog_bicycle_facility_inventory20161022153830119"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="cdot_highways20161019182039241"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="cdot_major_roads20161017195131049"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets_tmp_buffers20161022145654587"/>
+      <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets_tmp_buffers20161022144548295"/>
       <layer_coordinate_transform destAuthId="EPSG:2231" srcAuthId="EPSG:2231" srcDatumTransform="-1" destDatumTransform="-1" layerid="denver_streets_geom20161019204349633"/>
     </layer_coordinate_transform_info>
   </mapcanvas>
@@ -72,29 +89,47 @@
       <item>denver_street_centerline20161017195131065</item>
       <item>denver_streets20161017205518477</item>
       <item>cdot_highways20161019182039241</item>
-      <item>cdot_highways_false_positives20161019203545417</item>
       <item>denver_streets_geom20161019204349633</item>
+      <item>denver_streets_geom20161022142736566</item>
+      <item>denver_bicycle_facilities20161022142943053</item>
+      <item>denver_streets_tmp_buffers20161022145654587</item>
+      <item>drcog_bicycle_facility_inventory20161022153830119</item>
     </custom-order>
   </layer-tree-canvas>
   <legend updateDrawingOrder="true">
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="denver_streets-major_roads" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="denver_streets.tmp_buffers" showFeatureCount="0">
       <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="denver_streets_tmp_buffers20161022145654587" visible="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="denver_streets-bicycle_facilities" showFeatureCount="0">
+      <filegroup open="false" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="denver_streets_geom20161022142736566" visible="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="denver_streets-major_roads" showFeatureCount="0">
+      <filegroup open="false" hidden="false">
         <legendlayerfile isInOverview="0" layerid="denver_streets_geom20161019204349633" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="cdot_highways_false_positives" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="denver_streets-highways" showFeatureCount="0">
       <filegroup open="false" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="cdot_highways_false_positives20161019203545417" visible="0"/>
+        <legendlayerfile isInOverview="0" layerid="denver_streets20161017205518477" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="denver_streets-highways" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="denver_streets20161017205518477" visible="1"/>
+    <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="drcog_bicycle_facility_inventory" showFeatureCount="0">
+      <filegroup open="false" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="drcog_bicycle_facility_inventory20161022153830119" visible="1"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cdot_major_roads" showFeatureCount="0">
       <filegroup open="true" hidden="false">
         <legendlayerfile isInOverview="0" layerid="cdot_major_roads20161017195131049" visible="0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="denver_bicycle_facilities" showFeatureCount="0">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile isInOverview="0" layerid="denver_bicycle_facilities20161022142943053" visible="0"/>
       </filegroup>
     </legendlayer>
     <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cdot_local_roads" showFeatureCount="0">
@@ -112,37 +147,12 @@
         <legendlayerfile isInOverview="0" layerid="cdot_highways20161019182039241" visible="0"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="cdot_highways" showFeatureCount="0">
+    <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="cdot_highways" showFeatureCount="0">
       <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" layerid="cdot_highways20161017195130790" visible="1"/>
+        <legendlayerfile isInOverview="0" layerid="cdot_highways20161017195130790" visible="0"/>
       </filegroup>
     </legendlayer>
   </legend>
-  <mapcanvas>
-    <units>degrees</units>
-    <extent>
-      <xmin>0</xmin>
-      <ymin>0</ymin>
-      <xmax>0</xmax>
-      <ymax>0</ymax>
-    </extent>
-    <rotation>0</rotation>
-    <projections>0</projections>
-    <destinationsrs>
-      <spatialrefsys>
-        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-        <srsid>3452</srsid>
-        <srid>4326</srid>
-        <authid>EPSG:4326</authid>
-        <description>WGS 84</description>
-        <projectionacronym>longlat</projectionacronym>
-        <ellipsoidacronym>WGS84</ellipsoidacronym>
-        <geographicflag>true</geographicflag>
-      </spatialrefsys>
-    </destinationsrs>
-    <rendermaptile>0</rendermaptile>
-    <layer_coordinate_transform_info/>
-  </mapcanvas>
   <projectlayers>
     <maplayer simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <extent>
@@ -174,6 +184,56 @@
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="route" expression=""/>
+        <default field="refpt" expression=""/>
+        <default field="endrefpt" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="region" expression=""/>
+        <default field="tprid" expression=""/>
+        <default field="commdistid" expression=""/>
+        <default field="city" expression=""/>
+        <default field="fipscity" expression=""/>
+        <default field="county" expression=""/>
+        <default field="fipscounty" expression=""/>
+        <default field="population" expression=""/>
+        <default field="funcclass" expression=""/>
+        <default field="routesign" expression=""/>
+        <default field="nhsdesig" expression=""/>
+        <default field="access_" expression=""/>
+        <default field="prirdl" expression=""/>
+        <default field="pridlclass" expression=""/>
+        <default field="priirii" expression=""/>
+        <default field="priruti" expression=""/>
+        <default field="aadt" expression=""/>
+        <default field="aadt20" expression=""/>
+        <default field="aadtyr" expression=""/>
+        <default field="aadtderiv" expression=""/>
+        <default field="pktrk" expression=""/>
+        <default field="offpktrk" expression=""/>
+        <default field="aadtsingle" expression=""/>
+        <default field="aadtcomb" expression=""/>
+        <default field="vcratio" expression=""/>
+        <default field="vcratio20" expression=""/>
+        <default field="vmt" expression=""/>
+        <default field="speedlim" expression=""/>
+        <default field="prisurf" expression=""/>
+        <default field="thrulnqty" expression=""/>
+        <default field="thrulnwd" expression=""/>
+        <default field="isdivided" expression=""/>
+        <default field="prioutshd" expression=""/>
+        <default field="prioutshdw" expression=""/>
+        <default field="median" expression=""/>
+        <default field="medianwd" expression=""/>
+        <default field="terrain" expression=""/>
+        <default field="alias" expression=""/>
+        <default field="descriptio" expression=""/>
+        <default field="shape_stle" expression=""/>
+        <default field="shape_st_1" expression=""/>
+        <default field="layer_clas" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -545,6 +605,56 @@
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="route" index="1" name=""/>
+        <alias field="refpt" index="2" name=""/>
+        <alias field="endrefpt" index="3" name=""/>
+        <alias field="seg_length" index="4" name=""/>
+        <alias field="region" index="5" name=""/>
+        <alias field="tprid" index="6" name=""/>
+        <alias field="commdistid" index="7" name=""/>
+        <alias field="city" index="8" name=""/>
+        <alias field="fipscity" index="9" name=""/>
+        <alias field="county" index="10" name=""/>
+        <alias field="fipscounty" index="11" name=""/>
+        <alias field="population" index="12" name=""/>
+        <alias field="funcclass" index="13" name=""/>
+        <alias field="routesign" index="14" name=""/>
+        <alias field="nhsdesig" index="15" name=""/>
+        <alias field="access_" index="16" name=""/>
+        <alias field="prirdl" index="17" name=""/>
+        <alias field="pridlclass" index="18" name=""/>
+        <alias field="priirii" index="19" name=""/>
+        <alias field="priruti" index="20" name=""/>
+        <alias field="aadt" index="21" name=""/>
+        <alias field="aadt20" index="22" name=""/>
+        <alias field="aadtyr" index="23" name=""/>
+        <alias field="aadtderiv" index="24" name=""/>
+        <alias field="pktrk" index="25" name=""/>
+        <alias field="offpktrk" index="26" name=""/>
+        <alias field="aadtsingle" index="27" name=""/>
+        <alias field="aadtcomb" index="28" name=""/>
+        <alias field="vcratio" index="29" name=""/>
+        <alias field="vcratio20" index="30" name=""/>
+        <alias field="vmt" index="31" name=""/>
+        <alias field="speedlim" index="32" name=""/>
+        <alias field="prisurf" index="33" name=""/>
+        <alias field="thrulnqty" index="34" name=""/>
+        <alias field="thrulnwd" index="35" name=""/>
+        <alias field="isdivided" index="36" name=""/>
+        <alias field="prioutshd" index="37" name=""/>
+        <alias field="prioutshdw" index="38" name=""/>
+        <alias field="median" index="39" name=""/>
+        <alias field="medianwd" index="40" name=""/>
+        <alias field="terrain" index="41" name=""/>
+        <alias field="alias" index="42" name=""/>
+        <alias field="descriptio" index="43" name=""/>
+        <alias field="shape_stle" index="44" name=""/>
+        <alias field="shape_st_1" index="45" name=""/>
+        <alias field="layer_clas" index="46" name=""/>
+        <alias field="tdg_id" index="47" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
@@ -654,6 +764,56 @@ def my_form_open(dialog, layer, feature):
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="route" expression=""/>
+        <default field="refpt" expression=""/>
+        <default field="endrefpt" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="region" expression=""/>
+        <default field="tprid" expression=""/>
+        <default field="commdistid" expression=""/>
+        <default field="city" expression=""/>
+        <default field="fipscity" expression=""/>
+        <default field="county" expression=""/>
+        <default field="fipscounty" expression=""/>
+        <default field="population" expression=""/>
+        <default field="funcclass" expression=""/>
+        <default field="routesign" expression=""/>
+        <default field="nhsdesig" expression=""/>
+        <default field="access_" expression=""/>
+        <default field="prirdl" expression=""/>
+        <default field="pridlclass" expression=""/>
+        <default field="priirii" expression=""/>
+        <default field="priruti" expression=""/>
+        <default field="aadt" expression=""/>
+        <default field="aadt20" expression=""/>
+        <default field="aadtyr" expression=""/>
+        <default field="aadtderiv" expression=""/>
+        <default field="pktrk" expression=""/>
+        <default field="offpktrk" expression=""/>
+        <default field="aadtsingle" expression=""/>
+        <default field="aadtcomb" expression=""/>
+        <default field="vcratio" expression=""/>
+        <default field="vcratio20" expression=""/>
+        <default field="vmt" expression=""/>
+        <default field="speedlim" expression=""/>
+        <default field="prisurf" expression=""/>
+        <default field="thrulnqty" expression=""/>
+        <default field="thrulnwd" expression=""/>
+        <default field="isdivided" expression=""/>
+        <default field="prioutshd" expression=""/>
+        <default field="prioutshdw" expression=""/>
+        <default field="median" expression=""/>
+        <default field="medianwd" expression=""/>
+        <default field="terrain" expression=""/>
+        <default field="alias" expression=""/>
+        <default field="descriptio" expression=""/>
+        <default field="shape_stle" expression=""/>
+        <default field="shape_st_1" expression=""/>
+        <default field="layer_clas" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -908,128 +1068,67 @@ def my_form_open(dialog, layer, feature):
         <multilineenabled fieldname="" on=""/>
         <selectedonly on=""/>
       </labelattributes>
-      <annotationform></annotationform>
+      <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="route" index="1" name=""/>
+        <alias field="refpt" index="2" name=""/>
+        <alias field="endrefpt" index="3" name=""/>
+        <alias field="seg_length" index="4" name=""/>
+        <alias field="region" index="5" name=""/>
+        <alias field="tprid" index="6" name=""/>
+        <alias field="commdistid" index="7" name=""/>
+        <alias field="city" index="8" name=""/>
+        <alias field="fipscity" index="9" name=""/>
+        <alias field="county" index="10" name=""/>
+        <alias field="fipscounty" index="11" name=""/>
+        <alias field="population" index="12" name=""/>
+        <alias field="funcclass" index="13" name=""/>
+        <alias field="routesign" index="14" name=""/>
+        <alias field="nhsdesig" index="15" name=""/>
+        <alias field="access_" index="16" name=""/>
+        <alias field="prirdl" index="17" name=""/>
+        <alias field="pridlclass" index="18" name=""/>
+        <alias field="priirii" index="19" name=""/>
+        <alias field="priruti" index="20" name=""/>
+        <alias field="aadt" index="21" name=""/>
+        <alias field="aadt20" index="22" name=""/>
+        <alias field="aadtyr" index="23" name=""/>
+        <alias field="aadtderiv" index="24" name=""/>
+        <alias field="pktrk" index="25" name=""/>
+        <alias field="offpktrk" index="26" name=""/>
+        <alias field="aadtsingle" index="27" name=""/>
+        <alias field="aadtcomb" index="28" name=""/>
+        <alias field="vcratio" index="29" name=""/>
+        <alias field="vcratio20" index="30" name=""/>
+        <alias field="vmt" index="31" name=""/>
+        <alias field="speedlim" index="32" name=""/>
+        <alias field="prisurf" index="33" name=""/>
+        <alias field="thrulnqty" index="34" name=""/>
+        <alias field="thrulnwd" index="35" name=""/>
+        <alias field="isdivided" index="36" name=""/>
+        <alias field="prioutshd" index="37" name=""/>
+        <alias field="prioutshdw" index="38" name=""/>
+        <alias field="median" index="39" name=""/>
+        <alias field="medianwd" index="40" name=""/>
+        <alias field="terrain" index="41" name=""/>
+        <alias field="alias" index="42" name=""/>
+        <alias field="descriptio" index="43" name=""/>
+        <alias field="shape_stle" index="44" name=""/>
+        <alias field="shape_st_1" index="45" name=""/>
+        <alias field="layer_clas" index="46" name=""/>
+        <alias field="tdg_id" index="47" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
       <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="6357100">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <editform>.</editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-    </maplayer>
-    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
-      <id>cdot_highways_false_positives20161019203545417</id>
-      <datasource>dbname='denver_vz' host=192.168.1.144 port=5432 user='gis' password='gis' sslmode=disable key='id' srid=2231 type=LineString table="generated"."cdot_highways_false_positives" (geom) sql=</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>cdot_highways_false_positives</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=lcc +lat_1=40.78333333333333 +lat_2=39.71666666666667 +lat_0=39.33333333333334 +lon_0=-105.5 +x_0=914401.8288036576 +y_0=304800.6096012192 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs</proj4>
-          <srsid>213</srsid>
-          <srid>2231</srid>
-          <authid>EPSG:2231</authid>
-          <description>NAD83 / Colorado North (ftUS)</description>
-          <projectionacronym>lcc</projectionacronym>
-          <ellipsoidacronym>GRS80</ellipsoidacronym>
-          <geographicflag>false</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <provider encoding="UTF-8">postgres</provider>
-      <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
-      <vectorjoins/>
-      <layerDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="">
-        <map-layer-style name=""/>
-      </map-layer-style-manager>
-      <edittypes>
-        <edittype widgetv2type="TextEdit" name="id">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="tdgid_denver_street_centerline">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-      </edittypes>
-      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
-        <symbols>
-          <symbol alpha="1" clip_to_extent="1" type="line" name="0">
-            <layer pass="0" class="SimpleLine" locked="0">
-              <prop k="capstyle" v="square"/>
-              <prop k="customdash" v="5;2"/>
-              <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="customdash_unit" v="MM"/>
-              <prop k="draw_inside_polygon" v="0"/>
-              <prop k="joinstyle" v="bevel"/>
-              <prop k="line_color" v="176,101,94,255"/>
-              <prop k="line_style" v="solid"/>
-              <prop k="line_width" v="0.26"/>
-              <prop k="line_width_unit" v="MM"/>
-              <prop k="offset" v="0"/>
-              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
-              <prop k="offset_unit" v="MM"/>
-              <prop k="use_custom_dash" v="0"/>
-              <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale scalemethod="diameter"/>
-      </renderer-v2>
-      <labeling type="simple"/>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerTransparency>0</layerTransparency>
-      <displayfield>id</displayfield>
-      <label>0</label>
-      <labelattributes>
-        <label fieldname="" text="Label"/>
-        <family fieldname="" name="Cantarell"/>
-        <size fieldname="" units="pt" value="12"/>
-        <bold fieldname="" on="0"/>
-        <italic fieldname="" on="0"/>
-        <underline fieldname="" on="0"/>
-        <strikeout fieldname="" on="0"/>
-        <color fieldname="" red="0" blue="0" green="0"/>
-        <x fieldname=""/>
-        <y fieldname=""/>
-        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-        <angle fieldname="" value="0" auto="0"/>
-        <alignment fieldname="" value="center"/>
-        <buffercolor fieldname="" red="255" blue="255" green="255"/>
-        <buffersize fieldname="" units="pt" value="1"/>
-        <bufferenabled fieldname="" on=""/>
-        <multilineenabled fieldname="" on=""/>
-        <selectedonly on=""/>
-      </labelattributes>
-      <annotationform></annotationform>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <attributeactions default="-1"/>
-      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="6881394">
-        <columns>
-          <column width="-1" hidden="0" type="field" name="id"/>
-          <column width="-1" hidden="0" type="field" name="tdgid_denver_street_centerline"/>
-          <column width="-1" hidden="1" type="actions"/>
-        </columns>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
+      <editforminitfilepath>.</editforminitfilepath>
       <editforminitcode><![CDATA[]]></editforminitcode>
       <featformsuppress>0</featformsuppress>
       <editorlayout>generatedlayout</editorlayout>
@@ -1069,6 +1168,53 @@ def my_form_open(dialog, layer, feature):
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="gis_id" expression=""/>
+        <default field="fips" expression=""/>
+        <default field="route" expression=""/>
+        <default field="segmid" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="fipscounty" expression=""/>
+        <default field="routename" expression=""/>
+        <default field="from_descr" expression=""/>
+        <default field="segmdir" expression=""/>
+        <default field="to_descr" expression=""/>
+        <default field="funcclassi" expression=""/>
+        <default field="adminclass" expression=""/>
+        <default field="hpmsid" expression=""/>
+        <default field="surf_type" expression=""/>
+        <default field="prisurfwd" expression=""/>
+        <default field="pripsi" expression=""/>
+        <default field="priiri" expression=""/>
+        <default field="thrulnqty" expression=""/>
+        <default field="thrulnwd" expression=""/>
+        <default field="operation" expression=""/>
+        <default field="urban" expression=""/>
+        <default field="population" expression=""/>
+        <default field="nhsdesig" expression=""/>
+        <default field="specialsys" expression=""/>
+        <default field="govlevel" expression=""/>
+        <default field="aadt" expression=""/>
+        <default field="aadtyr" expression=""/>
+        <default field="aadtderiv" expression=""/>
+        <default field="countstati" expression=""/>
+        <default field="builtyr" expression=""/>
+        <default field="jursplit" expression=""/>
+        <default field="cr_id" expression=""/>
+        <default field="forestrout" expression=""/>
+        <default field="map_text" expression=""/>
+        <default field="map_num" expression=""/>
+        <default field="congested" expression=""/>
+        <default field="lrs_route" expression=""/>
+        <default field="lrs_bgn" expression=""/>
+        <default field="lrs_end" expression=""/>
+        <default field="fundid" expression=""/>
+        <default field="surfname" expression=""/>
+        <default field="shape_len" expression=""/>
+        <default field="layer_clas" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -1262,6 +1408,53 @@ def my_form_open(dialog, layer, feature):
         <selectedonly on=""/>
       </labelattributes>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="gis_id" index="1" name=""/>
+        <alias field="fips" index="2" name=""/>
+        <alias field="route" index="3" name=""/>
+        <alias field="segmid" index="4" name=""/>
+        <alias field="seg_length" index="5" name=""/>
+        <alias field="fipscounty" index="6" name=""/>
+        <alias field="routename" index="7" name=""/>
+        <alias field="from_descr" index="8" name=""/>
+        <alias field="segmdir" index="9" name=""/>
+        <alias field="to_descr" index="10" name=""/>
+        <alias field="funcclassi" index="11" name=""/>
+        <alias field="adminclass" index="12" name=""/>
+        <alias field="hpmsid" index="13" name=""/>
+        <alias field="surf_type" index="14" name=""/>
+        <alias field="prisurfwd" index="15" name=""/>
+        <alias field="pripsi" index="16" name=""/>
+        <alias field="priiri" index="17" name=""/>
+        <alias field="thrulnqty" index="18" name=""/>
+        <alias field="thrulnwd" index="19" name=""/>
+        <alias field="operation" index="20" name=""/>
+        <alias field="urban" index="21" name=""/>
+        <alias field="population" index="22" name=""/>
+        <alias field="nhsdesig" index="23" name=""/>
+        <alias field="specialsys" index="24" name=""/>
+        <alias field="govlevel" index="25" name=""/>
+        <alias field="aadt" index="26" name=""/>
+        <alias field="aadtyr" index="27" name=""/>
+        <alias field="aadtderiv" index="28" name=""/>
+        <alias field="countstati" index="29" name=""/>
+        <alias field="builtyr" index="30" name=""/>
+        <alias field="jursplit" index="31" name=""/>
+        <alias field="cr_id" index="32" name=""/>
+        <alias field="forestrout" index="33" name=""/>
+        <alias field="map_text" index="34" name=""/>
+        <alias field="map_num" index="35" name=""/>
+        <alias field="congested" index="36" name=""/>
+        <alias field="lrs_route" index="37" name=""/>
+        <alias field="lrs_bgn" index="38" name=""/>
+        <alias field="lrs_end" index="39" name=""/>
+        <alias field="fundid" index="40" name=""/>
+        <alias field="surfname" index="41" name=""/>
+        <alias field="shape_len" index="42" name=""/>
+        <alias field="layer_clas" index="43" name=""/>
+        <alias field="tdg_id" index="44" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
@@ -1311,6 +1504,53 @@ def my_form_open(dialog, layer, feature):
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="gis_id" expression=""/>
+        <default field="fips" expression=""/>
+        <default field="route" expression=""/>
+        <default field="segmid" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="fipscounty" expression=""/>
+        <default field="routename" expression=""/>
+        <default field="from_descr" expression=""/>
+        <default field="segmdir" expression=""/>
+        <default field="to_descr" expression=""/>
+        <default field="funcclassi" expression=""/>
+        <default field="adminclass" expression=""/>
+        <default field="hpmsid" expression=""/>
+        <default field="surf_type" expression=""/>
+        <default field="prisurfwd" expression=""/>
+        <default field="pripsi" expression=""/>
+        <default field="priiri" expression=""/>
+        <default field="thrulnqty" expression=""/>
+        <default field="thrulnwd" expression=""/>
+        <default field="operation" expression=""/>
+        <default field="urban" expression=""/>
+        <default field="population" expression=""/>
+        <default field="nhsdesig" expression=""/>
+        <default field="specialsys" expression=""/>
+        <default field="govlevel" expression=""/>
+        <default field="aadt" expression=""/>
+        <default field="aadtyr" expression=""/>
+        <default field="aadtderiv" expression=""/>
+        <default field="countstati" expression=""/>
+        <default field="builtyr" expression=""/>
+        <default field="jursplit" expression=""/>
+        <default field="cr_id" expression=""/>
+        <default field="forestrout" expression=""/>
+        <default field="map_text" expression=""/>
+        <default field="map_num" expression=""/>
+        <default field="congested" expression=""/>
+        <default field="lrs_route" expression=""/>
+        <default field="lrs_bgn" expression=""/>
+        <default field="lrs_end" expression=""/>
+        <default field="fundid" expression=""/>
+        <default field="surfname" expression=""/>
+        <default field="shape_len" expression=""/>
+        <default field="layer_clas" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -1670,6 +1910,510 @@ def my_form_open(dialog, layer, feature):
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="gis_id" index="1" name=""/>
+        <alias field="fips" index="2" name=""/>
+        <alias field="route" index="3" name=""/>
+        <alias field="segmid" index="4" name=""/>
+        <alias field="seg_length" index="5" name=""/>
+        <alias field="fipscounty" index="6" name=""/>
+        <alias field="routename" index="7" name=""/>
+        <alias field="from_descr" index="8" name=""/>
+        <alias field="segmdir" index="9" name=""/>
+        <alias field="to_descr" index="10" name=""/>
+        <alias field="funcclassi" index="11" name=""/>
+        <alias field="adminclass" index="12" name=""/>
+        <alias field="hpmsid" index="13" name=""/>
+        <alias field="surf_type" index="14" name=""/>
+        <alias field="prisurfwd" index="15" name=""/>
+        <alias field="pripsi" index="16" name=""/>
+        <alias field="priiri" index="17" name=""/>
+        <alias field="thrulnqty" index="18" name=""/>
+        <alias field="thrulnwd" index="19" name=""/>
+        <alias field="operation" index="20" name=""/>
+        <alias field="urban" index="21" name=""/>
+        <alias field="population" index="22" name=""/>
+        <alias field="nhsdesig" index="23" name=""/>
+        <alias field="specialsys" index="24" name=""/>
+        <alias field="govlevel" index="25" name=""/>
+        <alias field="aadt" index="26" name=""/>
+        <alias field="aadtyr" index="27" name=""/>
+        <alias field="aadtderiv" index="28" name=""/>
+        <alias field="countstati" index="29" name=""/>
+        <alias field="builtyr" index="30" name=""/>
+        <alias field="jursplit" index="31" name=""/>
+        <alias field="cr_id" index="32" name=""/>
+        <alias field="forestrout" index="33" name=""/>
+        <alias field="map_text" index="34" name=""/>
+        <alias field="map_num" index="35" name=""/>
+        <alias field="congested" index="36" name=""/>
+        <alias field="lrs_route" index="37" name=""/>
+        <alias field="lrs_bgn" index="38" name=""/>
+        <alias field="lrs_end" index="39" name=""/>
+        <alias field="fundid" index="40" name=""/>
+        <alias field="surfname" index="41" name=""/>
+        <alias field="shape_len" index="42" name=""/>
+        <alias field="layer_clas" index="43" name=""/>
+        <alias field="tdg_id" index="44" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="3145776">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="route"/>
+          <column width="-1" hidden="0" type="field" name="refpt"/>
+          <column width="-1" hidden="0" type="field" name="endrefpt"/>
+          <column width="-1" hidden="0" type="field" name="seg_length"/>
+          <column width="-1" hidden="0" type="field" name="region"/>
+          <column width="-1" hidden="0" type="field" name="tprid"/>
+          <column width="-1" hidden="0" type="field" name="commdistid"/>
+          <column width="-1" hidden="0" type="field" name="city"/>
+          <column width="-1" hidden="0" type="field" name="fipscity"/>
+          <column width="-1" hidden="0" type="field" name="county"/>
+          <column width="-1" hidden="0" type="field" name="fipscounty"/>
+          <column width="-1" hidden="0" type="field" name="population"/>
+          <column width="-1" hidden="0" type="field" name="funcclass"/>
+          <column width="-1" hidden="0" type="field" name="routesign"/>
+          <column width="-1" hidden="0" type="field" name="nhsdesig"/>
+          <column width="-1" hidden="0" type="field" name="access_"/>
+          <column width="-1" hidden="0" type="field" name="prirdl"/>
+          <column width="-1" hidden="0" type="field" name="pridlclass"/>
+          <column width="-1" hidden="0" type="field" name="priirii"/>
+          <column width="-1" hidden="0" type="field" name="priruti"/>
+          <column width="-1" hidden="0" type="field" name="aadt"/>
+          <column width="-1" hidden="0" type="field" name="aadt20"/>
+          <column width="-1" hidden="0" type="field" name="aadtyr"/>
+          <column width="-1" hidden="0" type="field" name="aadtderiv"/>
+          <column width="-1" hidden="0" type="field" name="pktrk"/>
+          <column width="-1" hidden="0" type="field" name="offpktrk"/>
+          <column width="-1" hidden="0" type="field" name="aadtsingle"/>
+          <column width="-1" hidden="0" type="field" name="aadtcomb"/>
+          <column width="-1" hidden="0" type="field" name="vcratio"/>
+          <column width="-1" hidden="0" type="field" name="vcratio20"/>
+          <column width="-1" hidden="0" type="field" name="vmt"/>
+          <column width="-1" hidden="0" type="field" name="speedlim"/>
+          <column width="-1" hidden="0" type="field" name="prisurf"/>
+          <column width="-1" hidden="0" type="field" name="thrulnqty"/>
+          <column width="-1" hidden="0" type="field" name="thrulnwd"/>
+          <column width="-1" hidden="0" type="field" name="isdivided"/>
+          <column width="-1" hidden="0" type="field" name="prioutshd"/>
+          <column width="-1" hidden="0" type="field" name="prioutshdw"/>
+          <column width="-1" hidden="0" type="field" name="median"/>
+          <column width="-1" hidden="0" type="field" name="medianwd"/>
+          <column width="-1" hidden="0" type="field" name="terrain"/>
+          <column width="-1" hidden="0" type="field" name="alias"/>
+          <column width="-1" hidden="0" type="field" name="descriptio"/>
+          <column width="-1" hidden="0" type="field" name="shape_stle"/>
+          <column width="-1" hidden="0" type="field" name="shape_st_1"/>
+          <column width="-1" hidden="0" type="field" name="layer_clas"/>
+          <column width="-1" hidden="0" type="field" name="tdg_id"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath>.</editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>denver_bicycle_facilities20161022142943053</id>
+      <datasource>dbname='denver_vz' host=192.168.1.144 port=5432 user='gis' password='gis' sslmode=disable key='id' srid=2231 type=LineString table="received"."denver_bicycle_facilities" (geom) sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>denver_bicycle_facilities</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=40.78333333333333 +lat_2=39.71666666666667 +lat_0=39.33333333333334 +lon_0=-105.5 +x_0=914401.8288036576 +y_0=304800.6096012192 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs</proj4>
+          <srsid>213</srsid>
+          <srid>2231</srid>
+          <authid>EPSG:2231</authid>
+          <description>NAD83 / Colorado North (ftUS)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <previewExpression></previewExpression>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="facility_i" expression=""/>
+        <default field="existing_f" expression=""/>
+        <default field="recommend_" expression=""/>
+        <default field="action" expression=""/>
+        <default field="phase" expression=""/>
+        <default field="year_built" expression=""/>
+        <default field="proposed" expression=""/>
+        <default field="route_name" expression=""/>
+        <default field="surface" expression=""/>
+        <default field="mileage" expression=""/>
+        <default field="facility_w" expression=""/>
+        <default field="maintenanc" expression=""/>
+        <default field="fullname" expression=""/>
+        <default field="fromname" expression=""/>
+        <default field="toname" expression=""/>
+        <default field="volclass" expression=""/>
+        <default field="travlanes" expression=""/>
+        <default field="lanewidth" expression=""/>
+        <default field="speedlimit" expression=""/>
+        <default field="oneway" expression=""/>
+        <default field="hundblknam" expression=""/>
+        <default field="comments" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="facility_i">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="existing_f">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="recommend_">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="action">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="phase">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="year_built">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="proposed">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="route_name">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="surface">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="mileage">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="facility_w">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="maintenanc">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="fullname">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="fromname">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="toname">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="volclass">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="travlanes">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="lanewidth">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="speedlimit">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="oneway">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="hundblknam">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="comments">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdg_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="line" name="0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="flat"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="76,79,171,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="9"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties>
+        <property key="labeling" value="pal"/>
+        <property key="labeling/addDirectionSymbol" value="false"/>
+        <property key="labeling/angleOffset" value="0"/>
+        <property key="labeling/blendMode" value="0"/>
+        <property key="labeling/bufferBlendMode" value="0"/>
+        <property key="labeling/bufferColorA" value="255"/>
+        <property key="labeling/bufferColorB" value="255"/>
+        <property key="labeling/bufferColorG" value="255"/>
+        <property key="labeling/bufferColorR" value="255"/>
+        <property key="labeling/bufferDraw" value="false"/>
+        <property key="labeling/bufferJoinStyle" value="64"/>
+        <property key="labeling/bufferNoFill" value="false"/>
+        <property key="labeling/bufferSize" value="1"/>
+        <property key="labeling/bufferSizeInMapUnits" value="false"/>
+        <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/bufferTransp" value="0"/>
+        <property key="labeling/centroidInside" value="false"/>
+        <property key="labeling/centroidWhole" value="false"/>
+        <property key="labeling/decimals" value="3"/>
+        <property key="labeling/displayAll" value="false"/>
+        <property key="labeling/dist" value="0"/>
+        <property key="labeling/distInMapUnits" value="false"/>
+        <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/drawLabels" value="false"/>
+        <property key="labeling/enabled" value="false"/>
+        <property key="labeling/fieldName" value=""/>
+        <property key="labeling/fitInPolygonOnly" value="false"/>
+        <property key="labeling/fontCapitals" value="0"/>
+        <property key="labeling/fontFamily" value="Cantarell"/>
+        <property key="labeling/fontItalic" value="false"/>
+        <property key="labeling/fontLetterSpacing" value="0"/>
+        <property key="labeling/fontLimitPixelSize" value="false"/>
+        <property key="labeling/fontMaxPixelSize" value="10000"/>
+        <property key="labeling/fontMinPixelSize" value="3"/>
+        <property key="labeling/fontSize" value="11"/>
+        <property key="labeling/fontSizeInMapUnits" value="false"/>
+        <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/fontStrikeout" value="false"/>
+        <property key="labeling/fontUnderline" value="false"/>
+        <property key="labeling/fontWeight" value="50"/>
+        <property key="labeling/fontWordSpacing" value="0"/>
+        <property key="labeling/formatNumbers" value="false"/>
+        <property key="labeling/isExpression" value="true"/>
+        <property key="labeling/labelOffsetInMapUnits" value="true"/>
+        <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/labelPerPart" value="false"/>
+        <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+        <property key="labeling/limitNumLabels" value="false"/>
+        <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+        <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+        <property key="labeling/maxNumLabels" value="2000"/>
+        <property key="labeling/mergeLines" value="false"/>
+        <property key="labeling/minFeatureSize" value="0"/>
+        <property key="labeling/multilineAlign" value="0"/>
+        <property key="labeling/multilineHeight" value="1"/>
+        <property key="labeling/namedStyle" value="Bold"/>
+        <property key="labeling/obstacle" value="true"/>
+        <property key="labeling/obstacleFactor" value="1"/>
+        <property key="labeling/obstacleType" value="0"/>
+        <property key="labeling/offsetType" value="0"/>
+        <property key="labeling/placeDirectionSymbol" value="0"/>
+        <property key="labeling/placement" value="2"/>
+        <property key="labeling/placementFlags" value="10"/>
+        <property key="labeling/plussign" value="false"/>
+        <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+        <property key="labeling/preserveRotation" value="true"/>
+        <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+        <property key="labeling/priority" value="5"/>
+        <property key="labeling/quadOffset" value="4"/>
+        <property key="labeling/repeatDistance" value="0"/>
+        <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/repeatDistanceUnit" value="1"/>
+        <property key="labeling/reverseDirectionSymbol" value="false"/>
+        <property key="labeling/rightDirectionSymbol" value=">"/>
+        <property key="labeling/scaleMax" value="10000000"/>
+        <property key="labeling/scaleMin" value="1"/>
+        <property key="labeling/scaleVisibility" value="false"/>
+        <property key="labeling/shadowBlendMode" value="6"/>
+        <property key="labeling/shadowColorB" value="0"/>
+        <property key="labeling/shadowColorG" value="0"/>
+        <property key="labeling/shadowColorR" value="0"/>
+        <property key="labeling/shadowDraw" value="false"/>
+        <property key="labeling/shadowOffsetAngle" value="135"/>
+        <property key="labeling/shadowOffsetDist" value="1"/>
+        <property key="labeling/shadowOffsetGlobal" value="true"/>
+        <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowOffsetUnits" value="1"/>
+        <property key="labeling/shadowRadius" value="1.5"/>
+        <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+        <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowRadiusUnits" value="1"/>
+        <property key="labeling/shadowScale" value="100"/>
+        <property key="labeling/shadowTransparency" value="30"/>
+        <property key="labeling/shadowUnder" value="0"/>
+        <property key="labeling/shapeBlendMode" value="0"/>
+        <property key="labeling/shapeBorderColorA" value="255"/>
+        <property key="labeling/shapeBorderColorB" value="128"/>
+        <property key="labeling/shapeBorderColorG" value="128"/>
+        <property key="labeling/shapeBorderColorR" value="128"/>
+        <property key="labeling/shapeBorderWidth" value="0"/>
+        <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeBorderWidthUnits" value="1"/>
+        <property key="labeling/shapeDraw" value="false"/>
+        <property key="labeling/shapeFillColorA" value="255"/>
+        <property key="labeling/shapeFillColorB" value="255"/>
+        <property key="labeling/shapeFillColorG" value="255"/>
+        <property key="labeling/shapeFillColorR" value="255"/>
+        <property key="labeling/shapeJoinStyle" value="64"/>
+        <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeOffsetUnits" value="1"/>
+        <property key="labeling/shapeOffsetX" value="0"/>
+        <property key="labeling/shapeOffsetY" value="0"/>
+        <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeRadiiUnits" value="1"/>
+        <property key="labeling/shapeRadiiX" value="0"/>
+        <property key="labeling/shapeRadiiY" value="0"/>
+        <property key="labeling/shapeRotation" value="0"/>
+        <property key="labeling/shapeRotationType" value="0"/>
+        <property key="labeling/shapeSVGFile" value=""/>
+        <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeSizeType" value="0"/>
+        <property key="labeling/shapeSizeUnits" value="1"/>
+        <property key="labeling/shapeSizeX" value="0"/>
+        <property key="labeling/shapeSizeY" value="0"/>
+        <property key="labeling/shapeTransparency" value="0"/>
+        <property key="labeling/shapeType" value="0"/>
+        <property key="labeling/textColorA" value="255"/>
+        <property key="labeling/textColorB" value="0"/>
+        <property key="labeling/textColorG" value="0"/>
+        <property key="labeling/textColorR" value="0"/>
+        <property key="labeling/textTransp" value="0"/>
+        <property key="labeling/upsidedownLabels" value="0"/>
+        <property key="labeling/wrapChar" value=""/>
+        <property key="labeling/xOffset" value="0"/>
+        <property key="labeling/yOffset" value="0"/>
+        <property key="labeling/zIndex" value="0"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>descriptio</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="Cantarell"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="100000">
+          <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
+        </DiagramCategory>
+        <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
+          <layer pass="0" class="SimpleMarker" locked="0">
+            <prop k="angle" v="0"/>
+            <prop k="color" v="255,0,0,255"/>
+            <prop k="horizontal_anchor_point" v="1"/>
+            <prop k="joinstyle" v="bevel"/>
+            <prop k="name" v="circle"/>
+            <prop k="offset" v="0,0"/>
+            <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="offset_unit" v="MM"/>
+            <prop k="outline_color" v="0,0,0,255"/>
+            <prop k="outline_style" v="solid"/>
+            <prop k="outline_width" v="0"/>
+            <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="outline_width_unit" v="MM"/>
+            <prop k="scale_method" v="diameter"/>
+            <prop k="size" v="2"/>
+            <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="size_unit" v="MM"/>
+            <prop k="vertical_anchor_point" v="1"/>
+          </layer>
+        </symbol>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+      <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="facility_i" index="1" name=""/>
+        <alias field="existing_f" index="2" name=""/>
+        <alias field="recommend_" index="3" name=""/>
+        <alias field="action" index="4" name=""/>
+        <alias field="phase" index="5" name=""/>
+        <alias field="year_built" index="6" name=""/>
+        <alias field="proposed" index="7" name=""/>
+        <alias field="route_name" index="8" name=""/>
+        <alias field="surface" index="9" name=""/>
+        <alias field="mileage" index="10" name=""/>
+        <alias field="facility_w" index="11" name=""/>
+        <alias field="maintenanc" index="12" name=""/>
+        <alias field="fullname" index="13" name=""/>
+        <alias field="fromname" index="14" name=""/>
+        <alias field="toname" index="15" name=""/>
+        <alias field="volclass" index="16" name=""/>
+        <alias field="travlanes" index="17" name=""/>
+        <alias field="lanewidth" index="18" name=""/>
+        <alias field="speedlimit" index="19" name=""/>
+        <alias field="oneway" index="20" name=""/>
+        <alias field="hundblknam" index="21" name=""/>
+        <alias field="comments" index="22" name=""/>
+        <alias field="tdg_id" index="23" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
@@ -1781,10 +2525,83 @@ def my_form_open(dialog, layer, feature):
         </spatialrefsys>
       </srs>
       <provider encoding="UTF-8">postgres</provider>
-      <previewExpression></previewExpression>
+      <previewExpression>COALESCE( "name", '&lt;NULL>' )</previewExpression>
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="fnode_" expression=""/>
+        <default field="tnode_" expression=""/>
+        <default field="streetid" expression=""/>
+        <default field="masterid" expression=""/>
+        <default field="editdate" expression=""/>
+        <default field="l_f_add" expression=""/>
+        <default field="l_t_add" expression=""/>
+        <default field="r_f_add" expression=""/>
+        <default field="r_t_add" expression=""/>
+        <default field="prefix" expression=""/>
+        <default field="name" expression=""/>
+        <default field="type" expression=""/>
+        <default field="suffix" expression=""/>
+        <default field="postmodifi" expression=""/>
+        <default field="fullname" expression=""/>
+        <default field="fromname" expression=""/>
+        <default field="toname" expression=""/>
+        <default field="len_mi" expression=""/>
+        <default field="alias1" expression=""/>
+        <default field="alias2" expression=""/>
+        <default field="jurisid" expression=""/>
+        <default field="maintnce" expression=""/>
+        <default field="addressqua" expression=""/>
+        <default field="volclass" expression=""/>
+        <default field="funclass" expression=""/>
+        <default field="travlanes" expression=""/>
+        <default field="lanewidth" expression=""/>
+        <default field="segtype" expression=""/>
+        <default field="tt_segtype" expression=""/>
+        <default field="cityid" expression=""/>
+        <default field="countyid" expression=""/>
+        <default field="zipleft" expression=""/>
+        <default field="zipright" expression=""/>
+        <default field="speedlimit" expression=""/>
+        <default field="oneway" expression=""/>
+        <default field="rcityid" expression=""/>
+        <default field="rcountyid" expression=""/>
+        <default field="builtyr" expression=""/>
+        <default field="constyr" expression=""/>
+        <default field="subname" expression=""/>
+        <default field="status" expression=""/>
+        <default field="median" expression=""/>
+        <default field="hutf" expression=""/>
+        <default field="hundblknum" expression=""/>
+        <default field="hundblkdir" expression=""/>
+        <default field="hundblkmaj" expression=""/>
+        <default field="altdir" expression=""/>
+        <default field="change" expression=""/>
+        <default field="route_old" expression=""/>
+        <default field="route" expression=""/>
+        <default field="nhs" expression=""/>
+        <default field="segmid" expression=""/>
+        <default field="segmid_new" expression=""/>
+        <default field="parent_mid" expression=""/>
+        <default field="leftprec" expression=""/>
+        <default field="rtprec" expression=""/>
+        <default field="leftfire" expression=""/>
+        <default field="rtfire" expression=""/>
+        <default field="leftems" expression=""/>
+        <default field="rtems" expression=""/>
+        <default field="f_zlev" expression=""/>
+        <default field="t_zlev" expression=""/>
+        <default field="adminclass" expression=""/>
+        <default field="lrsroute" expression=""/>
+        <default field="lrscomment" expression=""/>
+        <default field="lrsbgn" expression=""/>
+        <default field="lrsend" expression=""/>
+        <default field="hundblknam" expression=""/>
+        <default field="lrsmaj" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -2056,11 +2873,157 @@ def my_form_open(dialog, layer, feature):
         <selectedonly on=""/>
       </labelattributes>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="fnode_" index="1" name=""/>
+        <alias field="tnode_" index="2" name=""/>
+        <alias field="streetid" index="3" name=""/>
+        <alias field="masterid" index="4" name=""/>
+        <alias field="editdate" index="5" name=""/>
+        <alias field="l_f_add" index="6" name=""/>
+        <alias field="l_t_add" index="7" name=""/>
+        <alias field="r_f_add" index="8" name=""/>
+        <alias field="r_t_add" index="9" name=""/>
+        <alias field="prefix" index="10" name=""/>
+        <alias field="name" index="11" name=""/>
+        <alias field="type" index="12" name=""/>
+        <alias field="suffix" index="13" name=""/>
+        <alias field="postmodifi" index="14" name=""/>
+        <alias field="fullname" index="15" name=""/>
+        <alias field="fromname" index="16" name=""/>
+        <alias field="toname" index="17" name=""/>
+        <alias field="len_mi" index="18" name=""/>
+        <alias field="alias1" index="19" name=""/>
+        <alias field="alias2" index="20" name=""/>
+        <alias field="jurisid" index="21" name=""/>
+        <alias field="maintnce" index="22" name=""/>
+        <alias field="addressqua" index="23" name=""/>
+        <alias field="volclass" index="24" name=""/>
+        <alias field="funclass" index="25" name=""/>
+        <alias field="travlanes" index="26" name=""/>
+        <alias field="lanewidth" index="27" name=""/>
+        <alias field="segtype" index="28" name=""/>
+        <alias field="tt_segtype" index="29" name=""/>
+        <alias field="cityid" index="30" name=""/>
+        <alias field="countyid" index="31" name=""/>
+        <alias field="zipleft" index="32" name=""/>
+        <alias field="zipright" index="33" name=""/>
+        <alias field="speedlimit" index="34" name=""/>
+        <alias field="oneway" index="35" name=""/>
+        <alias field="rcityid" index="36" name=""/>
+        <alias field="rcountyid" index="37" name=""/>
+        <alias field="builtyr" index="38" name=""/>
+        <alias field="constyr" index="39" name=""/>
+        <alias field="subname" index="40" name=""/>
+        <alias field="status" index="41" name=""/>
+        <alias field="median" index="42" name=""/>
+        <alias field="hutf" index="43" name=""/>
+        <alias field="hundblknum" index="44" name=""/>
+        <alias field="hundblkdir" index="45" name=""/>
+        <alias field="hundblkmaj" index="46" name=""/>
+        <alias field="altdir" index="47" name=""/>
+        <alias field="change" index="48" name=""/>
+        <alias field="route_old" index="49" name=""/>
+        <alias field="route" index="50" name=""/>
+        <alias field="nhs" index="51" name=""/>
+        <alias field="segmid" index="52" name=""/>
+        <alias field="segmid_new" index="53" name=""/>
+        <alias field="parent_mid" index="54" name=""/>
+        <alias field="leftprec" index="55" name=""/>
+        <alias field="rtprec" index="56" name=""/>
+        <alias field="leftfire" index="57" name=""/>
+        <alias field="rtfire" index="58" name=""/>
+        <alias field="leftems" index="59" name=""/>
+        <alias field="rtems" index="60" name=""/>
+        <alias field="f_zlev" index="61" name=""/>
+        <alias field="t_zlev" index="62" name=""/>
+        <alias field="adminclass" index="63" name=""/>
+        <alias field="lrsroute" index="64" name=""/>
+        <alias field="lrscomment" index="65" name=""/>
+        <alias field="lrsbgn" index="66" name=""/>
+        <alias field="lrsend" index="67" name=""/>
+        <alias field="hundblknam" index="68" name=""/>
+        <alias field="lrsmaj" index="69" name=""/>
+        <alias field="tdg_id" index="70" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
       <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="-1">
-        <columns/>
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="fnode_"/>
+          <column width="-1" hidden="0" type="field" name="tnode_"/>
+          <column width="-1" hidden="0" type="field" name="streetid"/>
+          <column width="-1" hidden="0" type="field" name="masterid"/>
+          <column width="-1" hidden="0" type="field" name="editdate"/>
+          <column width="-1" hidden="0" type="field" name="l_f_add"/>
+          <column width="-1" hidden="0" type="field" name="l_t_add"/>
+          <column width="-1" hidden="0" type="field" name="r_f_add"/>
+          <column width="-1" hidden="0" type="field" name="r_t_add"/>
+          <column width="-1" hidden="0" type="field" name="prefix"/>
+          <column width="-1" hidden="0" type="field" name="name"/>
+          <column width="-1" hidden="0" type="field" name="type"/>
+          <column width="-1" hidden="0" type="field" name="suffix"/>
+          <column width="-1" hidden="0" type="field" name="postmodifi"/>
+          <column width="-1" hidden="0" type="field" name="fullname"/>
+          <column width="-1" hidden="0" type="field" name="fromname"/>
+          <column width="-1" hidden="0" type="field" name="toname"/>
+          <column width="-1" hidden="0" type="field" name="len_mi"/>
+          <column width="-1" hidden="0" type="field" name="alias1"/>
+          <column width="-1" hidden="0" type="field" name="alias2"/>
+          <column width="-1" hidden="0" type="field" name="jurisid"/>
+          <column width="-1" hidden="0" type="field" name="maintnce"/>
+          <column width="-1" hidden="0" type="field" name="addressqua"/>
+          <column width="-1" hidden="0" type="field" name="volclass"/>
+          <column width="-1" hidden="0" type="field" name="funclass"/>
+          <column width="-1" hidden="0" type="field" name="travlanes"/>
+          <column width="-1" hidden="0" type="field" name="lanewidth"/>
+          <column width="-1" hidden="0" type="field" name="segtype"/>
+          <column width="-1" hidden="0" type="field" name="tt_segtype"/>
+          <column width="-1" hidden="0" type="field" name="cityid"/>
+          <column width="-1" hidden="0" type="field" name="countyid"/>
+          <column width="-1" hidden="0" type="field" name="zipleft"/>
+          <column width="-1" hidden="0" type="field" name="zipright"/>
+          <column width="-1" hidden="0" type="field" name="speedlimit"/>
+          <column width="-1" hidden="0" type="field" name="oneway"/>
+          <column width="-1" hidden="0" type="field" name="rcityid"/>
+          <column width="-1" hidden="0" type="field" name="rcountyid"/>
+          <column width="-1" hidden="0" type="field" name="builtyr"/>
+          <column width="-1" hidden="0" type="field" name="constyr"/>
+          <column width="-1" hidden="0" type="field" name="subname"/>
+          <column width="-1" hidden="0" type="field" name="status"/>
+          <column width="-1" hidden="0" type="field" name="median"/>
+          <column width="-1" hidden="0" type="field" name="hutf"/>
+          <column width="-1" hidden="0" type="field" name="hundblknum"/>
+          <column width="-1" hidden="0" type="field" name="hundblkdir"/>
+          <column width="-1" hidden="0" type="field" name="hundblkmaj"/>
+          <column width="-1" hidden="0" type="field" name="altdir"/>
+          <column width="-1" hidden="0" type="field" name="change"/>
+          <column width="-1" hidden="0" type="field" name="route_old"/>
+          <column width="-1" hidden="0" type="field" name="route"/>
+          <column width="-1" hidden="0" type="field" name="nhs"/>
+          <column width="-1" hidden="0" type="field" name="segmid"/>
+          <column width="-1" hidden="0" type="field" name="segmid_new"/>
+          <column width="-1" hidden="0" type="field" name="parent_mid"/>
+          <column width="-1" hidden="0" type="field" name="leftprec"/>
+          <column width="-1" hidden="0" type="field" name="rtprec"/>
+          <column width="-1" hidden="0" type="field" name="leftfire"/>
+          <column width="-1" hidden="0" type="field" name="rtfire"/>
+          <column width="-1" hidden="0" type="field" name="leftems"/>
+          <column width="-1" hidden="0" type="field" name="rtems"/>
+          <column width="-1" hidden="0" type="field" name="f_zlev"/>
+          <column width="-1" hidden="0" type="field" name="t_zlev"/>
+          <column width="-1" hidden="0" type="field" name="adminclass"/>
+          <column width="-1" hidden="0" type="field" name="lrsroute"/>
+          <column width="-1" hidden="0" type="field" name="lrscomment"/>
+          <column width="-1" hidden="0" type="field" name="lrsbgn"/>
+          <column width="-1" hidden="0" type="field" name="lrsend"/>
+          <column width="-1" hidden="0" type="field" name="hundblknam"/>
+          <column width="-1" hidden="0" type="field" name="lrsmaj"/>
+          <column width="-1" hidden="0" type="field" name="tdg_id"/>
+          <column width="-1" hidden="1" type="actions"/>
+        </columns>
       </attributetableconfig>
       <editform>.</editform>
       <editforminit/>
@@ -2105,6 +3068,16 @@ def my_form_open(dialog, layer, feature):
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="tdgid_denver_street_centerline" expression=""/>
+        <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_cdot_highways" expression=""/>
+        <default field="tdgid_cdot_major_roads" expression=""/>
+        <default field="tdgid_cdot_local_roads" expression=""/>
+        <default field="tmp_buffers" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -2118,6 +3091,9 @@ def my_form_open(dialog, layer, feature):
         <edittype widgetv2type="TextEdit" name="tdgid_denver_street_centerline">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
@@ -2125,6 +3101,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_local_roads">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tmp_buffers">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
       </edittypes>
@@ -2202,6 +3181,16 @@ def my_form_open(dialog, layer, feature):
         <selectedonly on=""/>
       </labelattributes>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="seg_length" index="1" name=""/>
+        <alias field="tdgid_denver_street_centerline" index="2" name=""/>
+        <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
+        <alias field="tdgid_cdot_highways" index="4" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
+        <alias field="tmp_buffers" index="7" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
@@ -2253,6 +3242,16 @@ def my_form_open(dialog, layer, feature):
       <vectorjoins/>
       <layerDependencies/>
       <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="tdgid_denver_street_centerline" expression=""/>
+        <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_cdot_highways" expression=""/>
+        <default field="tdgid_cdot_major_roads" expression=""/>
+        <default field="tdgid_cdot_local_roads" expression=""/>
+        <default field="tmp_buffers" expression=""/>
+      </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
       </map-layer-style-manager>
@@ -2264,6 +3263,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_street_centerline">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -2495,6 +3497,7 @@ def my_form_open(dialog, layer, feature):
       <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
         <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="100000">
           <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
         <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
           <layer pass="0" class="SimpleMarker" locked="0">
@@ -2521,6 +3524,16 @@ def my_form_open(dialog, layer, feature):
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
       <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="seg_length" index="1" name=""/>
+        <alias field="tdgid_denver_street_centerline" index="2" name=""/>
+        <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
+        <alias field="tdgid_cdot_highways" index="4" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
+        <alias field="tmp_buffers" index="7" name=""/>
+      </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <attributeactions default="-1"/>
@@ -2534,6 +3547,908 @@ def my_form_open(dialog, layer, feature):
           <column width="-1" hidden="0" type="field" name="tdgid_cdot_local_roads"/>
           <column width="-1" hidden="1" type="actions"/>
           <column width="-1" hidden="0" type="field" name="tmp_buffers"/>
+        </columns>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath>.</editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>denver_streets_geom20161022142736566</id>
+      <datasource>dbname='denver_vz' host=192.168.1.144 port=5432 user='gis' password='gis' sslmode=disable key='id' srid=2231 type=LineString table="generated"."denver_streets" (geom) sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>denver_streets-bicycle_facilities</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=40.78333333333333 +lat_2=39.71666666666667 +lat_0=39.33333333333334 +lon_0=-105.5 +x_0=914401.8288036576 +y_0=304800.6096012192 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs</proj4>
+          <srsid>213</srsid>
+          <srid>2231</srid>
+          <authid>EPSG:2231</authid>
+          <description>NAD83 / Colorado North (ftUS)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="tdgid_denver_street_centerline" expression=""/>
+        <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_cdot_highways" expression=""/>
+        <default field="tdgid_cdot_major_roads" expression=""/>
+        <default field="tdgid_cdot_local_roads" expression=""/>
+        <default field="speed_limit" expression=""/>
+        <default field="speed_limit_source" expression=""/>
+      </defaults>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="seg_length">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_street_centerline">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_major_roads">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_local_roads">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="speed_limit">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="speed_limit_source">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="RuleRenderer" enableorderby="0">
+        <rules key="{3c5f85fe-3528-4ba1-9543-c2bb1268e88c}">
+          <rule filter="  &quot;tdgid_denver_bicycle_facilities&quot;  IS NOT NULL" key="{04f87fb0-7350-42e3-bdc8-c0044790ac3d}" symbol="0"/>
+          <rule filter="else" key="{dba50784-3a53-4be4-b587-66ea88455258}" symbol="1"/>
+        </rules>
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="line" name="0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="78,187,162,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="1"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+            </layer>
+          </symbol>
+          <symbol alpha="1" clip_to_extent="1" type="line" name="1">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="square"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="146,27,148,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties>
+        <property key="embeddedWidgets/count" value="0"/>
+        <property key="labeling" value="pal"/>
+        <property key="labeling/addDirectionSymbol" value="false"/>
+        <property key="labeling/angleOffset" value="0"/>
+        <property key="labeling/blendMode" value="0"/>
+        <property key="labeling/bufferBlendMode" value="0"/>
+        <property key="labeling/bufferColorA" value="255"/>
+        <property key="labeling/bufferColorB" value="255"/>
+        <property key="labeling/bufferColorG" value="255"/>
+        <property key="labeling/bufferColorR" value="255"/>
+        <property key="labeling/bufferDraw" value="false"/>
+        <property key="labeling/bufferJoinStyle" value="64"/>
+        <property key="labeling/bufferNoFill" value="false"/>
+        <property key="labeling/bufferSize" value="1"/>
+        <property key="labeling/bufferSizeInMapUnits" value="false"/>
+        <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/bufferTransp" value="0"/>
+        <property key="labeling/centroidInside" value="false"/>
+        <property key="labeling/centroidWhole" value="false"/>
+        <property key="labeling/decimals" value="3"/>
+        <property key="labeling/displayAll" value="false"/>
+        <property key="labeling/dist" value="0"/>
+        <property key="labeling/distInMapUnits" value="false"/>
+        <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/drawLabels" value="false"/>
+        <property key="labeling/enabled" value="false"/>
+        <property key="labeling/fieldName" value=""/>
+        <property key="labeling/fitInPolygonOnly" value="false"/>
+        <property key="labeling/fontCapitals" value="0"/>
+        <property key="labeling/fontFamily" value="Cantarell"/>
+        <property key="labeling/fontItalic" value="false"/>
+        <property key="labeling/fontLetterSpacing" value="0"/>
+        <property key="labeling/fontLimitPixelSize" value="false"/>
+        <property key="labeling/fontMaxPixelSize" value="10000"/>
+        <property key="labeling/fontMinPixelSize" value="3"/>
+        <property key="labeling/fontSize" value="11"/>
+        <property key="labeling/fontSizeInMapUnits" value="false"/>
+        <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/fontStrikeout" value="false"/>
+        <property key="labeling/fontUnderline" value="false"/>
+        <property key="labeling/fontWeight" value="75"/>
+        <property key="labeling/fontWordSpacing" value="0"/>
+        <property key="labeling/formatNumbers" value="false"/>
+        <property key="labeling/isExpression" value="true"/>
+        <property key="labeling/labelOffsetInMapUnits" value="true"/>
+        <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/labelPerPart" value="false"/>
+        <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+        <property key="labeling/limitNumLabels" value="false"/>
+        <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+        <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+        <property key="labeling/maxNumLabels" value="2000"/>
+        <property key="labeling/mergeLines" value="false"/>
+        <property key="labeling/minFeatureSize" value="0"/>
+        <property key="labeling/multilineAlign" value="0"/>
+        <property key="labeling/multilineHeight" value="1"/>
+        <property key="labeling/namedStyle" value="Bold"/>
+        <property key="labeling/obstacle" value="true"/>
+        <property key="labeling/obstacleFactor" value="1"/>
+        <property key="labeling/obstacleType" value="0"/>
+        <property key="labeling/offsetType" value="0"/>
+        <property key="labeling/placeDirectionSymbol" value="0"/>
+        <property key="labeling/placement" value="2"/>
+        <property key="labeling/placementFlags" value="10"/>
+        <property key="labeling/plussign" value="false"/>
+        <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+        <property key="labeling/preserveRotation" value="true"/>
+        <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+        <property key="labeling/priority" value="5"/>
+        <property key="labeling/quadOffset" value="4"/>
+        <property key="labeling/repeatDistance" value="0"/>
+        <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/repeatDistanceUnit" value="1"/>
+        <property key="labeling/reverseDirectionSymbol" value="false"/>
+        <property key="labeling/rightDirectionSymbol" value=">"/>
+        <property key="labeling/scaleMax" value="10000000"/>
+        <property key="labeling/scaleMin" value="1"/>
+        <property key="labeling/scaleVisibility" value="false"/>
+        <property key="labeling/shadowBlendMode" value="6"/>
+        <property key="labeling/shadowColorB" value="0"/>
+        <property key="labeling/shadowColorG" value="0"/>
+        <property key="labeling/shadowColorR" value="0"/>
+        <property key="labeling/shadowDraw" value="false"/>
+        <property key="labeling/shadowOffsetAngle" value="135"/>
+        <property key="labeling/shadowOffsetDist" value="1"/>
+        <property key="labeling/shadowOffsetGlobal" value="true"/>
+        <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowOffsetUnits" value="1"/>
+        <property key="labeling/shadowRadius" value="1.5"/>
+        <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+        <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowRadiusUnits" value="1"/>
+        <property key="labeling/shadowScale" value="100"/>
+        <property key="labeling/shadowTransparency" value="30"/>
+        <property key="labeling/shadowUnder" value="0"/>
+        <property key="labeling/shapeBlendMode" value="0"/>
+        <property key="labeling/shapeBorderColorA" value="255"/>
+        <property key="labeling/shapeBorderColorB" value="128"/>
+        <property key="labeling/shapeBorderColorG" value="128"/>
+        <property key="labeling/shapeBorderColorR" value="128"/>
+        <property key="labeling/shapeBorderWidth" value="0"/>
+        <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeBorderWidthUnits" value="1"/>
+        <property key="labeling/shapeDraw" value="false"/>
+        <property key="labeling/shapeFillColorA" value="255"/>
+        <property key="labeling/shapeFillColorB" value="255"/>
+        <property key="labeling/shapeFillColorG" value="255"/>
+        <property key="labeling/shapeFillColorR" value="255"/>
+        <property key="labeling/shapeJoinStyle" value="64"/>
+        <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeOffsetUnits" value="1"/>
+        <property key="labeling/shapeOffsetX" value="0"/>
+        <property key="labeling/shapeOffsetY" value="0"/>
+        <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeRadiiUnits" value="1"/>
+        <property key="labeling/shapeRadiiX" value="0"/>
+        <property key="labeling/shapeRadiiY" value="0"/>
+        <property key="labeling/shapeRotation" value="0"/>
+        <property key="labeling/shapeRotationType" value="0"/>
+        <property key="labeling/shapeSVGFile" value=""/>
+        <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeSizeType" value="0"/>
+        <property key="labeling/shapeSizeUnits" value="1"/>
+        <property key="labeling/shapeSizeX" value="0"/>
+        <property key="labeling/shapeSizeY" value="0"/>
+        <property key="labeling/shapeTransparency" value="0"/>
+        <property key="labeling/shapeType" value="0"/>
+        <property key="labeling/substitutions" value="&lt;substitutions/>"/>
+        <property key="labeling/textColorA" value="255"/>
+        <property key="labeling/textColorB" value="0"/>
+        <property key="labeling/textColorG" value="0"/>
+        <property key="labeling/textColorR" value="0"/>
+        <property key="labeling/textTransp" value="0"/>
+        <property key="labeling/upsidedownLabels" value="0"/>
+        <property key="labeling/useSubstitutions" value="false"/>
+        <property key="labeling/wrapChar" value=""/>
+        <property key="labeling/xOffset" value="0"/>
+        <property key="labeling/yOffset" value="0"/>
+        <property key="labeling/zIndex" value="0"/>
+        <property key="variableNames" value="_fields_"/>
+        <property key="variableValues" value=""/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>id</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="Cantarell"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="100000">
+          <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
+        </DiagramCategory>
+        <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
+          <layer pass="0" class="SimpleMarker" locked="0">
+            <prop k="angle" v="0"/>
+            <prop k="color" v="255,0,0,255"/>
+            <prop k="horizontal_anchor_point" v="1"/>
+            <prop k="joinstyle" v="bevel"/>
+            <prop k="name" v="circle"/>
+            <prop k="offset" v="0,0"/>
+            <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="offset_unit" v="MM"/>
+            <prop k="outline_color" v="0,0,0,255"/>
+            <prop k="outline_style" v="solid"/>
+            <prop k="outline_width" v="0"/>
+            <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="outline_width_unit" v="MM"/>
+            <prop k="scale_method" v="diameter"/>
+            <prop k="size" v="2"/>
+            <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="size_unit" v="MM"/>
+            <prop k="vertical_anchor_point" v="1"/>
+          </layer>
+        </symbol>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+      <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="seg_length" index="1" name=""/>
+        <alias field="tdgid_denver_street_centerline" index="2" name=""/>
+        <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
+        <alias field="tdgid_cdot_highways" index="4" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
+        <alias field="speed_limit" index="7" name=""/>
+        <alias field="speed_limit_source" index="8" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="37749836">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="seg_length"/>
+          <column width="339" hidden="0" type="field" name="tdgid_denver_street_centerline"/>
+          <column width="-1" hidden="0" type="field" name="tdgid_cdot_highways"/>
+          <column width="-1" hidden="0" type="field" name="tdgid_cdot_major_roads"/>
+          <column width="-1" hidden="0" type="field" name="tdgid_cdot_local_roads"/>
+          <column width="-1" hidden="1" type="actions"/>
+          <column width="-1" hidden="0" type="field" name="tdgid_denver_bicycle_facilities"/>
+          <column width="-1" hidden="0" type="field" name="speed_limit"/>
+          <column width="-1" hidden="0" type="field" name="speed_limit_source"/>
+        </columns>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath>.</editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="0" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>denver_streets_tmp_buffers20161022145654587</id>
+      <datasource>dbname='denver_vz' host=192.168.1.144 port=5432 user='gis' password='gis' sslmode=disable key='id' srid=2231 type=MultiPolygon table="generated"."denver_streets" (tmp_buffers) sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>denver_streets.tmp_buffers</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=40.78333333333333 +lat_2=39.71666666666667 +lat_0=39.33333333333334 +lon_0=-105.5 +x_0=914401.8288036576 +y_0=304800.6096012192 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs</proj4>
+          <srsid>213</srsid>
+          <srid>2231</srid>
+          <authid>EPSG:2231</authid>
+          <description>NAD83 / Colorado North (ftUS)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <previewExpression></previewExpression>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="geom" expression=""/>
+        <default field="seg_length" expression=""/>
+        <default field="tdgid_denver_street_centerline" expression=""/>
+        <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_cdot_highways" expression=""/>
+        <default field="tdgid_cdot_major_roads" expression=""/>
+        <default field="tdgid_cdot_local_roads" expression=""/>
+        <default field="speed_limit" expression=""/>
+        <default field="speed_limit_source" expression=""/>
+      </defaults>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="geom">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="seg_length">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_street_centerline">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_major_roads">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_cdot_local_roads">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="speed_limit">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="speed_limit_source">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="fill" name="0">
+            <layer pass="0" class="SimpleFill" locked="0">
+              <prop k="border_width_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="color" v="8,221,86,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>id</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="Cantarell"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <annotationform></annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="geom" index="1" name=""/>
+        <alias field="seg_length" index="2" name=""/>
+        <alias field="tdgid_denver_street_centerline" index="3" name=""/>
+        <alias field="tdgid_denver_bicycle_facilities" index="4" name=""/>
+        <alias field="tdgid_cdot_highways" index="5" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
+        <alias field="speed_limit" index="8" name=""/>
+        <alias field="speed_limit_source" index="9" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="288">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+    </maplayer>
+    <maplayer simplifyAlgorithm="0" minimumScale="100000" maximumScale="1e+08" simplifyDrawingHints="1" readOnly="0" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Line" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
+      <id>drcog_bicycle_facility_inventory20161022153830119</id>
+      <datasource>dbname='denver_vz' host=192.168.1.144 port=5432 user='gis' password='gis' sslmode=disable key='id' srid=2231 type=LineString table="received"."drcog_bicycle_facility_inventory" (geom) sql=</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>drcog_bicycle_facility_inventory</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=lcc +lat_1=40.78333333333333 +lat_2=39.71666666666667 +lat_0=39.33333333333334 +lon_0=-105.5 +x_0=914401.8288036576 +y_0=304800.6096012192 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs</proj4>
+          <srsid>213</srsid>
+          <srid>2231</srid>
+          <authid>EPSG:2231</authid>
+          <description>NAD83 / Colorado North (ftUS)</description>
+          <projectionacronym>lcc</projectionacronym>
+          <ellipsoidacronym>GRS80</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <previewExpression></previewExpression>
+      <vectorjoins/>
+      <layerDependencies/>
+      <expressionfields/>
+      <defaults>
+        <default field="id" expression=""/>
+        <default field="objectid" expression=""/>
+        <default field="type_fx_no" expression=""/>
+        <default field="type_fx" expression=""/>
+        <default field="name" expression=""/>
+        <default field="source" expression=""/>
+        <default field="paved" expression=""/>
+        <default field="type_btwd" expression=""/>
+        <default field="tdg_id" expression=""/>
+      </defaults>
+      <map-layer-style-manager current="">
+        <map-layer-style name=""/>
+      </map-layer-style-manager>
+      <edittypes>
+        <edittype widgetv2type="TextEdit" name="id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="objectid">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="type_fx_no">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="type_fx">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="name">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="source">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="paved">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="type_btwd">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdg_id">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+      </edittypes>
+      <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
+        <symbols>
+          <symbol alpha="1" clip_to_extent="1" type="line" name="0">
+            <layer pass="0" class="SimpleLine" locked="0">
+              <prop k="capstyle" v="flat"/>
+              <prop k="customdash" v="5;2"/>
+              <prop k="customdash_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="customdash_unit" v="MM"/>
+              <prop k="draw_inside_polygon" v="0"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="line_color" v="76,79,171,255"/>
+              <prop k="line_style" v="solid"/>
+              <prop k="line_width" v="9"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="use_custom_dash" v="0"/>
+              <prop k="width_map_unit_scale" v="0,0,0,0,0,0"/>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale scalemethod="diameter"/>
+      </renderer-v2>
+      <labeling type="simple"/>
+      <customproperties>
+        <property key="labeling" value="pal"/>
+        <property key="labeling/addDirectionSymbol" value="false"/>
+        <property key="labeling/angleOffset" value="0"/>
+        <property key="labeling/blendMode" value="0"/>
+        <property key="labeling/bufferBlendMode" value="0"/>
+        <property key="labeling/bufferColorA" value="255"/>
+        <property key="labeling/bufferColorB" value="255"/>
+        <property key="labeling/bufferColorG" value="255"/>
+        <property key="labeling/bufferColorR" value="255"/>
+        <property key="labeling/bufferDraw" value="false"/>
+        <property key="labeling/bufferJoinStyle" value="64"/>
+        <property key="labeling/bufferNoFill" value="false"/>
+        <property key="labeling/bufferSize" value="1"/>
+        <property key="labeling/bufferSizeInMapUnits" value="false"/>
+        <property key="labeling/bufferSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/bufferTransp" value="0"/>
+        <property key="labeling/centroidInside" value="false"/>
+        <property key="labeling/centroidWhole" value="false"/>
+        <property key="labeling/decimals" value="3"/>
+        <property key="labeling/displayAll" value="false"/>
+        <property key="labeling/dist" value="0"/>
+        <property key="labeling/distInMapUnits" value="false"/>
+        <property key="labeling/distMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/drawLabels" value="false"/>
+        <property key="labeling/enabled" value="false"/>
+        <property key="labeling/fieldName" value=""/>
+        <property key="labeling/fitInPolygonOnly" value="false"/>
+        <property key="labeling/fontCapitals" value="0"/>
+        <property key="labeling/fontFamily" value="Cantarell"/>
+        <property key="labeling/fontItalic" value="false"/>
+        <property key="labeling/fontLetterSpacing" value="0"/>
+        <property key="labeling/fontLimitPixelSize" value="false"/>
+        <property key="labeling/fontMaxPixelSize" value="10000"/>
+        <property key="labeling/fontMinPixelSize" value="3"/>
+        <property key="labeling/fontSize" value="11"/>
+        <property key="labeling/fontSizeInMapUnits" value="false"/>
+        <property key="labeling/fontSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/fontStrikeout" value="false"/>
+        <property key="labeling/fontUnderline" value="false"/>
+        <property key="labeling/fontWeight" value="50"/>
+        <property key="labeling/fontWordSpacing" value="0"/>
+        <property key="labeling/formatNumbers" value="false"/>
+        <property key="labeling/isExpression" value="true"/>
+        <property key="labeling/labelOffsetInMapUnits" value="true"/>
+        <property key="labeling/labelOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/labelPerPart" value="false"/>
+        <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+        <property key="labeling/limitNumLabels" value="false"/>
+        <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+        <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+        <property key="labeling/maxNumLabels" value="2000"/>
+        <property key="labeling/mergeLines" value="false"/>
+        <property key="labeling/minFeatureSize" value="0"/>
+        <property key="labeling/multilineAlign" value="0"/>
+        <property key="labeling/multilineHeight" value="1"/>
+        <property key="labeling/namedStyle" value="Bold"/>
+        <property key="labeling/obstacle" value="true"/>
+        <property key="labeling/obstacleFactor" value="1"/>
+        <property key="labeling/obstacleType" value="0"/>
+        <property key="labeling/offsetType" value="0"/>
+        <property key="labeling/placeDirectionSymbol" value="0"/>
+        <property key="labeling/placement" value="2"/>
+        <property key="labeling/placementFlags" value="10"/>
+        <property key="labeling/plussign" value="false"/>
+        <property key="labeling/predefinedPositionOrder" value="TR,TL,BR,BL,R,L,TSR,BSR"/>
+        <property key="labeling/preserveRotation" value="true"/>
+        <property key="labeling/previewBkgrdColor" value="#ffffff"/>
+        <property key="labeling/priority" value="5"/>
+        <property key="labeling/quadOffset" value="4"/>
+        <property key="labeling/repeatDistance" value="0"/>
+        <property key="labeling/repeatDistanceMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/repeatDistanceUnit" value="1"/>
+        <property key="labeling/reverseDirectionSymbol" value="false"/>
+        <property key="labeling/rightDirectionSymbol" value=">"/>
+        <property key="labeling/scaleMax" value="10000000"/>
+        <property key="labeling/scaleMin" value="1"/>
+        <property key="labeling/scaleVisibility" value="false"/>
+        <property key="labeling/shadowBlendMode" value="6"/>
+        <property key="labeling/shadowColorB" value="0"/>
+        <property key="labeling/shadowColorG" value="0"/>
+        <property key="labeling/shadowColorR" value="0"/>
+        <property key="labeling/shadowDraw" value="false"/>
+        <property key="labeling/shadowOffsetAngle" value="135"/>
+        <property key="labeling/shadowOffsetDist" value="1"/>
+        <property key="labeling/shadowOffsetGlobal" value="true"/>
+        <property key="labeling/shadowOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowOffsetUnits" value="1"/>
+        <property key="labeling/shadowRadius" value="1.5"/>
+        <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+        <property key="labeling/shadowRadiusMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shadowRadiusUnits" value="1"/>
+        <property key="labeling/shadowScale" value="100"/>
+        <property key="labeling/shadowTransparency" value="30"/>
+        <property key="labeling/shadowUnder" value="0"/>
+        <property key="labeling/shapeBlendMode" value="0"/>
+        <property key="labeling/shapeBorderColorA" value="255"/>
+        <property key="labeling/shapeBorderColorB" value="128"/>
+        <property key="labeling/shapeBorderColorG" value="128"/>
+        <property key="labeling/shapeBorderColorR" value="128"/>
+        <property key="labeling/shapeBorderWidth" value="0"/>
+        <property key="labeling/shapeBorderWidthMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeBorderWidthUnits" value="1"/>
+        <property key="labeling/shapeDraw" value="false"/>
+        <property key="labeling/shapeFillColorA" value="255"/>
+        <property key="labeling/shapeFillColorB" value="255"/>
+        <property key="labeling/shapeFillColorG" value="255"/>
+        <property key="labeling/shapeFillColorR" value="255"/>
+        <property key="labeling/shapeJoinStyle" value="64"/>
+        <property key="labeling/shapeOffsetMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeOffsetUnits" value="1"/>
+        <property key="labeling/shapeOffsetX" value="0"/>
+        <property key="labeling/shapeOffsetY" value="0"/>
+        <property key="labeling/shapeRadiiMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeRadiiUnits" value="1"/>
+        <property key="labeling/shapeRadiiX" value="0"/>
+        <property key="labeling/shapeRadiiY" value="0"/>
+        <property key="labeling/shapeRotation" value="0"/>
+        <property key="labeling/shapeRotationType" value="0"/>
+        <property key="labeling/shapeSVGFile" value=""/>
+        <property key="labeling/shapeSizeMapUnitScale" value="0,0,0,0,0,0"/>
+        <property key="labeling/shapeSizeType" value="0"/>
+        <property key="labeling/shapeSizeUnits" value="1"/>
+        <property key="labeling/shapeSizeX" value="0"/>
+        <property key="labeling/shapeSizeY" value="0"/>
+        <property key="labeling/shapeTransparency" value="0"/>
+        <property key="labeling/shapeType" value="0"/>
+        <property key="labeling/textColorA" value="255"/>
+        <property key="labeling/textColorB" value="0"/>
+        <property key="labeling/textColorG" value="0"/>
+        <property key="labeling/textColorR" value="0"/>
+        <property key="labeling/textTransp" value="0"/>
+        <property key="labeling/upsidedownLabels" value="0"/>
+        <property key="labeling/wrapChar" value=""/>
+        <property key="labeling/xOffset" value="0"/>
+        <property key="labeling/yOffset" value="0"/>
+        <property key="labeling/zIndex" value="0"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerTransparency>0</layerTransparency>
+      <displayfield>descriptio</displayfield>
+      <label>0</label>
+      <labelattributes>
+        <label fieldname="" text="Label"/>
+        <family fieldname="" name="Cantarell"/>
+        <size fieldname="" units="pt" value="12"/>
+        <bold fieldname="" on="0"/>
+        <italic fieldname="" on="0"/>
+        <underline fieldname="" on="0"/>
+        <strikeout fieldname="" on="0"/>
+        <color fieldname="" red="0" blue="0" green="0"/>
+        <x fieldname=""/>
+        <y fieldname=""/>
+        <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+        <angle fieldname="" value="0" auto="0"/>
+        <alignment fieldname="" value="center"/>
+        <buffercolor fieldname="" red="255" blue="255" green="255"/>
+        <buffersize fieldname="" units="pt" value="1"/>
+        <bufferenabled fieldname="" on=""/>
+        <multilineenabled fieldname="" on=""/>
+        <selectedonly on=""/>
+      </labelattributes>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" sizeLegend="0" attributeLegend="1">
+        <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" sizeScale="0,0,0,0,0,0" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" lineSizeScale="0,0,0,0,0,0" sizeType="MM" lineSizeType="MM" minScaleDenominator="100000">
+          <fontProperties description="Cantarell,11,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
+        </DiagramCategory>
+        <symbol alpha="1" clip_to_extent="1" type="marker" name="sizeSymbol">
+          <layer pass="0" class="SimpleMarker" locked="0">
+            <prop k="angle" v="0"/>
+            <prop k="color" v="255,0,0,255"/>
+            <prop k="horizontal_anchor_point" v="1"/>
+            <prop k="joinstyle" v="bevel"/>
+            <prop k="name" v="circle"/>
+            <prop k="offset" v="0,0"/>
+            <prop k="offset_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="offset_unit" v="MM"/>
+            <prop k="outline_color" v="0,0,0,255"/>
+            <prop k="outline_style" v="solid"/>
+            <prop k="outline_width" v="0"/>
+            <prop k="outline_width_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="outline_width_unit" v="MM"/>
+            <prop k="scale_method" v="diameter"/>
+            <prop k="size" v="2"/>
+            <prop k="size_map_unit_scale" v="0,0,0,0,0,0"/>
+            <prop k="size_unit" v="MM"/>
+            <prop k="vertical_anchor_point" v="1"/>
+          </layer>
+        </symbol>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings yPosColumn="-1" showColumn="-1" linePlacementFlags="10" placement="2" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
+      <annotationform>.</annotationform>
+      <aliases>
+        <alias field="id" index="0" name=""/>
+        <alias field="objectid" index="1" name=""/>
+        <alias field="type_fx_no" index="2" name=""/>
+        <alias field="type_fx" index="3" name=""/>
+        <alias field="name" index="4" name=""/>
+        <alias field="source" index="5" name=""/>
+        <alias field="paved" index="6" name=""/>
+        <alias field="type_btwd" index="7" name=""/>
+        <alias field="tdg_id" index="8" name=""/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <attributeactions default="-1"/>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="3145776">
+        <columns>
+          <column width="-1" hidden="0" type="field" name="id"/>
+          <column width="-1" hidden="0" type="field" name="route"/>
+          <column width="-1" hidden="0" type="field" name="refpt"/>
+          <column width="-1" hidden="0" type="field" name="endrefpt"/>
+          <column width="-1" hidden="0" type="field" name="seg_length"/>
+          <column width="-1" hidden="0" type="field" name="region"/>
+          <column width="-1" hidden="0" type="field" name="tprid"/>
+          <column width="-1" hidden="0" type="field" name="commdistid"/>
+          <column width="-1" hidden="0" type="field" name="city"/>
+          <column width="-1" hidden="0" type="field" name="fipscity"/>
+          <column width="-1" hidden="0" type="field" name="county"/>
+          <column width="-1" hidden="0" type="field" name="fipscounty"/>
+          <column width="-1" hidden="0" type="field" name="population"/>
+          <column width="-1" hidden="0" type="field" name="funcclass"/>
+          <column width="-1" hidden="0" type="field" name="routesign"/>
+          <column width="-1" hidden="0" type="field" name="nhsdesig"/>
+          <column width="-1" hidden="0" type="field" name="access_"/>
+          <column width="-1" hidden="0" type="field" name="prirdl"/>
+          <column width="-1" hidden="0" type="field" name="pridlclass"/>
+          <column width="-1" hidden="0" type="field" name="priirii"/>
+          <column width="-1" hidden="0" type="field" name="priruti"/>
+          <column width="-1" hidden="0" type="field" name="aadt"/>
+          <column width="-1" hidden="0" type="field" name="aadt20"/>
+          <column width="-1" hidden="0" type="field" name="aadtyr"/>
+          <column width="-1" hidden="0" type="field" name="aadtderiv"/>
+          <column width="-1" hidden="0" type="field" name="pktrk"/>
+          <column width="-1" hidden="0" type="field" name="offpktrk"/>
+          <column width="-1" hidden="0" type="field" name="aadtsingle"/>
+          <column width="-1" hidden="0" type="field" name="aadtcomb"/>
+          <column width="-1" hidden="0" type="field" name="vcratio"/>
+          <column width="-1" hidden="0" type="field" name="vcratio20"/>
+          <column width="-1" hidden="0" type="field" name="vmt"/>
+          <column width="-1" hidden="0" type="field" name="speedlim"/>
+          <column width="-1" hidden="0" type="field" name="prisurf"/>
+          <column width="-1" hidden="0" type="field" name="thrulnqty"/>
+          <column width="-1" hidden="0" type="field" name="thrulnwd"/>
+          <column width="-1" hidden="0" type="field" name="isdivided"/>
+          <column width="-1" hidden="0" type="field" name="prioutshd"/>
+          <column width="-1" hidden="0" type="field" name="prioutshdw"/>
+          <column width="-1" hidden="0" type="field" name="median"/>
+          <column width="-1" hidden="0" type="field" name="medianwd"/>
+          <column width="-1" hidden="0" type="field" name="terrain"/>
+          <column width="-1" hidden="0" type="field" name="alias"/>
+          <column width="-1" hidden="0" type="field" name="descriptio"/>
+          <column width="-1" hidden="0" type="field" name="shape_stle"/>
+          <column width="-1" hidden="0" type="field" name="shape_st_1"/>
+          <column width="-1" hidden="0" type="field" name="layer_clas"/>
+          <column width="-1" hidden="0" type="field" name="tdg_id"/>
+          <column width="-1" hidden="1" type="actions"/>
         </columns>
       </attributetableconfig>
       <editform>.</editform>
@@ -2593,13 +4508,23 @@ def my_form_open(dialog, layer, feature):
       <DefaultSnapToleranceUnit type="int">2</DefaultSnapToleranceUnit>
       <LayerSnappingList type="QStringList">
         <value>cdot_highways20161017195130790</value>
+        <value>cdot_highways20161019182039241</value>
         <value>cdot_local_roads20161017195131025</value>
         <value>cdot_major_roads20161017195131049</value>
         <value>denver_street_centerline20161017195131065</value>
         <value>denver_streets20161017205518477</value>
-        <value>cdot_highways20161019182039241</value>
+        <value>denver_streets_geom20161019204349633</value>
+        <value>denver_streets_geom20161022142736566</value>
+        <value>denver_bicycle_facilities20161022142943053</value>
+        <value>denver_streets_tmp_buffers20161022145654587</value>
+        <value>drcog_bicycle_facility_inventory20161022153830119</value>
       </LayerSnappingList>
       <LayerSnappingEnabledList type="QStringList">
+        <value>disabled</value>
+        <value>disabled</value>
+        <value>disabled</value>
+        <value>disabled</value>
+        <value>disabled</value>
         <value>disabled</value>
         <value>disabled</value>
         <value>disabled</value>
@@ -2616,8 +4541,18 @@ def my_form_open(dialog, layer, feature):
         <value>2</value>
         <value>2</value>
         <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
+        <value>2</value>
       </LayerSnappingToleranceUnitList>
       <LayerSnapToList type="QStringList">
+        <value>to_vertex_and_segment</value>
+        <value>to_vertex_and_segment</value>
+        <value>to_vertex_and_segment</value>
+        <value>to_vertex_and_segment</value>
+        <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
         <value>to_vertex_and_segment</value>
@@ -2628,6 +4563,11 @@ def my_form_open(dialog, layer, feature):
       <DefaultSnapType type="QString">off</DefaultSnapType>
       <DefaultSnapTolerance type="double">0</DefaultSnapTolerance>
       <LayerSnappingToleranceList type="QStringList">
+        <value>0.000000</value>
+        <value>0.000000</value>
+        <value>0.000000</value>
+        <value>0.000000</value>
+        <value>0.000000</value>
         <value>0.000000</value>
         <value>0.000000</value>
         <value>0.000000</value>
