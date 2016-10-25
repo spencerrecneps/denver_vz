@@ -9,6 +9,7 @@ CREATE TABLE generated.denver_streets (
     seg_length INT,
     tdgid_denver_street_centerline VARCHAR(36),
     tdgid_denver_bicycle_facilities VARCHAR(36),
+    tdgid_drcog_bicycle_facility_inventory VARCHAR(36),
     tdgid_cdot_highways VARCHAR(36),
     tdgid_cdot_major_roads VARCHAR(36),
     tdgid_cdot_local_roads VARCHAR(36),
@@ -261,6 +262,21 @@ CREATE INDEX idx_denstreetcdotlclrdtdgid ON generated.denver_streets (tdgid_cdot
 --------------------
 -- meld drcog_bicycle_facility_inventory
 --------------------
+-- first pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_drcog_bicycle_facility_inventory',
+    'geom',
+    'drcog_bicycle_facility_inventory',
+    'tdg_id',
+    'geom',
+    tolerance_ := 40,
+    buffer_geom_ := 'tmp_buffers',
+    only_nulls_ := 'f'
+);
+
+-- index
+CREATE INDEX idx_denstreetdrcogbikestdgid ON generated.denver_streets (tdgid_drcog_bicycle_facility_inventory);
 
 
 --------------------
