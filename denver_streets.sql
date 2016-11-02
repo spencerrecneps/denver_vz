@@ -270,10 +270,69 @@ SELECT  tdg.tdgMeldBuffers(
     'drcog_bicycle_facility_inventory',
     'tdg_id',
     'geom',
-    tolerance_ := 40,
-    buffer_geom_ := 'tmp_buffers',
+    tolerance_ := 60,
+    --buffer_geom_ := 'tmp_buffers',
     only_nulls_ := 'f'
 );
+
+-- second pass
+SELECT  tdg.tdgMeldBuffers(
+    'generated.denver_streets',
+    'tdgid_drcog_bicycle_facility_inventory',
+    'geom',
+    'drcog_bicycle_facility_inventory',
+    'tdg_id',
+    'geom',
+    tolerance_ := 60,
+    buffer_geom_ := 'tmp_buffers',
+    min_target_length_ := 400,
+    min_shared_length_pct_ := 0.6,
+    only_nulls_ := 't'
+);
+
+-- third pass
+SELECT  tdg.tdgMeldAzimuths(
+    'generated.denver_streets',
+    'tdgid_drcog_bicycle_facility_inventory',
+    'geom',
+    'drcog_bicycle_facility_inventory',
+    'tdg_id',
+    'geom',
+    tolerance_ := 20,
+    max_angle_diff_ := 5,
+    only_nulls_ := 't'
+);
+
+-- remove trail matches
+UPDATE  generated.denver_streets
+SET     tdgid_drcog_bicycle_facility_inventory = NULL
+FROM    drcog_bicycle_facility_inventory drcog
+WHERE   tdgid_drcog_bicycle_facility_inventory = drcog.tdg_id
+AND     (lower(drcog.type_fx) LIKE '%trail%' OR lower(drcog.type_fx) LIKE '%path%');
+
+-- need to remove false positives
+
+
+-- -- loosen up the buffers
+-- UPDATE  generated.denver_streets
+-- SET     tmp_buffers = ST_Multi(
+--             ST_Buffer(
+--                 ST_Buffer(geom,102,'endcap=flat'),
+--                 -2
+--             )
+--         );
+-- ANALYZE generated.denver_streets (tmp_buffers);
+
+-- UPDATE  generated.denver_streets
+-- SET     tdgid_drcog_bicycle_facility_inventory = (
+--             SELECT      drcog_bicycle_facility_inventory.tdg_id
+--             FROM        drcog_bicycle_facility_inventory
+--             WHERE       ST_Intersects(denver_streets.tmp_buffers,drcog_bicycle_facility_inventory.geom)
+--             AND         tdg.tdgCompareLines(denver_streets.geom,drcog_bicycle_facility_inventory.geom,10) < 100
+--             ORDER BY    tdg.tdgCompareLines(denver_streets.geom,drcog_bicycle_facility_inventory.geom,10) ASC
+--             LIMIT       1
+--         )
+-- WHERE   ST_Length(geom) > 200;
 
 -- index
 CREATE INDEX idx_denstreetdrcogbikestdgid ON generated.denver_streets (tdgid_drcog_bicycle_facility_inventory);
