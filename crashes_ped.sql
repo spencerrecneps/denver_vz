@@ -125,6 +125,10 @@ COPY received.crashes_ped FROM '/home/sgardner/GISPed.csv' DELIMITER '|' HEADER 
 
 -- add columns
 ALTER TABLE received.crashes_ped ADD COLUMN id SERIAL PRIMARY KEY;
+ALTER TABLE received.crashes_ped ADD COLUMN tdg_id VARCHAR(36) DEFAULT (uuid_generate_v4())::TEXT;
+ALTER TABLE received.crashes_ped ADD COLUMN road_id1 INTEGER;
+ALTER TABLE received.crashes_ped ADD COLUMN road_id2 INTEGER;
+ALTER TABLE received.crashes_ped ADD COLUMN int_id INTEGER;
 
 -- update column types
 ALTER TABLE received.crashes_ped ALTER COLUMN accidentdate TYPE DATE USING accidentdate::DATE;

@@ -46,10 +46,10 @@
   <mapcanvas>
     <units>feet</units>
     <extent>
-      <xmin>3170642.50646723713725805</xmin>
-      <ymin>1158560.67330515710636973</ymin>
-      <xmax>3173175.38537348713725805</xmax>
-      <ymax>1160724.29059028951451182</ymax>
+      <xmin>3151523.36587193887680769</xmin>
+      <ymin>1151399.03396721323952079</ymin>
+      <xmax>3161654.88149693887680769</xmax>
+      <ymax>1160053.50310774287208915</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -3084,6 +3084,7 @@ def my_form_open(dialog, layer, feature):
         <default field="seg_length" expression=""/>
         <default field="tdgid_denver_street_centerline" expression=""/>
         <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
         <default field="tdgid_cdot_highways" expression=""/>
         <default field="tdgid_cdot_major_roads" expression=""/>
         <default field="tdgid_cdot_local_roads" expression=""/>
@@ -3105,6 +3106,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -3205,12 +3209,13 @@ def my_form_open(dialog, layer, feature):
         <alias field="seg_length" index="1" name=""/>
         <alias field="tdgid_denver_street_centerline" index="2" name=""/>
         <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
-        <alias field="tdgid_cdot_highways" index="4" name=""/>
-        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
-        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
-        <alias field="speed_limit" index="7" name=""/>
-        <alias field="speed_limit_source" index="8" name=""/>
-        <alias field="tmp_buffers" index="9" name=""/>
+        <alias field="tdgid_drcog_bicycle_facility_inventory" index="4" name=""/>
+        <alias field="tdgid_cdot_highways" index="5" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
+        <alias field="speed_limit" index="8" name=""/>
+        <alias field="speed_limit_source" index="9" name=""/>
+        <alias field="tmp_buffers" index="10" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -3268,6 +3273,7 @@ def my_form_open(dialog, layer, feature):
         <default field="seg_length" expression=""/>
         <default field="tdgid_denver_street_centerline" expression=""/>
         <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
         <default field="tdgid_cdot_highways" expression=""/>
         <default field="tdgid_cdot_major_roads" expression=""/>
         <default field="tdgid_cdot_local_roads" expression=""/>
@@ -3289,6 +3295,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -3558,12 +3567,13 @@ def my_form_open(dialog, layer, feature):
         <alias field="seg_length" index="1" name=""/>
         <alias field="tdgid_denver_street_centerline" index="2" name=""/>
         <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
-        <alias field="tdgid_cdot_highways" index="4" name=""/>
-        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
-        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
-        <alias field="speed_limit" index="7" name=""/>
-        <alias field="speed_limit_source" index="8" name=""/>
-        <alias field="tmp_buffers" index="9" name=""/>
+        <alias field="tdgid_drcog_bicycle_facility_inventory" index="4" name=""/>
+        <alias field="tdgid_cdot_highways" index="5" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
+        <alias field="speed_limit" index="8" name=""/>
+        <alias field="speed_limit_source" index="9" name=""/>
+        <alias field="tmp_buffers" index="10" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -3638,6 +3648,7 @@ def my_form_open(dialog, layer, feature):
         <default field="seg_length" expression=""/>
         <default field="tdgid_denver_street_centerline" expression=""/>
         <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
         <default field="tdgid_cdot_highways" expression=""/>
         <default field="tdgid_cdot_major_roads" expression=""/>
         <default field="tdgid_cdot_local_roads" expression=""/>
@@ -3659,6 +3670,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -3930,12 +3944,13 @@ def my_form_open(dialog, layer, feature):
         <alias field="seg_length" index="1" name=""/>
         <alias field="tdgid_denver_street_centerline" index="2" name=""/>
         <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
-        <alias field="tdgid_cdot_highways" index="4" name=""/>
-        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
-        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
-        <alias field="speed_limit" index="7" name=""/>
-        <alias field="speed_limit_source" index="8" name=""/>
-        <alias field="tmp_buffers" index="9" name=""/>
+        <alias field="tdgid_drcog_bicycle_facility_inventory" index="4" name=""/>
+        <alias field="tdgid_cdot_highways" index="5" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
+        <alias field="speed_limit" index="8" name=""/>
+        <alias field="speed_limit_source" index="9" name=""/>
+        <alias field="tmp_buffers" index="10" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -4012,13 +4027,13 @@ def my_form_open(dialog, layer, feature):
         <default field="seg_length" expression=""/>
         <default field="tdgid_denver_street_centerline" expression=""/>
         <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
         <default field="tdgid_cdot_highways" expression=""/>
         <default field="tdgid_cdot_major_roads" expression=""/>
         <default field="tdgid_cdot_local_roads" expression=""/>
         <default field="speed_limit" expression=""/>
         <default field="speed_limit_source" expression=""/>
         <default field="tmp_buffers" expression=""/>
-        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
       </defaults>
       <map-layer-style-manager current="">
         <map-layer-style name=""/>
@@ -4034,6 +4049,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -4052,9 +4070,6 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tmp_buffers">
-          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
-        </edittype>
-        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
       </edittypes>
@@ -4307,13 +4322,13 @@ def my_form_open(dialog, layer, feature):
         <alias field="seg_length" index="1" name=""/>
         <alias field="tdgid_denver_street_centerline" index="2" name=""/>
         <alias field="tdgid_denver_bicycle_facilities" index="3" name=""/>
-        <alias field="tdgid_cdot_highways" index="4" name=""/>
-        <alias field="tdgid_cdot_major_roads" index="5" name=""/>
-        <alias field="tdgid_cdot_local_roads" index="6" name=""/>
-        <alias field="speed_limit" index="7" name=""/>
-        <alias field="speed_limit_source" index="8" name=""/>
-        <alias field="tmp_buffers" index="9" name=""/>
-        <alias field="tdgid_drcog_bicycle_facility_inventory" index="10" name=""/>
+        <alias field="tdgid_drcog_bicycle_facility_inventory" index="4" name=""/>
+        <alias field="tdgid_cdot_highways" index="5" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
+        <alias field="speed_limit" index="8" name=""/>
+        <alias field="speed_limit_source" index="9" name=""/>
+        <alias field="tmp_buffers" index="10" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -4391,6 +4406,7 @@ def my_form_open(dialog, layer, feature):
         <default field="seg_length" expression=""/>
         <default field="tdgid_denver_street_centerline" expression=""/>
         <default field="tdgid_denver_bicycle_facilities" expression=""/>
+        <default field="tdgid_drcog_bicycle_facility_inventory" expression=""/>
         <default field="tdgid_cdot_highways" expression=""/>
         <default field="tdgid_cdot_major_roads" expression=""/>
         <default field="tdgid_cdot_local_roads" expression=""/>
@@ -4414,6 +4430,9 @@ def my_form_open(dialog, layer, feature):
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_denver_bicycle_facilities">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
+        <edittype widgetv2type="TextEdit" name="tdgid_drcog_bicycle_facility_inventory">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
         <edittype widgetv2type="TextEdit" name="tdgid_cdot_highways">
@@ -4487,11 +4506,12 @@ def my_form_open(dialog, layer, feature):
         <alias field="seg_length" index="2" name=""/>
         <alias field="tdgid_denver_street_centerline" index="3" name=""/>
         <alias field="tdgid_denver_bicycle_facilities" index="4" name=""/>
-        <alias field="tdgid_cdot_highways" index="5" name=""/>
-        <alias field="tdgid_cdot_major_roads" index="6" name=""/>
-        <alias field="tdgid_cdot_local_roads" index="7" name=""/>
-        <alias field="speed_limit" index="8" name=""/>
-        <alias field="speed_limit_source" index="9" name=""/>
+        <alias field="tdgid_drcog_bicycle_facility_inventory" index="5" name=""/>
+        <alias field="tdgid_cdot_highways" index="6" name=""/>
+        <alias field="tdgid_cdot_major_roads" index="7" name=""/>
+        <alias field="tdgid_cdot_local_roads" index="8" name=""/>
+        <alias field="speed_limit" index="9" name=""/>
+        <alias field="speed_limit_source" index="10" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>

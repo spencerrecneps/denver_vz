@@ -4,7 +4,12 @@
 
 DROP TABLE IF EXISTS generated.denver_streets;
 CREATE TABLE generated.denver_streets (
-    id SERIAL PRIMARY KEY,
+    road_id SERIAL PRIMARY KEY,
+    intersection_from INTEGER,
+    intersection_to INTEGER,
+    z_from INTEGER DEFAULT 0,
+    z_to INTEGER DEFAULT 0,
+    tdg_id VARCHAR(36) DEFAULT (uuid_generate_v4())::TEXT,
     geom geometry(linestring,2231),
     seg_length INT,
     tdgid_denver_street_centerline VARCHAR(36),
@@ -21,11 +26,15 @@ CREATE TABLE generated.denver_streets (
 INSERT INTO generated.denver_streets (
     geom,
     seg_length,
-    tdgid_denver_street_centerline
+    tdgid_denver_street_centerline,
+    z_from,
+    z_to
 )
 SELECT  geom,
         ST_Length(geom),
-        tdg_id
+        tdg_id,
+        f_zlev,
+        t_zlev
 FROM    received.denver_street_centerline;
 
 -- add indexes
@@ -428,3 +437,10 @@ AND     existing_f IN ('RT','MT','SWBP','SUP');
 
 -- analyze
 ANALYZE generated.denver_streets;
+
+
+
+--------------------
+-- create intersections
+--------------------
+SELECT tdg.tdgMakeIntersections('denver_streets','t');
