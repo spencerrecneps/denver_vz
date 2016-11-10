@@ -444,3 +444,29 @@ ANALYZE generated.denver_streets;
 -- create intersections
 --------------------
 SELECT tdg.tdgMakeIntersections('denver_streets','t');
+
+-- add nodes from denver centerlines
+ALTER TABLE generated.denver_streets_intersections ADD COLUMN node_denver_centerline INT;
+UPDATE  generated.denver_streets_intersections
+SET     node_denver_centerline = (
+            SELECT  dc.fnode_
+            FROM    denver_streets ds,
+                    denver_street_centerline dc
+            WHERE   ds.tdgid_denver_street_centerline = dc.tdg_id
+            AND     ds.intersection_from = denver_streets_intersections.int_id
+            LIMIT   1
+        );
+UPDATE  generated.denver_streets_intersections
+SET     node_denver_centerline = (
+            SELECT  dc.tnode_
+            FROM    denver_streets ds,
+                    denver_street_centerline dc
+            WHERE   ds.tdgid_denver_street_centerline = dc.tdg_id
+            AND     ds.intersection_to = denver_streets_intersections.int_id
+            LIMIT   1
+        )
+WHERE   node_denver_centerline IS NULL;
+
+-- index
+CREATE INDEX idx_dsints_node ON generated.denver_streets_intersections (node_denver_centerline);
+ANALYZE generated.denver_streets_intersections (node_denver_centerline);

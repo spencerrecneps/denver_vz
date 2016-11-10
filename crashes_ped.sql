@@ -128,7 +128,11 @@ ALTER TABLE received.crashes_ped ADD COLUMN id SERIAL PRIMARY KEY;
 ALTER TABLE received.crashes_ped ADD COLUMN tdg_id VARCHAR(36) DEFAULT (uuid_generate_v4())::TEXT;
 ALTER TABLE received.crashes_ped ADD COLUMN road_id1 INTEGER;
 ALTER TABLE received.crashes_ped ADD COLUMN road_id2 INTEGER;
+ALTER TABLE received.crashes_ped ADD COLUMN at_intersection BOOLEAN;
 ALTER TABLE received.crashes_ped ADD COLUMN int_id INTEGER;
+ALTER TABLE received.crashes_ped ADD COLUMN geom_int geometry(point,2231);
+ALTER TABLE received.crashes_ped ADD COLUMN geom_midpoint geometry(point,2231);
+ALTER TABLE received.crashes_ped ADD COLUMN geom_exact geometry(point,2231);
 
 -- update column types
 ALTER TABLE received.crashes_ped ALTER COLUMN accidentdate TYPE DATE USING accidentdate::DATE;
