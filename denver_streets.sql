@@ -444,7 +444,7 @@ ANALYZE generated.denver_streets;
 -- create intersections
 --------------------
 DROP TABLE IF EXISTS generated.denver_streets_intersections;
-DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomaddelintersections ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddelintersections ON generated.denver_streets;
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddeltable ON generated.denver_streets;
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddelvals ON generated.denver_streets;
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomupdateintersections ON generated.denver_streets;
