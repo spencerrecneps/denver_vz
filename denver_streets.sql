@@ -443,6 +443,14 @@ ANALYZE generated.denver_streets;
 --------------------
 -- create intersections
 --------------------
+DROP TABLE IF EXISTS generated.denver_streets_intersections;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomaddelintersections ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddeltable ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddelvals ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomupdateintersections ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomupdatetable ON generated.denver_streets;
+DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomupdatevals ON generated.denver_streets;
+UPDATE generated.denver_streets SET intersection_from = NULL, intersection_to = NULL;
 SELECT tdg.tdgMakeIntersections('denver_streets','t');
 
 -- add nodes from denver centerlines
