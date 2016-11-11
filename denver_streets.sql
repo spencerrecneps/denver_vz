@@ -1,8 +1,8 @@
 --------------------------------------------------------------
 -- create new table with space to store pertinent data
 --------------------------------------------------------------
-
 DROP TABLE IF EXISTS generated.denver_streets;
+DROP TABLE IF EXISTS generated.denver_streets_intersections;
 CREATE TABLE generated.denver_streets (
     road_id SERIAL PRIMARY KEY,
     intersection_from INTEGER,
@@ -443,7 +443,7 @@ ANALYZE generated.denver_streets;
 --------------------
 -- create intersections
 --------------------
-DROP TABLE IF EXISTS generated.denver_streets_intersections;
+
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddelintersections ON generated.denver_streets;
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddeltable ON generated.denver_streets;
 DROP TRIGGER IF EXISTS tr_tdgdenver_streetsgeomadddelvals ON generated.denver_streets;

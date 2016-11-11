@@ -2,3 +2,4 @@ denver_streets.sql
 crashes_veh.sql
 crashes_ped.sql
 process_crashes.sql
+crash_aggregates.sql

@@ -28,3 +28,9 @@ SET     int_id = ints.int_id,
         geom_int = ints.geom
 FROM    denver_streets_intersections ints
 WHERE   crashes_veh.node = ints.node_denver_centerline;
+
+-- indexes
+CREATE INDEX idx_crashpedint ON crashes_ped (int_id);
+CREATE INDEX idx_crashvehint ON crashes_veh (int_id);
+ANALYZE crashes_ped (int_id);
+ANALYZE crashes_veh (int_id);
