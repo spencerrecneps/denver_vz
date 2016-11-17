@@ -90,7 +90,64 @@ CREATE TABLE generated.crash_aggregates (
     ped_num7s INTEGER,
     ped_num8s INTEGER,
     ped_num9s INTEGER,
-    ped_num10s INTEGER
+    ped_num10s INTEGER,
+    bike_driver_aggressive INTEGER,
+    bike_driver_aggressive_rank INTEGER,
+    bike_driver_failyield INTEGER,
+    bike_driver_failyield_rank INTEGER,
+    bike_driver_disregardsignal INTEGER,
+    bike_driver_disregardsignal_rank INTEGER,
+    bike_highspeed INTEGER,
+    bike_highspeed_rank INTEGER,
+    bike_biker_aggressive INTEGER,
+    bike_biker_aggressive_rank INTEGER,
+    bike_biker_failyield INTEGER,
+    bike_biker_failyield_rank INTEGER,
+    bike_biker_disregardsignal INTEGER,
+    bike_biker_disregardsignal_rank INTEGER,
+    bike_influence INTEGER,
+    bike_influence_rank INTEGER,
+    bike_driver_distracted INTEGER,
+    bike_driver_distracted_rank INTEGER,
+    bike_driver_reckless INTEGER,
+    bike_driver_reckless_rank INTEGER,
+    bike_tbone INTEGER,
+    bike_tbone_rank INTEGER,
+    bike_opp_lhook INTEGER,
+    bike_opp_lhook_rank INTEGER,
+    bike_samedir INTEGER,
+    bike_samedir_rank INTEGER,
+    bike_samedir_rhook1 INTEGER,
+    bike_samedir_rhook1_rank INTEGER,
+    bike_samedir_rhook2 INTEGER,
+    bike_samedir_rhook2_rank INTEGER,
+    bike_perp_rhook INTEGER,
+    bike_perp_rhook_rank INTEGER,
+    bike_perp_rhook_swalk1 INTEGER,
+    bike_perp_rhook_swalk1_rank INTEGER,
+    bike_perp_rhook_swalk2 INTEGER,
+    bike_perp_rhook_swalk2_rank INTEGER,
+    bike_tbone_swalk1 INTEGER,
+    bike_tbone_swalk1_rank INTEGER,
+    bike_tbone_swalk2 INTEGER,
+    bike_tbone_swalk2_rank INTEGER,
+    bike_allfatal INTEGER,
+    bike_allfatal_rank INTEGER,
+    bike_allinjury INTEGER,
+    bike_allinjury_rank INTEGER,
+    bike_injuryfatal INTEGER,
+    bike_injuryfatal_rank INTEGER,
+    bike_top10 INTEGER,
+    bike_num1s INTEGER,
+    bike_num2s INTEGER,
+    bike_num3s INTEGER,
+    bike_num4s INTEGER,
+    bike_num5s INTEGER,
+    bike_num6s INTEGER,
+    bike_num7s INTEGER,
+    bike_num8s INTEGER,
+    bike_num9s INTEGER,
+    bike_num10s INTEGER
 );
 INSERT INTO generated.crash_aggregates SELECT int_id, geom FROM denver_streets_intersections;
 CREATE INDEX sidx_crashagggeom ON generated.crash_aggregates USING GIST (geom);
@@ -1162,13 +1219,733 @@ SET     ped_num10s = (
             (ped_allinjury_rank = 10)::INTEGER
         );
 
+-- bike_driver_aggressive
+UPDATE  generated.crash_aggregates
+SET     bike_driver_aggressive = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.aggressive_driverfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_driver_aggressive DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_driver_aggressive_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_driver_failyield
+UPDATE  generated.crash_aggregates
+SET     bike_driver_failyield = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.failyield_driverfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_driver_failyield DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_driver_failyield_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_driver_disregardsignal
+UPDATE  generated.crash_aggregates
+SET     bike_driver_disregardsignal = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.disregardsignal_driverfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_driver_disregardsignal DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_driver_disregardsignal_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_highspeed
+UPDATE  generated.crash_aggregates
+SET     bike_highspeed = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.highspeed
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_highspeed DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_highspeed_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_biker_aggressive
+UPDATE  generated.crash_aggregates
+SET     bike_biker_aggressive = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.aggressive_bikerfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_biker_aggressive DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_biker_aggressive_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_biker_failyield
+UPDATE  generated.crash_aggregates
+SET     bike_biker_failyield = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.failyield_bikerfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_biker_failyield DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_biker_failyield_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_biker_disregardsignal
+UPDATE  generated.crash_aggregates
+SET     bike_biker_disregardsignal = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.disregardsignal_bikerfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_biker_disregardsignal DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_biker_disregardsignal_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_influence
+UPDATE  generated.crash_aggregates
+SET     bike_influence = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.influence
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_influence DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_influence_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_driver_distracted
+UPDATE  generated.crash_aggregates
+SET     bike_driver_distracted = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.distracted_driverfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_driver_distracted DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_driver_distracted_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_driver_reckless
+UPDATE  generated.crash_aggregates
+SET     bike_driver_reckless = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.carereckless_driverfault
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_driver_reckless DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_driver_reckless_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_tbone
+UPDATE  generated.crash_aggregates
+SET     bike_tbone = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_st_p
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_st_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_tbone DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_tbone_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_opp_lhook
+UPDATE  generated.crash_aggregates
+SET     bike_opp_lhook = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_lt_st_od
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_lt_st_od
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_opp_lhook DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_opp_lhook_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_samedir
+UPDATE  generated.crash_aggregates
+SET     bike_samedir = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_st_sd
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_st_sd
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_samedir DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_samedir_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_samedir_rhook1
+UPDATE  generated.crash_aggregates
+SET     bike_samedir_rhook1 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_st_sd
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_samedir_rhook1 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_samedir_rhook1_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_samedir_rhook2
+UPDATE  generated.crash_aggregates
+SET     bike_samedir_rhook2 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_st_sd
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_samedir_rhook2 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_samedir_rhook2_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_perp_rhook
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_st_p
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_st_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_perp_rhook DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_perp_rhook_swalk1
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook_swalk1 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_sw_ww_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_perp_rhook_swalk1 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook_swalk1_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_perp_rhook_swalk2
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook_swalk2 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_rt_sw_ww_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_perp_rhook_swalk2 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_perp_rhook_swalk2_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_tbone_swalk
+UPDATE  generated.crash_aggregates
+SET     bike_tbone_swalk1 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_sw_ww_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_tbone_swalk1 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_tbone_swalk1_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_tbone_swalk
+UPDATE  generated.crash_aggregates
+SET     bike_tbone_swalk2 = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.bike_s_veh_s_sw_ww_p
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_tbone_swalk2 DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_tbone_swalk2_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_allfatal
+UPDATE  generated.crash_aggregates
+SET     bike_allfatal = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.fatalcrash
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_allfatal DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_allfatal_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_allinjury
+UPDATE  generated.crash_aggregates
+SET     bike_allinjury = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.injurycrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.injurycrash
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_allinjury DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_allinjury_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_injuryfatal
+UPDATE  generated.crash_aggregates
+SET     bike_injuryfatal = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     (c.fatalcrash OR c.injurycrash)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.injurycrash
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_injuryfatal DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_injuryfatal_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_top10
+UPDATE  generated.crash_aggregates
+SET     bike_top10 = LEAST(
+            bike_driver_aggressive_rank,
+            bike_driver_failyield_rank,
+            bike_driver_disregardsignal_rank,
+            bike_highspeed_rank,
+            bike_biker_aggressive_rank,
+            bike_biker_failyield_rank,
+            bike_biker_disregardsignal_rank,
+            bike_tbone_rank,
+            bike_opp_lhook_rank,
+            bike_samedir_rank,
+            bike_samedir_rhook1_rank,
+            bike_samedir_rhook2_rank,
+            bike_perp_rhook_rank,
+            bike_perp_rhook_swalk1_rank,
+            bike_perp_rhook_swalk2_rank,
+            bike_tbone_swalk1_rank,
+            bike_tbone_swalk2_rank,
+            bike_allfatal_rank,
+            bike_allinjury_rank,
+            bike_injuryfatal_rank
+        );
+
+-- bike_num1s
+UPDATE  generated.crash_aggregates
+SET     bike_num1s = (
+            (bike_driver_aggressive_rank = 1)::INTEGER +
+            (bike_driver_failyield_rank = 1)::INTEGER +
+            (bike_driver_disregardsignal_rank = 1)::INTEGER +
+            (bike_highspeed_rank = 1)::INTEGER +
+            (bike_biker_aggressive_rank = 1)::INTEGER +
+            (bike_biker_failyield_rank = 1)::INTEGER +
+            (bike_biker_disregardsignal_rank = 1)::INTEGER +
+            (bike_tbone_rank = 1)::INTEGER +
+            (bike_opp_lhook_rank = 1)::INTEGER +
+            (bike_samedir_rank = 1)::INTEGER +
+            (bike_samedir_rhook1_rank = 1)::INTEGER +
+            (bike_samedir_rhook2_rank = 1)::INTEGER +
+            (bike_perp_rhook_rank = 1)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 1)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 1)::INTEGER +
+            (bike_tbone_swalk1_rank = 1)::INTEGER +
+            (bike_tbone_swalk2_rank = 1)::INTEGER +
+            (bike_allfatal_rank = 1)::INTEGER +
+            (bike_allinjury_rank = 1)::INTEGER +
+            (bike_injuryfatal_rank = 1)::INTEGER
+        );
+
+-- bike_num2s
+UPDATE  generated.crash_aggregates
+SET     bike_num2s = (
+            (bike_driver_aggressive_rank = 2)::INTEGER +
+            (bike_driver_failyield_rank = 2)::INTEGER +
+            (bike_driver_disregardsignal_rank = 2)::INTEGER +
+            (bike_highspeed_rank = 2)::INTEGER +
+            (bike_biker_aggressive_rank = 2)::INTEGER +
+            (bike_biker_failyield_rank = 2)::INTEGER +
+            (bike_biker_disregardsignal_rank = 2)::INTEGER +
+            (bike_tbone_rank = 2)::INTEGER +
+            (bike_opp_lhook_rank = 2)::INTEGER +
+            (bike_samedir_rank = 2)::INTEGER +
+            (bike_samedir_rhook1_rank = 2)::INTEGER +
+            (bike_samedir_rhook2_rank = 2)::INTEGER +
+            (bike_perp_rhook_rank = 2)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 2)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 2)::INTEGER +
+            (bike_tbone_swalk1_rank = 2)::INTEGER +
+            (bike_tbone_swalk2_rank = 2)::INTEGER +
+            (bike_allfatal_rank = 2)::INTEGER +
+            (bike_allinjury_rank = 2)::INTEGER +
+            (bike_injuryfatal_rank = 2)::INTEGER
+        );
+
+-- bike_num3s
+UPDATE  generated.crash_aggregates
+SET     bike_num3s = (
+            (bike_driver_aggressive_rank = 3)::INTEGER +
+            (bike_driver_failyield_rank = 3)::INTEGER +
+            (bike_driver_disregardsignal_rank = 3)::INTEGER +
+            (bike_highspeed_rank = 3)::INTEGER +
+            (bike_biker_aggressive_rank = 3)::INTEGER +
+            (bike_biker_failyield_rank = 3)::INTEGER +
+            (bike_biker_disregardsignal_rank = 3)::INTEGER +
+            (bike_tbone_rank = 3)::INTEGER +
+            (bike_opp_lhook_rank = 3)::INTEGER +
+            (bike_samedir_rank = 3)::INTEGER +
+            (bike_samedir_rhook1_rank = 3)::INTEGER +
+            (bike_samedir_rhook2_rank = 3)::INTEGER +
+            (bike_perp_rhook_rank = 3)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 3)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 3)::INTEGER +
+            (bike_tbone_swalk1_rank = 3)::INTEGER +
+            (bike_tbone_swalk2_rank = 3)::INTEGER +
+            (bike_allfatal_rank = 3)::INTEGER +
+            (bike_allinjury_rank = 3)::INTEGER +
+            (bike_injuryfatal_rank = 3)::INTEGER
+        );
+
+-- bike_num4s
+UPDATE  generated.crash_aggregates
+SET     bike_num4s = (
+            (bike_driver_aggressive_rank = 4)::INTEGER +
+            (bike_driver_failyield_rank = 4)::INTEGER +
+            (bike_driver_disregardsignal_rank = 4)::INTEGER +
+            (bike_highspeed_rank = 4)::INTEGER +
+            (bike_biker_aggressive_rank = 4)::INTEGER +
+            (bike_biker_failyield_rank = 4)::INTEGER +
+            (bike_biker_disregardsignal_rank = 4)::INTEGER +
+            (bike_tbone_rank = 4)::INTEGER +
+            (bike_opp_lhook_rank = 4)::INTEGER +
+            (bike_samedir_rank = 4)::INTEGER +
+            (bike_samedir_rhook1_rank = 4)::INTEGER +
+            (bike_samedir_rhook2_rank = 4)::INTEGER +
+            (bike_perp_rhook_rank = 4)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 4)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 4)::INTEGER +
+            (bike_tbone_swalk1_rank = 4)::INTEGER +
+            (bike_tbone_swalk2_rank = 4)::INTEGER +
+            (bike_allfatal_rank = 4)::INTEGER +
+            (bike_allinjury_rank = 4)::INTEGER +
+            (bike_injuryfatal_rank = 4)::INTEGER
+        );
+
+-- bike_num5s
+UPDATE  generated.crash_aggregates
+SET     bike_num5s = (
+            (bike_driver_aggressive_rank = 5)::INTEGER +
+            (bike_driver_failyield_rank = 5)::INTEGER +
+            (bike_driver_disregardsignal_rank = 5)::INTEGER +
+            (bike_highspeed_rank = 5)::INTEGER +
+            (bike_biker_aggressive_rank = 5)::INTEGER +
+            (bike_biker_failyield_rank = 5)::INTEGER +
+            (bike_biker_disregardsignal_rank = 5)::INTEGER +
+            (bike_tbone_rank = 5)::INTEGER +
+            (bike_opp_lhook_rank = 5)::INTEGER +
+            (bike_samedir_rank = 5)::INTEGER +
+            (bike_samedir_rhook1_rank = 5)::INTEGER +
+            (bike_samedir_rhook2_rank = 5)::INTEGER +
+            (bike_perp_rhook_rank = 5)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 5)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 5)::INTEGER +
+            (bike_tbone_swalk1_rank = 5)::INTEGER +
+            (bike_tbone_swalk2_rank = 5)::INTEGER +
+            (bike_allfatal_rank = 5)::INTEGER +
+            (bike_allinjury_rank = 5)::INTEGER +
+            (bike_injuryfatal_rank = 5)::INTEGER
+        );
+
+-- bike_num6s
+UPDATE  generated.crash_aggregates
+SET     bike_num6s = (
+            (bike_driver_aggressive_rank = 6)::INTEGER +
+            (bike_driver_failyield_rank = 6)::INTEGER +
+            (bike_driver_disregardsignal_rank = 6)::INTEGER +
+            (bike_highspeed_rank = 6)::INTEGER +
+            (bike_biker_aggressive_rank = 6)::INTEGER +
+            (bike_biker_failyield_rank = 6)::INTEGER +
+            (bike_biker_disregardsignal_rank = 6)::INTEGER +
+            (bike_tbone_rank = 6)::INTEGER +
+            (bike_opp_lhook_rank = 6)::INTEGER +
+            (bike_samedir_rank = 6)::INTEGER +
+            (bike_samedir_rhook1_rank = 6)::INTEGER +
+            (bike_samedir_rhook2_rank = 6)::INTEGER +
+            (bike_perp_rhook_rank = 6)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 6)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 6)::INTEGER +
+            (bike_tbone_swalk1_rank = 6)::INTEGER +
+            (bike_tbone_swalk2_rank = 6)::INTEGER +
+            (bike_allfatal_rank = 6)::INTEGER +
+            (bike_allinjury_rank = 6)::INTEGER +
+            (bike_injuryfatal_rank = 6)::INTEGER
+        );
+
+-- bike_num7s
+UPDATE  generated.crash_aggregates
+SET     bike_num7s = (
+            (bike_driver_aggressive_rank = 7)::INTEGER +
+            (bike_driver_failyield_rank = 7)::INTEGER +
+            (bike_driver_disregardsignal_rank = 7)::INTEGER +
+            (bike_highspeed_rank = 7)::INTEGER +
+            (bike_biker_aggressive_rank = 7)::INTEGER +
+            (bike_biker_failyield_rank = 7)::INTEGER +
+            (bike_biker_disregardsignal_rank = 7)::INTEGER +
+            (bike_tbone_rank = 7)::INTEGER +
+            (bike_opp_lhook_rank = 7)::INTEGER +
+            (bike_samedir_rank = 7)::INTEGER +
+            (bike_samedir_rhook1_rank = 7)::INTEGER +
+            (bike_samedir_rhook2_rank = 7)::INTEGER +
+            (bike_perp_rhook_rank = 7)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 7)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 7)::INTEGER +
+            (bike_tbone_swalk1_rank = 7)::INTEGER +
+            (bike_tbone_swalk2_rank = 7)::INTEGER +
+            (bike_allfatal_rank = 7)::INTEGER +
+            (bike_allinjury_rank = 7)::INTEGER +
+            (bike_injuryfatal_rank = 7)::INTEGER
+        );
+
+-- bike_num8s
+UPDATE  generated.crash_aggregates
+SET     bike_num8s = (
+            (bike_driver_aggressive_rank = 8)::INTEGER +
+            (bike_driver_failyield_rank = 8)::INTEGER +
+            (bike_driver_disregardsignal_rank = 8)::INTEGER +
+            (bike_highspeed_rank = 8)::INTEGER +
+            (bike_biker_aggressive_rank = 8)::INTEGER +
+            (bike_biker_failyield_rank = 8)::INTEGER +
+            (bike_biker_disregardsignal_rank = 8)::INTEGER +
+            (bike_tbone_rank = 8)::INTEGER +
+            (bike_opp_lhook_rank = 8)::INTEGER +
+            (bike_samedir_rank = 8)::INTEGER +
+            (bike_samedir_rhook1_rank = 8)::INTEGER +
+            (bike_samedir_rhook2_rank = 8)::INTEGER +
+            (bike_perp_rhook_rank = 8)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 8)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 8)::INTEGER +
+            (bike_tbone_swalk1_rank = 8)::INTEGER +
+            (bike_tbone_swalk2_rank = 8)::INTEGER +
+            (bike_allfatal_rank = 8)::INTEGER +
+            (bike_allinjury_rank = 8)::INTEGER +
+            (bike_injuryfatal_rank = 8)::INTEGER
+        );
+
+-- bike_num9s
+UPDATE  generated.crash_aggregates
+SET     bike_num9s = (
+            (bike_driver_aggressive_rank = 9)::INTEGER +
+            (bike_driver_failyield_rank = 9)::INTEGER +
+            (bike_driver_disregardsignal_rank = 9)::INTEGER +
+            (bike_highspeed_rank = 9)::INTEGER +
+            (bike_biker_aggressive_rank = 9)::INTEGER +
+            (bike_biker_failyield_rank = 9)::INTEGER +
+            (bike_biker_disregardsignal_rank = 9)::INTEGER +
+            (bike_tbone_rank = 9)::INTEGER +
+            (bike_opp_lhook_rank = 9)::INTEGER +
+            (bike_samedir_rank = 9)::INTEGER +
+            (bike_samedir_rhook1_rank = 9)::INTEGER +
+            (bike_samedir_rhook2_rank = 9)::INTEGER +
+            (bike_perp_rhook_rank = 9)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 9)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 9)::INTEGER +
+            (bike_tbone_swalk1_rank = 9)::INTEGER +
+            (bike_tbone_swalk2_rank = 9)::INTEGER +
+            (bike_allfatal_rank = 9)::INTEGER +
+            (bike_allinjury_rank = 9)::INTEGER +
+            (bike_injuryfatal_rank = 9)::INTEGER
+        );
+
+-- bike_num10s
+UPDATE  generated.crash_aggregates
+SET     bike_num10s = (
+            (bike_driver_aggressive_rank = 10)::INTEGER +
+            (bike_driver_failyield_rank = 10)::INTEGER +
+            (bike_driver_disregardsignal_rank = 10)::INTEGER +
+            (bike_highspeed_rank = 10)::INTEGER +
+            (bike_biker_aggressive_rank = 10)::INTEGER +
+            (bike_biker_failyield_rank = 10)::INTEGER +
+            (bike_biker_disregardsignal_rank = 10)::INTEGER +
+            (bike_tbone_rank = 10)::INTEGER +
+            (bike_opp_lhook_rank = 10)::INTEGER +
+            (bike_samedir_rank = 10)::INTEGER +
+            (bike_samedir_rhook1_rank = 10)::INTEGER +
+            (bike_samedir_rhook2_rank = 10)::INTEGER +
+            (bike_perp_rhook_rank = 10)::INTEGER +
+            (bike_perp_rhook_swalk1_rank = 10)::INTEGER +
+            (bike_perp_rhook_swalk2_rank = 10)::INTEGER +
+            (bike_tbone_swalk1_rank = 10)::INTEGER +
+            (bike_tbone_swalk2_rank = 10)::INTEGER +
+            (bike_allfatal_rank = 10)::INTEGER +
+            (bike_allinjury_rank = 10)::INTEGER +
+            (bike_injuryfatal_rank = 10)::INTEGER
+        );
+
+
 
 
 -- -- generic
 -- UPDATE  generated.crash_aggregates
 -- SET     generic = (
 --             SELECT  COUNT(*)
---             FROM    crashes_ped c
+--             FROM    crashes_bike2 c
 --             WHERE   c.int_id = crash_aggregates.int_id
 --             AND     c.generic
 --         );
@@ -1178,6 +1955,6 @@ SET     ped_num10s = (
 --     FROM    crash_aggregates
 -- )
 -- UPDATE  generated.crash_aggregates
--- SET     generic = ranks.rank
+-- SET     generic_rank = ranks.rank
 -- FROM    ranks
 -- WHERE   crash_aggregates.int_id = ranks.int_id;
