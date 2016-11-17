@@ -115,3 +115,51 @@ ALTER TABLE received.crashes_bike1 OWNER TO gis;
 
 -- copy data in
 COPY received.crashes_bike1 FROM '/home/sgardner/2011-2012_Crash Data Typed.csv' DELIMITER '|' HEADER QUOTE '"' CSV;
+
+-- add columns
+ALTER TABLE received.crashes_bike1 ADD COLUMN id SERIAL PRIMARY KEY;
+ALTER TABLE received.crashes_bike1 ADD COLUMN tdg_id VARCHAR(36) DEFAULT (uuid_generate_v4())::TEXT;
+ALTER TABLE received.crashes_bike1 ADD COLUMN road_id1 INTEGER;
+ALTER TABLE received.crashes_bike1 ADD COLUMN road_id2 INTEGER;
+ALTER TABLE received.crashes_bike1 ADD COLUMN at_intersection BOOLEAN;
+ALTER TABLE received.crashes_bike1 ADD COLUMN int_id INTEGER;
+ALTER TABLE received.crashes_bike1 ADD COLUMN geom_int geometry(point,2231);
+ALTER TABLE received.crashes_bike1 ADD COLUMN geom_midpoint geometry(point,2231);
+ALTER TABLE received.crashes_bike1 ADD COLUMN geom_exact geometry(point,2231);
+
+-- update column types
+ALTER TABLE received.crashes_bike1 ALTER COLUMN year TYPE INTEGER USING year::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN dir_key TYPE INTEGER USING dir_key::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN map_code TYPE INTEGER USING map_code::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN injury TYPE BOOLEAN USING injury::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN estvehspeed_one TYPE INTEGER USING estvehspeed_one::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN estvehspeed_two TYPE INTEGER USING estvehspeed_two::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN estvehspeed_three TYPE INTEGER USING estvehspeed_three::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN feetfromint TYPE INTEGER USING feetfromint::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN masterid TYPE INTEGER USING masterid::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN node TYPE INTEGER USING node::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN numberinjured TYPE INTEGER USING numberinjured::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN numberoffatalities TYPE INTEGER USING numberoffatalities::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN speedlimit_one TYPE INTEGER USING speedlimit_one::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN speedlimit_two TYPE INTEGER USING speedlimit_two::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN speedlimit_three TYPE INTEGER USING speedlimit_three::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN street1 TYPE INTEGER USING street1::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN street2 TYPE INTEGER USING street2::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN totvehs TYPE INTEGER USING totvehs::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN unitage_one TYPE INTEGER USING unitage_one::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN unitage_two TYPE INTEGER USING unitage_two::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN unitage_three TYPE INTEGER USING unitage_three::INTEGER;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN same_dir TYPE BOOLEAN USING same_dir::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN opp_dir TYPE BOOLEAN USING opp_dir::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN perpen TYPE BOOLEAN USING perpen::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN angle TYPE BOOLEAN USING angle::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_s_st_p TYPE BOOLEAN USING bike_s_veh_s_st_p::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_lt_St_od TYPE BOOLEAN USING bike_s_veh_lt_St_od::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_rt_St_p TYPE BOOLEAN USING bike_s_veh_rt_St_p::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_rt_St_sd TYPE BOOLEAN USING bike_s_veh_rt_St_sd::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_s_st_sd TYPE BOOLEAN USING bike_s_veh_s_st_sd::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_rt_St_WW_p TYPE BOOLEAN USING bike_s_veh_rt_St_WW_p::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_s_sW_WW_p TYPE BOOLEAN USING bike_s_veh_s_sW_WW_p::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN bike_s_veh_rt_SW_WW_p TYPE BOOLEAN USING bike_s_veh_rt_SW_WW_p::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN highspeed TYPE BOOLEAN USING highspeed::BOOLEAN;
+ALTER TABLE received.crashes_bike1 ALTER COLUMN injurycrash TYPE BOOLEAN USING injurycrash::BOOLEAN;
