@@ -62,6 +62,6 @@ ALTER TABLE received.crashes_jeffco ALTER COLUMN "time" TYPE INTEGER USING "time
 ALTER TABLE received.crashes_jeffco ALTER COLUMN vehicles TYPE INTEGER USING vehicles::INTEGER;
 
 -- remove crashes pre 2011 or post 2015
-DELETE FROM crashes_jeffco
+DELETE FROM received.crashes_jeffco
 WHERE   EXTRACT(YEAR FROM "date") < 2011
 OR      EXTRACT(YEAR FROM "date") > 2015;
