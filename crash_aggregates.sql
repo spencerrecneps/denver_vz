@@ -158,6 +158,7 @@ SET     veh_careless = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.careless
         );
 WITH ranks AS (
@@ -176,6 +177,7 @@ SET     veh_reckless = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.reckless
         );
 WITH ranks AS (
@@ -194,6 +196,7 @@ SET     veh_failstopsignal = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.failstopsignal
         );
 WITH ranks AS (
@@ -212,6 +215,7 @@ SET     veh_failyieldrow = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.failyieldrow
         );
 WITH ranks AS (
@@ -230,6 +234,7 @@ SET     veh_singveh_highspeed = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.singveh AND c.veryhighspeed
         );
 WITH ranks AS (
@@ -248,6 +253,7 @@ SET     veh_singveh_influence = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.singveh AND c.influence
         );
 WITH ranks AS (
@@ -266,6 +272,7 @@ SET     veh_singveh_fatal = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.singveh AND c.fatalcrash
         );
 WITH ranks AS (
@@ -284,6 +291,7 @@ SET     veh_singveh_injury = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.singveh AND c.injurycrash
         );
 WITH ranks AS (
@@ -302,6 +310,7 @@ SET     veh_multveh_rearend = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.multveh AND c.rearend
         );
 WITH ranks AS (
@@ -320,6 +329,7 @@ SET     veh_multveh_rightangle = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.multveh AND c.rightangle
         );
 WITH ranks AS (
@@ -338,6 +348,7 @@ SET     veh_multveh_headon = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.multveh AND c.headon
         );
 WITH ranks AS (
@@ -356,6 +367,7 @@ SET     veh_multveh_fatal = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.multveh AND c.fatalcrash
         );
 WITH ranks AS (
@@ -374,6 +386,7 @@ SET     veh_allfatal = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.fatalcrash
         );
 WITH ranks AS (
@@ -392,6 +405,7 @@ SET     veh_allinjury = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.noinjuryfatality
             AND     c.injurycrash
         );
 WITH ranks AS (

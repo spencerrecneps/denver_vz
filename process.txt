@@ -3,5 +3,6 @@ crashes_veh.sql
 crashes_ped.sql
 crashes_bike1.sql
 crashes_bike2.sql
+crashes_jeffco.sql
 process_crashes.sql
 crash_aggregates.sql
