@@ -1,6 +1,6 @@
 #!/bin/bash
 
-psql -h 192.168.40.225 -U gis -d denver_vz -f denver_streets.sql
+#psql -h 192.168.40.225 -U gis -d denver_vz -f denver_streets.sql
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_veh.sql
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_ped.sql
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_bike1.sql
