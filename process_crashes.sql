@@ -43,7 +43,35 @@ SET     int_id = ints.int_id,
 FROM    denver_streets_intersections ints
 WHERE   crashes_bike2.node = ints.node_denver_centerline;
 
+
+----------------------------
+-- falsify nulls
+----------------------------
+UPDATE received.crashes_veh SET circumstance = 'f' WHERE circumstance IS NULL;
+UPDATE received.crashes_veh SET multveh = 'f' WHERE multveh IS NULL;
+UPDATE received.crashes_veh SET singveh = 'f' WHERE singveh IS NULL;
+UPDATE received.crashes_veh SET unrestrained = 'f' WHERE unrestrained IS NULL;
+UPDATE received.crashes_veh SET careless = 'f' WHERE careless IS NULL;
+UPDATE received.crashes_veh SET reckless = 'f' WHERE reckless IS NULL;
+UPDATE received.crashes_veh SET failstopsignal = 'f' WHERE failstopsignal IS NULL;
+UPDATE received.crashes_veh SET failyieldROW = 'f' WHERE failyieldROW IS NULL;
+UPDATE received.crashes_veh SET highspeed = 'f' WHERE highspeed IS NULL;
+UPDATE received.crashes_veh SET veryhighspeed = 'f' WHERE veryhighspeed IS NULL;
+UPDATE received.crashes_veh SET fatalcrash = 'f' WHERE fatalcrash IS NULL;
+UPDATE received.crashes_veh SET injurycrash = 'f' WHERE injurycrash IS NULL;
+UPDATE received.crashes_veh SET noinjuryfatality = 'f' WHERE noinjuryfatality IS NULL;
+UPDATE received.crashes_veh SET rearend = 'f' WHERE rearend IS NULL;
+UPDATE received.crashes_veh SET rightangle = 'f' WHERE rightangle IS NULL;
+UPDATE received.crashes_veh SET parkedcar = 'f' WHERE parkedcar IS NULL;
+UPDATE received.crashes_veh SET headon = 'f' WHERE headon IS NULL;
+UPDATE received.crashes_veh SET sideswipe_samedirec = 'f' WHERE sideswipe_samedirec IS NULL;
+UPDATE received.crashes_veh SET sideswipe_oppdirec = 'f' WHERE sideswipe_oppdirec IS NULL;
+UPDATE received.crashes_veh SET influence = 'f' WHERE influence IS NULL;
+
+
+----------------------------
 -- indexes
+----------------------------
 CREATE INDEX idx_crashpedint ON crashes_ped (int_id);
 CREATE INDEX idx_crashpedcareless ON crashes_ped (carelessreckless);
 CREATE INDEX idx_crashpedfailyield ON crashes_ped (failyieldrow);
