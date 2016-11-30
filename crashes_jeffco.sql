@@ -54,6 +54,11 @@ ALTER TABLE received.crashes_jeffco ADD COLUMN int_id INTEGER;
 ALTER TABLE received.crashes_jeffco ADD COLUMN geom_int geometry(point,2231);
 ALTER TABLE received.crashes_jeffco ADD COLUMN geom_midpoint geometry(point,2231);
 ALTER TABLE received.crashes_jeffco ADD COLUMN geom_exact geometry(point,2231);
+ALTER TABLE received.crashes_jeffco ADD COLUMN flag_veh BOOLEAN;
+ALTER TABLE received.crashes_jeffco ADD COLUMN flag_ped BOOLEAN;
+ALTER TABLE received.crashes_jeffco ADD COLUMN flag_bike BOOLEAN;
+ALTER TABLE received.crashes_jeffco ADD COLUMN flag_injury BOOLEAN;
+ALTER TABLE received.crashes_jeffco ADD COLUMN flag_fatal BOOLEAN;
 
 -- update column types
 ALTER TABLE received.crashes_jeffco ALTER COLUMN mp TYPE FLOAT USING mp::FLOAT;

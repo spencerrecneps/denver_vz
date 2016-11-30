@@ -162,6 +162,40 @@ SET     int_id = (
         )
 WHERE   trim(lower(road_desc)) IN ('at intersection','intersection related');
 
+-- flag_ped
+UPDATE  crashes_jeffco SET flag_ped = 'f';
+UPDATE  crashes_jeffco
+SET     flag_ped = 't'
+WHERE   trim(lower(acctype)) = 'pedestrian';
+
+-- flag_bike
+UPDATE  crashes_jeffco SET flag_bike = 'f';
+UPDATE  crashes_jeffco
+SET     flag_bike = 't'
+WHERE   trim(lower(acctype)) = 'bicycle';
+
+-- flag_veh
+UPDATE  crashes_jeffco SET flag_veh = 'f';
+UPDATE  crashes_jeffco
+SET     flag_veh = 't'
+WHERE   NOT (flag_ped OR flag_bike);
+
+-- flag_injury
+UPDATE  crashes_jeffco SET flag_injury = 'f';
+UPDATE  crashes_jeffco
+SET     flag_injury = 't'
+WHERE   trim(lower(severity)) = 'inj';
+
+-- flag_fatal
+UPDATE  crashes_jeffco SET flag_fatal = 'f';
+UPDATE  crashes_jeffco
+SET     flag_fatal = 't'
+WHERE   trim(lower(severity)) = 'fat';
+
 -- indexes
-CREATE INDEX idx_crashes_jeffco_severity ON crashes_jeffco (severity);
-ANALYZE crashes_jeffco (severity);
+CREATE INDEX idx_crshjffco_flgped ON crashes_jeffco (flag_ped);
+CREATE INDEX idx_crshjffco_flgbke ON crashes_jeffco (flag_bike);
+CREATE INDEX idx_crshjffco_flgveh ON crashes_jeffco (flag_veh);
+CREATE INDEX idx_crshjffco_flginj ON crashes_jeffco (flag_injury);
+CREATE INDEX idx_crshjffco_flgfat ON crashes_jeffco (flag_fatal);
+ANALYZE crashes_jeffco;
