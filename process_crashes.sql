@@ -193,6 +193,7 @@ SET     flag_fatal = 't'
 WHERE   trim(lower(severity)) = 'fat';
 
 -- indexes
+CREATE INDEX idx_crshjffco_intid ON crashes_jeffco (int_id);
 CREATE INDEX idx_crshjffco_flgped ON crashes_jeffco (flag_ped);
 CREATE INDEX idx_crshjffco_flgbke ON crashes_jeffco (flag_bike);
 CREATE INDEX idx_crshjffco_flgveh ON crashes_jeffco (flag_veh);
