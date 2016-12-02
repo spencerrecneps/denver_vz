@@ -19,6 +19,8 @@ CREATE TABLE generated.crash_aggregates (
     veh_singveh_fatal_rank INTEGER,
     veh_singveh_injury INTEGER,
     veh_singveh_injury_rank INTEGER,
+    veh_multveh_influence INTEGER,
+    veh_multveh_influence_rank INTEGER,
     veh_multveh_rearend INTEGER,
     veh_multveh_rearend_rank INTEGER,
     veh_multveh_rightangle INTEGER,
@@ -312,6 +314,24 @@ SET     veh_singveh_injury_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
 
+-- veh_multveh_influence
+UPDATE  generated.crash_aggregates
+SET     veh_multveh_influence = (
+            SELECT  COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.multveh AND c.influence
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY veh_multveh_influence DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     veh_multveh_influence_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
 -- veh_multveh_rearend
 UPDATE  generated.crash_aggregates
 SET     veh_multveh_rearend = (
@@ -435,6 +455,52 @@ SET     veh_allinjury_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
 
+-- veh_allfatalinjury
+UPDATE  generated.crash_aggregates
+SET     veh_allfatalinjury = (
+            SELECT  COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     (c.injurycrash OR c.fatalcrash)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_veh
+            AND     (jc.flag_injury OR jc.flag_fatal)
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY veh_allfatalinjury DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     veh_allfatalinjury_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- veh_allcrashes
+UPDATE  generated.crash_aggregates
+SET     veh_allcrashes = (
+            SELECT  COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_veh
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY veh_allcrashes DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     veh_allcrashes_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
 -- veh_top10
 UPDATE  generated.crash_aggregates
 SET     veh_top10 = LEAST(
@@ -451,7 +517,9 @@ SET     veh_top10 = LEAST(
             veh_multveh_headon_rank,
             veh_multveh_fatal_rank,
             veh_allfatal_rank,
-            veh_allinjury_rank
+            veh_allinjury_rank,
+            veh_allfatalinjury_rank,
+            veh_allcrashes_rank
         );
 
 -- veh_num1s
@@ -470,7 +538,9 @@ SET     veh_num1s = (
             (veh_multveh_headon_rank = 1)::INTEGER +
             (veh_multveh_fatal_rank = 1)::INTEGER +
             (veh_allfatal_rank = 1)::INTEGER +
-            (veh_allinjury_rank = 1)::INTEGER
+            (veh_allinjury_rank = 1)::INTEGER +
+            (veh_allfatalinjury_rank = 1)::INTEGER +
+            (veh_allcrashes_rank = 1)::INTEGER
         );
 
 -- veh_num2s
@@ -489,7 +559,9 @@ SET     veh_num2s = (
             (veh_multveh_headon_rank = 2)::INTEGER +
             (veh_multveh_fatal_rank = 2)::INTEGER +
             (veh_allfatal_rank = 2)::INTEGER +
-            (veh_allinjury_rank = 2)::INTEGER
+            (veh_allinjury_rank = 2)::INTEGER +
+            (veh_allfatalinjury_rank = 2)::INTEGER +
+            (veh_allcrashes_rank = 2)::INTEGER
         );
 
 -- veh_num3s
@@ -508,7 +580,9 @@ SET     veh_num3s = (
             (veh_multveh_headon_rank = 3)::INTEGER +
             (veh_multveh_fatal_rank = 3)::INTEGER +
             (veh_allfatal_rank = 3)::INTEGER +
-            (veh_allinjury_rank = 3)::INTEGER
+            (veh_allinjury_rank = 3)::INTEGER +
+            (veh_allfatalinjury_rank = 3)::INTEGER +
+            (veh_allcrashes_rank = 3)::INTEGER
         );
 
 -- veh_num4s
@@ -527,7 +601,9 @@ SET     veh_num4s = (
             (veh_multveh_headon_rank = 4)::INTEGER +
             (veh_multveh_fatal_rank = 4)::INTEGER +
             (veh_allfatal_rank = 4)::INTEGER +
-            (veh_allinjury_rank = 4)::INTEGER
+            (veh_allinjury_rank = 4)::INTEGER +
+            (veh_allfatalinjury_rank = 4)::INTEGER +
+            (veh_allcrashes_rank = 4)::INTEGER
         );
 
 -- veh_num5s
@@ -546,7 +622,9 @@ SET     veh_num5s = (
             (veh_multveh_headon_rank = 5)::INTEGER +
             (veh_multveh_fatal_rank = 5)::INTEGER +
             (veh_allfatal_rank = 5)::INTEGER +
-            (veh_allinjury_rank = 5)::INTEGER
+            (veh_allinjury_rank = 5)::INTEGER +
+            (veh_allfatalinjury_rank = 5)::INTEGER +
+            (veh_allcrashes_rank = 5)::INTEGER
         );
 
 -- veh_num6s
@@ -565,7 +643,9 @@ SET     veh_num6s = (
             (veh_multveh_headon_rank = 6)::INTEGER +
             (veh_multveh_fatal_rank = 6)::INTEGER +
             (veh_allfatal_rank = 6)::INTEGER +
-            (veh_allinjury_rank = 6)::INTEGER
+            (veh_allinjury_rank = 6)::INTEGER +
+            (veh_allfatalinjury_rank = 6)::INTEGER +
+            (veh_allcrashes_rank = 6)::INTEGER
         );
 
 -- veh_num7s
@@ -584,7 +664,9 @@ SET     veh_num7s = (
             (veh_multveh_headon_rank = 7)::INTEGER +
             (veh_multveh_fatal_rank = 7)::INTEGER +
             (veh_allfatal_rank = 7)::INTEGER +
-            (veh_allinjury_rank = 7)::INTEGER
+            (veh_allinjury_rank = 7)::INTEGER +
+            (veh_allfatalinjury_rank = 7)::INTEGER +
+            (veh_allcrashes_rank = 7)::INTEGER
         );
 
 -- veh_num8s
@@ -603,7 +685,9 @@ SET     veh_num8s = (
             (veh_multveh_headon_rank = 8)::INTEGER +
             (veh_multveh_fatal_rank = 8)::INTEGER +
             (veh_allfatal_rank = 8)::INTEGER +
-            (veh_allinjury_rank = 8)::INTEGER
+            (veh_allinjury_rank = 8)::INTEGER +
+            (veh_allfatalinjury_rank = 8)::INTEGER +
+            (veh_allcrashes_rank = 8)::INTEGER
         );
 
 -- veh_num9s
@@ -622,7 +706,9 @@ SET     veh_num9s = (
             (veh_multveh_headon_rank = 9)::INTEGER +
             (veh_multveh_fatal_rank = 9)::INTEGER +
             (veh_allfatal_rank = 9)::INTEGER +
-            (veh_allinjury_rank = 9)::INTEGER
+            (veh_allinjury_rank = 9)::INTEGER +
+            (veh_allfatalinjury_rank = 9)::INTEGER +
+            (veh_allcrashes_rank = 9)::INTEGER
         );
 
 -- veh_num10s
@@ -641,7 +727,9 @@ SET     veh_num10s = (
             (veh_multveh_headon_rank = 10)::INTEGER +
             (veh_multveh_fatal_rank = 10)::INTEGER +
             (veh_allfatal_rank = 10)::INTEGER +
-            (veh_allinjury_rank = 10)::INTEGER
+            (veh_allinjury_rank = 10)::INTEGER +
+            (veh_allfatalinjury_rank = 10)::INTEGER +
+            (veh_allcrashes_rank = 10)::INTEGER
         );
 
 -- ped_carelessreckless
@@ -998,6 +1086,52 @@ SET     ped_allinjury_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
 
+-- ped_allfatalinjury
+UPDATE  generated.crash_aggregates
+SET     ped_allfatalinjury = (
+            SELECT  COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     (c.injurycrash OR c.fatalcrash)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_ped
+            AND     (jc.flag_injury OR jc.flag_fatal)
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY ped_allfatalinjury DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     ped_allfatalinjury_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- ped_allcrashes
+UPDATE  generated.crash_aggregates
+SET     ped_allcrashes = (
+            SELECT  COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_ped
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY ped_allcrashes DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     ped_allcrashes_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
 -- ped_top10
 UPDATE  generated.crash_aggregates
 SET     ped_top10 = LEAST(
@@ -1019,7 +1153,9 @@ SET     ped_top10 = LEAST(
             ped_walkinroad_rank,
             ped_enterintersection_rank,
             ped_allfatal_rank,
-            ped_allinjury_rank
+            ped_allinjury_rank,
+            ped_allfatalinjury_rank,
+            ped_allcrashes_rank
         );
 
 -- ped_num1s
@@ -1043,7 +1179,9 @@ SET     ped_num1s = (
             (ped_walkinroad_rank = 1)::INTEGER +
             (ped_enterintersection_rank = 1)::INTEGER +
             (ped_allfatal_rank = 1)::INTEGER +
-            (ped_allinjury_rank = 1)::INTEGER
+            (ped_allinjury_rank = 1)::INTEGER +
+            (ped_allfatalinjury_rank = 1)::INTEGER +
+            (ped_allcrashes_rank = 1)::INTEGER
         );
 
 -- ped_num2s
@@ -1067,7 +1205,9 @@ SET     ped_num2s = (
             (ped_walkinroad_rank = 2)::INTEGER +
             (ped_enterintersection_rank = 2)::INTEGER +
             (ped_allfatal_rank = 2)::INTEGER +
-            (ped_allinjury_rank = 2)::INTEGER
+            (ped_allinjury_rank = 2)::INTEGER +
+            (ped_allfatalinjury_rank = 2)::INTEGER +
+            (ped_allcrashes_rank = 2)::INTEGER
         );
 
 -- ped_num3s
@@ -1091,7 +1231,9 @@ SET     ped_num3s = (
             (ped_walkinroad_rank = 3)::INTEGER +
             (ped_enterintersection_rank = 3)::INTEGER +
             (ped_allfatal_rank = 3)::INTEGER +
-            (ped_allinjury_rank = 3)::INTEGER
+            (ped_allinjury_rank = 3)::INTEGER +
+            (ped_allfatalinjury_rank = 3)::INTEGER +
+            (ped_allcrashes_rank = 3)::INTEGER
         );
 
 -- ped_num4s
@@ -1115,7 +1257,9 @@ SET     ped_num4s = (
             (ped_walkinroad_rank = 4)::INTEGER +
             (ped_enterintersection_rank = 4)::INTEGER +
             (ped_allfatal_rank = 4)::INTEGER +
-            (ped_allinjury_rank = 4)::INTEGER
+            (ped_allinjury_rank = 4)::INTEGER +
+            (ped_allfatalinjury_rank = 4)::INTEGER +
+            (ped_allcrashes_rank = 4)::INTEGER
         );
 
 -- ped_num5s
@@ -1139,7 +1283,9 @@ SET     ped_num5s = (
             (ped_walkinroad_rank = 5)::INTEGER +
             (ped_enterintersection_rank = 5)::INTEGER +
             (ped_allfatal_rank = 5)::INTEGER +
-            (ped_allinjury_rank = 5)::INTEGER
+            (ped_allinjury_rank = 5)::INTEGER +
+            (ped_allfatalinjury_rank = 5)::INTEGER +
+            (ped_allcrashes_rank = 5)::INTEGER
         );
 
 -- ped_num6s
@@ -1163,7 +1309,9 @@ SET     ped_num6s = (
             (ped_walkinroad_rank = 6)::INTEGER +
             (ped_enterintersection_rank = 6)::INTEGER +
             (ped_allfatal_rank = 6)::INTEGER +
-            (ped_allinjury_rank = 6)::INTEGER
+            (ped_allinjury_rank = 6)::INTEGER +
+            (ped_allfatalinjury_rank = 6)::INTEGER +
+            (ped_allcrashes_rank = 6)::INTEGER
         );
 
 -- ped_num7s
@@ -1187,7 +1335,9 @@ SET     ped_num7s = (
             (ped_walkinroad_rank = 7)::INTEGER +
             (ped_enterintersection_rank = 7)::INTEGER +
             (ped_allfatal_rank = 7)::INTEGER +
-            (ped_allinjury_rank = 7)::INTEGER
+            (ped_allinjury_rank = 7)::INTEGER +
+            (ped_allfatalinjury_rank = 7)::INTEGER +
+            (ped_allcrashes_rank = 7)::INTEGER
         );
 
 -- ped_num8s
@@ -1211,7 +1361,9 @@ SET     ped_num8s = (
             (ped_walkinroad_rank = 8)::INTEGER +
             (ped_enterintersection_rank = 8)::INTEGER +
             (ped_allfatal_rank = 8)::INTEGER +
-            (ped_allinjury_rank = 8)::INTEGER
+            (ped_allinjury_rank = 8)::INTEGER +
+            (ped_allfatalinjury_rank = 8)::INTEGER +
+            (ped_allcrashes_rank = 8)::INTEGER
         );
 
 -- ped_num9s
@@ -1235,7 +1387,9 @@ SET     ped_num9s = (
             (ped_walkinroad_rank = 9)::INTEGER +
             (ped_enterintersection_rank = 9)::INTEGER +
             (ped_allfatal_rank = 9)::INTEGER +
-            (ped_allinjury_rank = 9)::INTEGER
+            (ped_allinjury_rank = 9)::INTEGER +
+            (ped_allfatalinjury_rank = 9)::INTEGER +
+            (ped_allcrashes_rank = 9)::INTEGER
         );
 
 -- ped_num10s
@@ -1259,7 +1413,9 @@ SET     ped_num10s = (
             (ped_walkinroad_rank = 10)::INTEGER +
             (ped_enterintersection_rank = 10)::INTEGER +
             (ped_allfatal_rank = 10)::INTEGER +
-            (ped_allinjury_rank = 10)::INTEGER
+            (ped_allinjury_rank = 10)::INTEGER +
+            (ped_allfatalinjury_rank = 10)::INTEGER +
+            (ped_allcrashes_rank = 10)::INTEGER
         );
 
 -- bike_driver_aggressive
@@ -1709,6 +1865,32 @@ SET     bike_injuryfatal_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
 
+-- bike_allcrashes
+UPDATE  generated.crash_aggregates
+SET     bike_allcrashes = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_bike
+        );
+WITH ranks AS (
+    SELECT  int_id,
+            rank() OVER (ORDER BY bike_allcrashes DESC) AS rank
+    FROM    crash_aggregates
+)
+UPDATE  generated.crash_aggregates
+SET     bike_allcrashes_rank = ranks.rank
+FROM    ranks
+WHERE   crash_aggregates.int_id = ranks.int_id;
+
 -- bike_top10
 UPDATE  generated.crash_aggregates
 SET     bike_top10 = LEAST(
@@ -1731,7 +1913,8 @@ SET     bike_top10 = LEAST(
             bike_tbone_swalk2_rank,
             bike_allfatal_rank,
             bike_allinjury_rank,
-            bike_injuryfatal_rank
+            bike_injuryfatal_rank,
+            bike_allcrashes_rank
         );
 
 -- bike_num1s
@@ -1756,7 +1939,8 @@ SET     bike_num1s = (
             (bike_tbone_swalk2_rank = 1)::INTEGER +
             (bike_allfatal_rank = 1)::INTEGER +
             (bike_allinjury_rank = 1)::INTEGER +
-            (bike_injuryfatal_rank = 1)::INTEGER
+            (bike_injuryfatal_rank = 1)::INTEGER +
+            (bike_allcrashes_rank = 1)::INTEGER
         );
 
 -- bike_num2s
@@ -1781,7 +1965,8 @@ SET     bike_num2s = (
             (bike_tbone_swalk2_rank = 2)::INTEGER +
             (bike_allfatal_rank = 2)::INTEGER +
             (bike_allinjury_rank = 2)::INTEGER +
-            (bike_injuryfatal_rank = 2)::INTEGER
+            (bike_injuryfatal_rank = 2)::INTEGER +
+            (bike_allcrashes_rank = 2)::INTEGER
         );
 
 -- bike_num3s
@@ -1806,7 +1991,8 @@ SET     bike_num3s = (
             (bike_tbone_swalk2_rank = 3)::INTEGER +
             (bike_allfatal_rank = 3)::INTEGER +
             (bike_allinjury_rank = 3)::INTEGER +
-            (bike_injuryfatal_rank = 3)::INTEGER
+            (bike_injuryfatal_rank = 3)::INTEGER +
+            (bike_allcrashes_rank = 3)::INTEGER
         );
 
 -- bike_num4s
@@ -1831,7 +2017,8 @@ SET     bike_num4s = (
             (bike_tbone_swalk2_rank = 4)::INTEGER +
             (bike_allfatal_rank = 4)::INTEGER +
             (bike_allinjury_rank = 4)::INTEGER +
-            (bike_injuryfatal_rank = 4)::INTEGER
+            (bike_injuryfatal_rank = 4)::INTEGER +
+            (bike_allcrashes_rank = 4)::INTEGER
         );
 
 -- bike_num5s
@@ -1856,7 +2043,8 @@ SET     bike_num5s = (
             (bike_tbone_swalk2_rank = 5)::INTEGER +
             (bike_allfatal_rank = 5)::INTEGER +
             (bike_allinjury_rank = 5)::INTEGER +
-            (bike_injuryfatal_rank = 5)::INTEGER
+            (bike_injuryfatal_rank = 5)::INTEGER +
+            (bike_allcrashes_rank = 5)::INTEGER
         );
 
 -- bike_num6s
@@ -1881,7 +2069,8 @@ SET     bike_num6s = (
             (bike_tbone_swalk2_rank = 6)::INTEGER +
             (bike_allfatal_rank = 6)::INTEGER +
             (bike_allinjury_rank = 6)::INTEGER +
-            (bike_injuryfatal_rank = 6)::INTEGER
+            (bike_injuryfatal_rank = 6)::INTEGER +
+            (bike_allcrashes_rank = 6)::INTEGER
         );
 
 -- bike_num7s
@@ -1906,7 +2095,8 @@ SET     bike_num7s = (
             (bike_tbone_swalk2_rank = 7)::INTEGER +
             (bike_allfatal_rank = 7)::INTEGER +
             (bike_allinjury_rank = 7)::INTEGER +
-            (bike_injuryfatal_rank = 7)::INTEGER
+            (bike_injuryfatal_rank = 7)::INTEGER +
+            (bike_allcrashes_rank = 7)::INTEGER
         );
 
 -- bike_num8s
@@ -1931,7 +2121,8 @@ SET     bike_num8s = (
             (bike_tbone_swalk2_rank = 8)::INTEGER +
             (bike_allfatal_rank = 8)::INTEGER +
             (bike_allinjury_rank = 8)::INTEGER +
-            (bike_injuryfatal_rank = 8)::INTEGER
+            (bike_injuryfatal_rank = 8)::INTEGER +
+            (bike_allcrashes_rank = 8)::INTEGER
         );
 
 -- bike_num9s
@@ -1956,7 +2147,8 @@ SET     bike_num9s = (
             (bike_tbone_swalk2_rank = 9)::INTEGER +
             (bike_allfatal_rank = 9)::INTEGER +
             (bike_allinjury_rank = 9)::INTEGER +
-            (bike_injuryfatal_rank = 9)::INTEGER
+            (bike_injuryfatal_rank = 9)::INTEGER +
+            (bike_allcrashes_rank = 9)::INTEGER
         );
 
 -- bike_num10s
@@ -1981,7 +2173,8 @@ SET     bike_num10s = (
             (bike_tbone_swalk2_rank = 10)::INTEGER +
             (bike_allfatal_rank = 10)::INTEGER +
             (bike_allinjury_rank = 10)::INTEGER +
-            (bike_injuryfatal_rank = 10)::INTEGER
+            (bike_injuryfatal_rank = 10)::INTEGER +
+            (bike_allcrashes_rank = 10)::INTEGER
         );
 
 
