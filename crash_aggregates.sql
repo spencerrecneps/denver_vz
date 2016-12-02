@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS generated.crash_aggregates;
 CREATE TABLE generated.crash_aggregates (
     int_id INTEGER PRIMARY KEY,
     geom geometry(point,2231),
+    node INTEGER,
+    int_name TEXT,
     veh_careless INTEGER,
     veh_careless_rank INTEGER,
     veh_reckless INTEGER,
@@ -163,6 +165,17 @@ CREATE TABLE generated.crash_aggregates (
 );
 INSERT INTO generated.crash_aggregates SELECT int_id, geom FROM denver_streets_intersections;
 CREATE INDEX sidx_crashagggeom ON generated.crash_aggregates USING GIST (geom);
+CREATE INDEX idx_crashintid ON generated.crash_aggregates (int_id);
+ANALYZE crash_aggregates (int_id);
+
+-- node and int_name
+UPDATE  generated.crash_aggregates
+SET     node = i.node_denver_centerline,
+        int_name = dci."INTERNAME"
+FROM    generated.denver_streets_intersections i,
+        received.denver_centerline_intersections dci
+WHERE   crash_aggregates.int_id = i.int_id
+AND     i.node_denver_centerline = dci."MASTERID";
 
 -- veh_careless
 UPDATE  generated.crash_aggregates
