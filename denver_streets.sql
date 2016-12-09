@@ -1,8 +1,8 @@
 --------------------------------------------------------------
 -- create new table with space to store pertinent data
 --------------------------------------------------------------
-DROP TABLE IF EXISTS generated.denver_streets;
-DROP TABLE IF EXISTS generated.denver_streets_intersections;
+--DROP TABLE IF EXISTS generated.denver_streets;
+--DROP TABLE IF EXISTS generated.denver_streets_intersections;
 CREATE TABLE generated.denver_streets (
     road_id SERIAL PRIMARY KEY,
     intersection_from INTEGER,
@@ -18,8 +18,26 @@ CREATE TABLE generated.denver_streets (
     tdgid_cdot_highways VARCHAR(36),
     tdgid_cdot_major_roads VARCHAR(36),
     tdgid_cdot_local_roads VARCHAR(36),
+    functional_class TEXT,
+    one_way VARCHAR(2),
     speed_limit INTEGER,
-    speed_limit_source TEXT
+    speed_limit_source TEXT,
+    aadt INTEGER,
+    aadt_source TEXT,
+    nhs BOOLEAN,
+    nhs_source TEXT,
+    divided BOOLEAN,
+    divided_source TEXT,
+    median_type TEXT,
+    median_type_source TEXT,
+    median_width_ft INTEGER,
+    median_width_ft_source TEXT,
+    funding TEXT,
+    funding_source TEXT,
+    travel_lanes INTEGER,
+    travel_lanes_source TEXT,
+    bike_facility TEXT,
+    bike_facility_source TEXT
 );
 
 -- add base road segments from denver centerlines
@@ -478,3 +496,35 @@ WHERE   node_denver_centerline IS NULL;
 -- index
 CREATE INDEX idx_dsints_node ON generated.denver_streets_intersections (node_denver_centerline);
 ANALYZE generated.denver_streets_intersections (node_denver_centerline);
+
+
+--------------------
+-- add attributes
+--------------------
+-- functional_class, one_way, speed_limit, nhs, divided,
+-- travel_lanes from denver_street_centerline
+UPDATE  denver_streets
+SET     functional_class = NULL,                        -- need info from client
+        one_way = CASE  WHEN dsc.oneway = 0 THEN NULL   -- need info from client
+                        ELSE 'ft'
+                        END,
+        speed_limit = dsc.speedlimit,
+        nhs = CASE  WHEN dsc.nhs IN (   'MAJ',
+                                        'MAJ/NHS 7',
+                                        'NHS 1',
+                                        'NHS 4',
+                                        'NHS 5',
+                                        'NHS 6',
+                                        'NHS 7'
+                                    )
+                        THEN TRUE
+                    ELSE FALSE
+                    END,
+        divided = CASE  WHEN dsc.median = 'Y' THEN TRUE
+                        ELSE FALSE
+                        END,
+        travel_lanes = CASE WHEN dsc.travlanes > 0 THEN dsc.travlanes
+                            ELSE NULL
+                            END
+FROM    denver_street_centerline dsc
+WHERE   denver_streets.tdgid_denver_street_centerline = dsc.tdg_id;
