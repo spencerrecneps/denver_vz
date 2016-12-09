@@ -18,7 +18,9 @@ CREATE TABLE generated.denver_streets (
     tdgid_cdot_highways VARCHAR(36),
     tdgid_cdot_major_roads VARCHAR(36),
     tdgid_cdot_local_roads VARCHAR(36),
+    road_name TEXT,
     functional_class TEXT,
+    functional_class_order INTEGER,
     one_way VARCHAR(2),
     speed_limit INTEGER,
     speed_limit_source TEXT,
@@ -501,12 +503,65 @@ ANALYZE generated.denver_streets_intersections (node_denver_centerline);
 --------------------
 -- add attributes
 --------------------
--- functional_class, one_way, speed_limit, nhs, divided,
+
+-- temporary field manipulation
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS road_name;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS functional_class;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS functional_class_order;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS one_way;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS speed_limit;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS speed_limit_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS aadt;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS aadt_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS nhs;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS nhs_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS divided;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS divided_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_type;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_type_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_width_ft;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_width_ft_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS funding;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS funding_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS travel_lanes;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS travel_lanes_source;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility_source;
+ALTER TABLE denver_streets ADD COLUMN road_name TEXT;
+ALTER TABLE denver_streets ADD COLUMN functional_class TEXT;
+ALTER TABLE denver_streets ADD COLUMN functional_class_order INTEGER;
+ALTER TABLE denver_streets ADD COLUMN one_way VARCHAR(2);
+ALTER TABLE denver_streets ADD COLUMN speed_limit INTEGER;
+ALTER TABLE denver_streets ADD COLUMN speed_limit_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN aadt INTEGER;
+ALTER TABLE denver_streets ADD COLUMN aadt_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN nhs BOOLEAN;
+ALTER TABLE denver_streets ADD COLUMN nhs_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN divided BOOLEAN;
+ALTER TABLE denver_streets ADD COLUMN divided_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN median_type TEXT;
+ALTER TABLE denver_streets ADD COLUMN median_type_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN median_width_ft INTEGER;
+ALTER TABLE denver_streets ADD COLUMN median_width_ft_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN funding TEXT;
+ALTER TABLE denver_streets ADD COLUMN funding_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN travel_lanes INTEGER;
+ALTER TABLE denver_streets ADD COLUMN travel_lanes_source TEXT;
+ALTER TABLE denver_streets ADD COLUMN bike_facility TEXT;
+ALTER TABLE denver_streets ADD COLUMN bike_facility_source TEXT;
+
+-- road_name, functional_class, one_way, speed_limit, nhs, divided,
 -- travel_lanes from denver_street_centerline
 UPDATE  denver_streets
-SET     functional_class = NULL,                        -- need info from client
-        one_way = CASE  WHEN dsc.oneway = 0 THEN NULL   -- need info from client
-                        ELSE 'ft'
+SET     road_name = dsc.fullname,
+        functional_class = CASE WHEN dsc.funclass IN ('1','11','12') THEN 1     -- freeway
+                                WHEN dsc.funclass IN ('14','16','2','6') THEN 2 -- arterial
+                                WHEN dsc.funclass IN ('17','7','8') THEN 3      -- collector
+                                WHEN dsc.funclass IN ('19','9') THEN 4          -- local
+                                ELSE NULL
+                                END,
+        one_way = CASE  WHEN dsc.oneway = 0 THEN NULL
+                        ELSE 'ft'   -- we don't really care what direciton it goes
                         END,
         speed_limit = dsc.speedlimit,
         nhs = CASE  WHEN dsc.nhs IN (   'MAJ',
@@ -521,10 +576,49 @@ SET     functional_class = NULL,                        -- need info from client
                     ELSE FALSE
                     END,
         divided = CASE  WHEN dsc.median = 'Y' THEN TRUE
-                        ELSE FALSE
+                        WHEN dsc.median = 'N' THEN FALSE
+                        ELSE NULL
                         END,
         travel_lanes = CASE WHEN dsc.travlanes > 0 THEN dsc.travlanes
                             ELSE NULL
                             END
 FROM    denver_street_centerline dsc
 WHERE   denver_streets.tdgid_denver_street_centerline = dsc.tdg_id;
+
+-- set sources
+UPDATE  denver_streets
+SET     speed_limit_source = CASE   WHEN speed_limit IS NULL THEN NULL
+                                    ELSE 'denver_street_centerline'
+                                    END,
+        nhs_source = CASE   WHEN nhs IS FALSE THEN NULL
+                            ELSE 'denver_street_centerline'
+                            END,
+        divided_source = CASE   WHEN divided IS NULL THEN NULL
+                                ELSE 'denver_street_centerline'
+                                END,
+        travel_lanes_source = CASE  WHEN travel_lanes IS NULL THEN NULL
+                                    ELSE 'denver_street_centerline'
+                                    END;
+
+-- aadt, nhs, divided, median_type, median_width_ft, funding, travel_lanes
+-- from cdot data
+UPDATE  denver_streets
+SET     aadt = COALESCE(h.aadt,m.aadt,l.aadt),
+        nhs = CASE  WHEN nhs IS FALSE
+                        THEN CASE   WHEN COALESCE(h.nhsdesig,m.nhsdesig,l.nhsdesig) = 1
+                                        THEN TRUE
+                                    END
+                    END,
+        divided = CASE  WHEN divided IS NULL
+                            THEN CASE   WHEN h.isdivided = 'Yes'
+                                            THEN TRUE
+                                        END
+                        END,
+        travel_lanes = thrulnqty
+
+FROM    cdot_highways h,
+        cdot_major_roads m,
+        cdot_local_roads l
+WHERE   denver_streets.tdgid_cdot_highways = h.tdg_id
+AND     denver_streets.tdgid_cdot_major_roads = m.tdg_id
+AND     denver_streets.tdgid_cdot_local_roads = l.tdg_id;
