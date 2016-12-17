@@ -161,7 +161,8 @@ CREATE TABLE generated.crash_aggregates (
     bike_num7s INTEGER,
     bike_num8s INTEGER,
     bike_num9s INTEGER,
-    bike_num10s INTEGER
+    bike_num10s INTEGER,
+    int_weight INTEGER
 );
 INSERT INTO generated.crash_aggregates SELECT int_id, geom FROM denver_streets_intersections;
 CREATE INDEX sidx_crashagggeom ON generated.crash_aggregates USING GIST (geom);
@@ -2190,23 +2191,56 @@ SET     bike_num10s = (
             (bike_allcrashes_rank = 10)::INTEGER
         );
 
-
-
-
--- -- generic
--- UPDATE  generated.crash_aggregates
--- SET     generic = (
---             SELECT  COUNT(*)
---             FROM    crashes_bike2 c
---             WHERE   c.int_id = crash_aggregates.int_id
---             AND     c.generic
---         );
--- WITH ranks AS (
---     SELECT  int_id,
---             rank() OVER (ORDER BY generic DESC) AS rank
---     FROM    crash_aggregates
--- )
--- UPDATE  generated.crash_aggregates
--- SET     generic_rank = ranks.rank
--- FROM    ranks
--- WHERE   crash_aggregates.int_id = ranks.int_id;
+-- int_weight
+UPDATE  generated.crash_aggregates
+SET     int_weight = (
+            SELECT  COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        -- ) + (
+        --     SELECT  COUNT(*)
+        --     FROM    crashes_bike1 c
+        --     WHERE   c.int_id = crash_aggregates.int_id
+        --     AND     NOT fatalcrash
+        -- ) + (
+        --     SELECT  3 * COUNT(*)
+        --     FROM    crashes_bike1 c
+        --     WHERE   c.int_id = crash_aggregates.int_id
+        --     AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_fatal
+        );
