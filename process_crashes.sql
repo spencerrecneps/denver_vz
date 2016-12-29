@@ -47,26 +47,119 @@ WHERE   crashes_bike2.node = ints.node_denver_centerline;
 ----------------------------
 -- falsify nulls
 ----------------------------
-UPDATE received.crashes_veh SET circumstance = 'f' WHERE circumstance IS NULL;
-UPDATE received.crashes_veh SET multveh = 'f' WHERE multveh IS NULL;
-UPDATE received.crashes_veh SET singveh = 'f' WHERE singveh IS NULL;
-UPDATE received.crashes_veh SET unrestrained = 'f' WHERE unrestrained IS NULL;
-UPDATE received.crashes_veh SET careless = 'f' WHERE careless IS NULL;
-UPDATE received.crashes_veh SET reckless = 'f' WHERE reckless IS NULL;
-UPDATE received.crashes_veh SET failstopsignal = 'f' WHERE failstopsignal IS NULL;
-UPDATE received.crashes_veh SET failyieldROW = 'f' WHERE failyieldROW IS NULL;
-UPDATE received.crashes_veh SET highspeed = 'f' WHERE highspeed IS NULL;
-UPDATE received.crashes_veh SET veryhighspeed = 'f' WHERE veryhighspeed IS NULL;
-UPDATE received.crashes_veh SET fatalcrash = 'f' WHERE fatalcrash IS NULL;
-UPDATE received.crashes_veh SET injurycrash = 'f' WHERE injurycrash IS NULL;
-UPDATE received.crashes_veh SET noinjuryfatality = 'f' WHERE noinjuryfatality IS NULL;
-UPDATE received.crashes_veh SET rearend = 'f' WHERE rearend IS NULL;
-UPDATE received.crashes_veh SET rightangle = 'f' WHERE rightangle IS NULL;
-UPDATE received.crashes_veh SET parkedcar = 'f' WHERE parkedcar IS NULL;
-UPDATE received.crashes_veh SET headon = 'f' WHERE headon IS NULL;
-UPDATE received.crashes_veh SET sideswipe_samedirec = 'f' WHERE sideswipe_samedirec IS NULL;
-UPDATE received.crashes_veh SET sideswipe_oppdirec = 'f' WHERE sideswipe_oppdirec IS NULL;
-UPDATE received.crashes_veh SET influence = 'f' WHERE influence IS NULL;
+UPDATE  received.crashes_veh
+SET     circumstance = CASE WHEN circumstance IS NULL THEN FALSE ELSE circumstance END,
+        multveh = CASE WHEN multveh IS NULL THEN FALSE ELSE multveh END,
+        singveh = CASE WHEN singveh IS NULL THEN FALSE ELSE singveh END,
+        unrestrained = CASE WHEN unrestrained IS NULL THEN FALSE ELSE unrestrained END,
+        careless = CASE WHEN careless IS NULL THEN FALSE ELSE careless END,
+        reckless = CASE WHEN reckless IS NULL THEN FALSE ELSE reckless END,
+        failstopsignal = CASE WHEN failstopsignal IS NULL THEN FALSE ELSE failstopsignal END,
+        failyieldROW = CASE WHEN failyieldROW IS NULL THEN FALSE ELSE failyieldROW END,
+        highspeed = CASE WHEN highspeed IS NULL THEN FALSE ELSE highspeed END,
+        veryhighspeed = CASE WHEN veryhighspeed IS NULL THEN FALSE ELSE veryhighspeed END,
+        fatalcrash = CASE WHEN fatalcrash IS NULL THEN FALSE ELSE fatalcrash END,
+        injurycrash = CASE WHEN injurycrash IS NULL THEN FALSE ELSE injurycrash END,
+        noinjuryfatality = CASE WHEN noinjuryfatality IS NULL THEN FALSE ELSE noinjuryfatality END,
+        rearend = CASE WHEN rearend IS NULL THEN FALSE ELSE rearend END,
+        rightangle = CASE WHEN rightangle IS NULL THEN FALSE ELSE rightangle END,
+        parkedcar = CASE WHEN parkedcar IS NULL THEN FALSE ELSE parkedcar END,
+        headon = CASE WHEN headon IS NULL THEN FALSE ELSE headon END,
+        sideswipe_samedirec = CASE WHEN sideswipe_samedirec IS NULL THEN FALSE ELSE sideswipe_samedirec END,
+        sideswipe_oppdirec = CASE WHEN sideswipe_oppdirec IS NULL THEN FALSE ELSE sideswipe_oppdirec END,
+        influence = CASE WHEN influence IS NULL THEN FALSE ELSE influence END;
+UPDATE  received.crashes_ped
+SET     backing = CASE WHEN backing IS NULL THEN FALSE ELSE backing END,
+        darklit_fatal = CASE WHEN darklit_fatal IS NULL THEN FALSE ELSE darklit_fatal END,
+        intersection = CASE WHEN intersection IS NULL THEN FALSE ELSE intersection END,
+        nonintrsct_fatal = CASE WHEN nonintrsct_fatal IS NULL THEN FALSE ELSE nonintrsct_fatal END,
+        ped_cw = CASE WHEN ped_cw IS NULL THEN FALSE ELSE ped_cw END,
+        pedinstreet = CASE WHEN pedinstreet IS NULL THEN FALSE ELSE pedinstreet END,
+        midblockcrossing = CASE WHEN midblockcrossing IS NULL THEN FALSE ELSE midblockcrossing END,
+        crossagainstsignal = CASE WHEN crossagainstsignal IS NULL THEN FALSE ELSE crossagainstsignal END,
+        walkinroad = CASE WHEN walkinroad IS NULL THEN FALSE ELSE walkinroad END,
+        intersectioncrossing = CASE WHEN intersectioncrossing IS NULL THEN FALSE ELSE intersectioncrossing END,
+        influence_driver = CASE WHEN influence_driver IS NULL THEN FALSE ELSE influence_driver END,
+        carelessreckless = CASE WHEN carelessreckless IS NULL THEN FALSE ELSE carelessreckless END,
+        failyieldrow = CASE WHEN failyieldrow IS NULL THEN FALSE ELSE failyieldrow END,
+        disregardsigns = CASE WHEN disregardsigns IS NULL THEN FALSE ELSE disregardsigns END,
+        ped_cw_motoristlt = CASE WHEN ped_cw_motoristlt IS NULL THEN FALSE ELSE ped_cw_motoristlt END,
+        ped_midblock = CASE WHEN ped_midblock IS NULL THEN FALSE ELSE ped_midblock END,
+        ped_cw_motoriststraight = CASE WHEN ped_cw_motoriststraight IS NULL THEN FALSE ELSE ped_cw_motoriststraight END,
+        ped_nocw_motoriststraight = CASE WHEN ped_nocw_motoriststraight IS NULL THEN FALSE ELSE ped_nocw_motoriststraight END,
+        ped_motoristRT = CASE WHEN ped_motoristRT IS NULL THEN FALSE ELSE ped_motoristRT END,
+        ped_nocw_motoristLT = CASE WHEN ped_nocw_motoristLT IS NULL THEN FALSE ELSE ped_nocw_motoristLT END,
+        midblock_injuryfatal = CASE WHEN midblock_injuryfatal IS NULL THEN FALSE ELSE midblock_injuryfatal END,
+        distracted_driverfault = CASE WHEN distracted_driverfault IS NULL THEN FALSE ELSE distracted_driverfault END,
+        distracted_pedfault = CASE WHEN distracted_pedfault IS NULL THEN FALSE ELSE distracted_pedfault END,
+        straightgrade = CASE WHEN straightgrade IS NULL THEN FALSE ELSE straightgrade END,
+        highspeed = CASE WHEN highspeed IS NULL THEN FALSE ELSE highspeed END,
+        fatalcrash = CASE WHEN fatalcrash IS NULL THEN FALSE ELSE fatalcrash END,
+        injurycrash = CASE WHEN injurycrash IS NULL THEN FALSE ELSE injurycrash END,
+        noinjuryfatality = CASE WHEN noinjuryfatality IS NULL THEN FALSE ELSE noinjuryfatality END;
+UPDATE  received.crashes_bike2
+SET     injurycrash = CASE WHEN injurycrash IS NULL THEN FALSE ELSE injurycrash END,
+        fatalcrash = CASE WHEN fatalcrash IS NULL THEN FALSE ELSE fatalcrash END,
+        noinjuryfatality = CASE WHEN noinjuryfatality IS NULL THEN FALSE ELSE noinjuryfatality END,
+        unit1_veh = CASE WHEN unit1_veh IS NULL THEN FALSE ELSE unit1_veh END,
+        unit2_veh = CASE WHEN unit2_veh IS NULL THEN FALSE ELSE unit2_veh END,
+        unit1_bike = CASE WHEN unit1_bike IS NULL THEN FALSE ELSE unit1_bike END,
+        unit2_bike = CASE WHEN unit2_bike IS NULL THEN FALSE ELSE unit2_bike END,
+        bicyclist = CASE WHEN bicyclist IS NULL THEN FALSE ELSE bicyclist END,
+        complex = CASE WHEN complex IS NULL THEN FALSE ELSE complex END,
+        nobike = CASE WHEN nobike IS NULL THEN FALSE ELSE nobike END,
+        bike_fault = CASE WHEN bike_fault IS NULL THEN FALSE ELSE bike_fault END,
+        ww = CASE WHEN ww IS NULL THEN FALSE ELSE ww END,
+        xwalk = CASE WHEN xwalk IS NULL THEN FALSE ELSE xwalk END,
+        sidewalk = CASE WHEN sidewalk IS NULL THEN FALSE ELSE sidewalk END,
+        bike_s_veh_s_st_p = CASE WHEN bike_s_veh_s_st_p IS NULL THEN FALSE ELSE bike_s_veh_s_st_p END,
+        bike_s_veh_lt_st_od = CASE WHEN bike_s_veh_lt_st_od IS NULL THEN FALSE ELSE bike_s_veh_lt_st_od END,
+        bike_s_veh_rt_st_p = CASE WHEN bike_s_veh_rt_st_p IS NULL THEN FALSE ELSE bike_s_veh_rt_st_p END,
+        bike_s_veh_rt_st_sd = CASE WHEN bike_s_veh_rt_st_sd IS NULL THEN FALSE ELSE bike_s_veh_rt_st_sd END,
+        bike_s_veh_s_st_sd = CASE WHEN bike_s_veh_s_st_sd IS NULL THEN FALSE ELSE bike_s_veh_s_st_sd END,
+        bike_s_veh_rt_st_ww_p = CASE WHEN bike_s_veh_rt_st_ww_p IS NULL THEN FALSE ELSE bike_s_veh_rt_st_ww_p END,
+        highspeed = CASE WHEN highspeed IS NULL THEN FALSE ELSE highspeed END,
+        influence = CASE WHEN influence IS NULL THEN FALSE ELSE influence END,
+        distracted_driverfault = CASE WHEN distracted_driverfault IS NULL THEN FALSE ELSE distracted_driverfault END,
+        aggressive_driverfault = CASE WHEN aggressive_driverfault IS NULL THEN FALSE ELSE aggressive_driverfault END,
+        inexperience_bikerfault = CASE WHEN inexperience_bikerfault IS NULL THEN FALSE ELSE inexperience_bikerfault END,
+        aggressive_bikerfault = CASE WHEN aggressive_bikerfault IS NULL THEN FALSE ELSE aggressive_bikerfault END,
+        failyield_driverfault = CASE WHEN failyield_driverfault IS NULL THEN FALSE ELSE failyield_driverfault END,
+        carereckless_driverfault = CASE WHEN carereckless_driverfault IS NULL THEN FALSE ELSE carereckless_driverfault END,
+        disregardsignal_driverfault = CASE WHEN disregardsignal_driverfault IS NULL THEN FALSE ELSE disregardsignal_driverfault END,
+        failyield_bikerfault = CASE WHEN failyield_bikerfault IS NULL THEN FALSE ELSE failyield_bikerfault END,
+        disregardsignal_bikerfault = CASE WHEN disregardsignal_bikerfault IS NULL THEN FALSE ELSE disregardsignal_bikerfault END,
+        allothercrashtype = CASE WHEN allothercrashtype IS NULL THEN FALSE ELSE allothercrashtype END,
+        bike_s_veh_rt_sw_ww_p = CASE WHEN bike_s_veh_rt_sw_ww_p IS NULL THEN FALSE ELSE bike_s_veh_rt_sw_ww_p END,
+        bike_s_veh_s_sw_ww_p = CASE WHEN bike_s_veh_s_sw_ww_p IS NULL THEN FALSE ELSE bike_s_veh_s_sw_ww_p END;
+UPDATE  received.crashes_bike1
+SET     injury = CASE WHEN injury IS NULL THEN FALSE ELSE injury END,
+        same_dir = CASE WHEN same_dir IS NULL THEN FALSE ELSE same_dir END,
+        opp_dir = CASE WHEN opp_dir IS NULL THEN FALSE ELSE opp_dir END,
+        perpen = CASE WHEN perpen IS NULL THEN FALSE ELSE perpen END,
+        angle = CASE WHEN angle IS NULL THEN FALSE ELSE angle END,
+        bike_s_veh_s_st_p = CASE WHEN bike_s_veh_s_st_p IS NULL THEN FALSE ELSE bike_s_veh_s_st_p END,
+        bike_s_veh_lt_St_od = CASE WHEN bike_s_veh_lt_St_od IS NULL THEN FALSE ELSE bike_s_veh_lt_St_od END,
+        bike_s_veh_rt_St_p = CASE WHEN bike_s_veh_rt_St_p IS NULL THEN FALSE ELSE bike_s_veh_rt_St_p END,
+        bike_s_veh_rt_St_sd = CASE WHEN bike_s_veh_rt_St_sd IS NULL THEN FALSE ELSE bike_s_veh_rt_St_sd END,
+        bike_s_veh_s_st_sd = CASE WHEN bike_s_veh_s_st_sd IS NULL THEN FALSE ELSE bike_s_veh_s_st_sd END,
+        bike_s_veh_rt_St_WW_p = CASE WHEN bike_s_veh_rt_St_WW_p IS NULL THEN FALSE ELSE bike_s_veh_rt_St_WW_p END,
+        bike_s_veh_s_sW_WW_p = CASE WHEN bike_s_veh_s_sW_WW_p IS NULL THEN FALSE ELSE bike_s_veh_s_sW_WW_p END,
+        bike_s_veh_rt_SW_WW_p = CASE WHEN bike_s_veh_rt_SW_WW_p IS NULL THEN FALSE ELSE bike_s_veh_rt_SW_WW_p END,
+        highspeed = CASE WHEN highspeed IS NULL THEN FALSE ELSE highspeed END,
+        injurycrash = CASE WHEN injurycrash IS NULL THEN FALSE ELSE injurycrash END;
+UPDATE  received.crashes_bike_flags
+SET     injury = CASE WHEN injury IS NULL THEN FALSE ELSE injury END,
+        fatality = CASE WHEN fatality IS NULL THEN FALSE ELSE fatality END,
+        flag_non = CASE WHEN flag_non IS NULL THEN FALSE ELSE flag_non END,
+        bike_s_veh_s_st_p = CASE WHEN bike_s_veh_s_st_p IS NULL THEN FALSE ELSE bike_s_veh_s_st_p END,
+        bike_s_veh_lt_St_od = CASE WHEN bike_s_veh_lt_St_od IS NULL THEN FALSE ELSE bike_s_veh_lt_St_od END,
+        bike_s_veh_rt_St_p = CASE WHEN bike_s_veh_rt_St_p IS NULL THEN FALSE ELSE bike_s_veh_rt_St_p END,
+        bike_s_veh_rt_St_sd = CASE WHEN bike_s_veh_rt_St_sd IS NULL THEN FALSE ELSE bike_s_veh_rt_St_sd END,
+        bike_s_veh_s_st_sd = CASE WHEN bike_s_veh_s_st_sd IS NULL THEN FALSE ELSE bike_s_veh_s_st_sd END,
+        bike_s_veh_rt_St_WW_p = CASE WHEN bike_s_veh_rt_St_WW_p IS NULL THEN FALSE ELSE bike_s_veh_rt_St_WW_p END,
+        bike_s_veh_s_sW_WW_p = CASE WHEN bike_s_veh_s_sW_WW_p IS NULL THEN FALSE ELSE bike_s_veh_s_sW_WW_p END,
+        bike_s_veh_rt_SW_WW_p = CASE WHEN bike_s_veh_rt_SW_WW_p IS NULL THEN FALSE ELSE bike_s_veh_rt_SW_WW_p END;
 
 
 ----------------------------
@@ -228,3 +321,14 @@ CREATE INDEX idx_crshjffco_flgveh ON crashes_jeffco (flag_veh) WHERE flag_veh IS
 CREATE INDEX idx_crshjffco_flginj ON crashes_jeffco (flag_injury) WHERE flag_injury IS TRUE;
 CREATE INDEX idx_crshjffco_flgfat ON crashes_jeffco (flag_fatal) WHERE flag_fatal IS TRUE;
 ANALYZE crashes_jeffco;
+
+
+----------------------------
+-- crashes_bike_flags
+----------------------------
+ALTER TABLE received.crashes_bike1 ADD COLUMN fatality BOOLEAN;
+UPDATE  received.crashes_bike1
+SET     fatality = flags.fatality,
+        injury = flags.injury
+FROM    received.crashes_bike_flags flags
+WHERE   crashes_bike1.caseid = flags.caseid;

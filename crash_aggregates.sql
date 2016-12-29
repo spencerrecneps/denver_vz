@@ -1816,6 +1816,11 @@ WHERE   crash_aggregates.int_id = ranks.int_id;
 UPDATE  generated.crash_aggregates
 SET     bike_allfatal = (
             SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     c.fatality
+        ) + (
+            SELECT  COUNT(*)
             FROM    crashes_bike2 c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     c.fatalcrash
@@ -1825,7 +1830,7 @@ SET     bike_allfatal = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_bike
             AND     jc.flag_fatal
-            AND     EXTRACT(YEAR FROM "date") >= 2013
+            --AND     EXTRACT(YEAR FROM "date") >= 2013
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1843,7 +1848,7 @@ SET     bike_allinjury = (
             SELECT  COUNT(*)
             FROM    crashes_bike1 c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     c.injurycrash
+            AND     c.injury
         ) + (
             SELECT  COUNT(*)
             FROM    crashes_bike2 c
@@ -1868,7 +1873,23 @@ WHERE   crash_aggregates.int_id = ranks.int_id;
 
 -- bike_injuryfatal
 UPDATE  generated.crash_aggregates
-SET     bike_injuryfatal = bike_allinjury + bike_allfatal;
+SET     bike_injuryfatal = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     (c.injury OR c.fatality)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     (c.injurycrash OR c.fatalcrash)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco jc
+            WHERE   jc.int_id = crash_aggregates.int_id
+            AND     jc.flag_bike
+            AND     (jc.flag_injury OR jc.flag_fatal)
+        );
 WITH ranks AS (
     SELECT  int_id,
             rank() OVER (ORDER BY bike_injuryfatal DESC) AS rank
@@ -2213,16 +2234,16 @@ SET     int_weight = (
             FROM    crashes_ped c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     fatalcrash
-        -- ) + (
-        --     SELECT  COUNT(*)
-        --     FROM    crashes_bike1 c
-        --     WHERE   c.int_id = crash_aggregates.int_id
-        --     AND     NOT fatalcrash
-        -- ) + (
-        --     SELECT  3 * COUNT(*)
-        --     FROM    crashes_bike1 c
-        --     WHERE   c.int_id = crash_aggregates.int_id
-        --     AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatality
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatality
         ) + (
             SELECT  COUNT(*)
             FROM    crashes_bike2 c
