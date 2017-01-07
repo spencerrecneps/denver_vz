@@ -554,12 +554,21 @@ ALTER TABLE denver_streets ADD COLUMN bike_facility_source TEXT;
 -- travel_lanes from denver_street_centerline
 UPDATE  denver_streets
 SET     road_name = dsc.fullname,
-        functional_class = CASE WHEN dsc.funclass IN ('1','11','12') THEN 1     -- freeway
-                                WHEN dsc.funclass IN ('14','16','2','6') THEN 2 -- arterial
-                                WHEN dsc.funclass IN ('17','7','8') THEN 3      -- collector
-                                WHEN dsc.funclass IN ('19','9') THEN 4          -- local
-                                ELSE NULL
-                                END,
+        functional_class = dsc.funclass,
+        functional_class_order = CASE   WHEN dsc.funclass = '11' THEN 1     --interstate urban
+                                        WHEN dsc.funclass = '12' THEN 2     --freeway urban
+                                        WHEN dsc.funclass = '1' THEN  3     --interstate rural
+                                        WHEN dsc.funclass = '14' THEN 4     --other primary arterial urban
+                                        WHEN dsc.funclass = '2' THEN  5     --other primary arterial rural
+                                        WHEN dsc.funclass = '16' THEN 6     --minor arterial urban
+                                        WHEN dsc.funclass = '6' THEN  7     --minor arterial rural
+                                        WHEN dsc.funclass = '17' THEN 8     --collector urban
+                                        WHEN dsc.funclass = '7' THEN  9     --major collector rural
+                                        WHEN dsc.funclass = '8' THEN  10    --minor collector rural
+                                        WHEN dsc.funclass = '19' THEN 11    --local urban
+                                        WHEN dsc.funclass = '9' THEN  12    --local rural
+                                        ELSE NULL
+                                        END,
         one_way = CASE  WHEN dsc.oneway = 0 THEN NULL
                         ELSE 'ft'   -- we don't really care what direciton it goes
                         END,
