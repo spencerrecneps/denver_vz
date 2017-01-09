@@ -20,7 +20,9 @@ CREATE TABLE generated.denver_streets (
     tdgid_cdot_local_roads VARCHAR(36),
     road_name TEXT,
     functional_class TEXT,
-    functional_class_order INTEGER,
+    volclass TEXT,
+    class_order INTEGER,
+    class_description TEXT,
     one_way VARCHAR(2),
     speed_limit INTEGER,
     speed_limit_source TEXT,
@@ -507,7 +509,9 @@ ANALYZE generated.denver_streets_intersections (node_denver_centerline);
 -- temporary field manipulation
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS road_name;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS functional_class;
-ALTER TABLE denver_streets DROP COLUMN IF EXISTS functional_class_order;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS volclass;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS class_order;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS class_description;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS one_way;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS speed_limit;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS speed_limit_source;
@@ -529,7 +533,9 @@ ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility_source;
 ALTER TABLE denver_streets ADD COLUMN road_name TEXT;
 ALTER TABLE denver_streets ADD COLUMN functional_class TEXT;
-ALTER TABLE denver_streets ADD COLUMN functional_class_order INTEGER;
+ALTER TABLE denver_streets ADD COLUMN volclass TEXT;
+ALTER TABLE denver_streets ADD COLUMN class_order INTEGER;
+ALTER TABLE denver_streets ADD COLUMN class_description TEXT;
 ALTER TABLE denver_streets ADD COLUMN one_way VARCHAR(2);
 ALTER TABLE denver_streets ADD COLUMN speed_limit INTEGER;
 ALTER TABLE denver_streets ADD COLUMN speed_limit_source TEXT;
@@ -550,25 +556,28 @@ ALTER TABLE denver_streets ADD COLUMN travel_lanes_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN bike_facility TEXT;
 ALTER TABLE denver_streets ADD COLUMN bike_facility_source TEXT;
 
--- road_name, functional_class, one_way, speed_limit, nhs, divided,
+-- road_name, functional_class, volclass, one_way, speed_limit, nhs, divided,
 -- travel_lanes from denver_street_centerline
 UPDATE  denver_streets
 SET     road_name = dsc.fullname,
         functional_class = dsc.funclass,
-        functional_class_order = CASE   WHEN dsc.funclass = '11' THEN 1     --interstate urban
-                                        WHEN dsc.funclass = '12' THEN 2     --freeway urban
-                                        WHEN dsc.funclass = '1' THEN  3     --interstate rural
-                                        WHEN dsc.funclass = '14' THEN 4     --other primary arterial urban
-                                        WHEN dsc.funclass = '2' THEN  5     --other primary arterial rural
-                                        WHEN dsc.funclass = '16' THEN 6     --minor arterial urban
-                                        WHEN dsc.funclass = '6' THEN  7     --minor arterial rural
-                                        WHEN dsc.funclass = '17' THEN 8     --collector urban
-                                        WHEN dsc.funclass = '7' THEN  9     --major collector rural
-                                        WHEN dsc.funclass = '8' THEN  10    --minor collector rural
-                                        WHEN dsc.funclass = '19' THEN 11    --local urban
-                                        WHEN dsc.funclass = '9' THEN  12    --local rural
-                                        ELSE NULL
-                                        END,
+        volclass = dsc.volclass,
+        class_order = CASE  WHEN dsc.funclass = '11' THEN           1   --interstate urban
+                            WHEN dsc.funclass = '12' THEN           2   --freeway urban
+                            WHEN dsc.funclass = '1' THEN            3   --interstate rural
+                            WHEN dsc.volclass = 'ARTERIAL' THEN     4
+                            WHEN dsc.volclass = 'COLLECTOR' THEN    5
+                            WHEN dsc.volclass = 'LOCAL' THEN        6
+                            ELSE NULL
+                            END,
+        class_description = CASE    WHEN dsc.funclass = '11' THEN           'Urban interstate'
+                                    WHEN dsc.funclass = '12' THEN           'Urban freeway'
+                                    WHEN dsc.funclass = '1' THEN            'Rural interstate'
+                                    WHEN dsc.volclass = 'ARTERIAL' THEN     'Arterial'
+                                    WHEN dsc.volclass = 'COLLECTOR' THEN    'Collector'
+                                    WHEN dsc.volclass = 'LOCAL' THEN        'Local'
+                                    ELSE NULL
+                                    END,
         one_way = CASE  WHEN dsc.oneway = 0 THEN NULL
                         ELSE 'ft'   -- we don't really care what direciton it goes
                         END,
@@ -610,11 +619,11 @@ SET     speed_limit_source = CASE   WHEN speed_limit IS NULL THEN NULL
                                     END;
 
 -- aadt, nhs, divided, median_type, median_width_ft, funding, travel_lanes
--- from cdot data
+-- from cdot_highways
 UPDATE  denver_streets
-SET     aadt = COALESCE(h.aadt,m.aadt,l.aadt),
+SET     aadt = h.aadt,
         nhs = CASE  WHEN nhs IS FALSE
-                        THEN CASE   WHEN COALESCE(h.nhsdesig,m.nhsdesig,l.nhsdesig) = 1
+                        THEN CASE   WHEN left(h.nhsdesig,1) = '1'
                                         THEN TRUE
                                     END
                     END,
@@ -625,9 +634,35 @@ SET     aadt = COALESCE(h.aadt,m.aadt,l.aadt),
                         END,
         travel_lanes = thrulnqty
 
-FROM    cdot_highways h,
-        cdot_major_roads m,
-        cdot_local_roads l
-WHERE   denver_streets.tdgid_cdot_highways = h.tdg_id
-AND     denver_streets.tdgid_cdot_major_roads = m.tdg_id
-AND     denver_streets.tdgid_cdot_local_roads = l.tdg_id;
+FROM    cdot_highways h
+WHERE   denver_streets.tdgid_cdot_highways = h.tdg_id;
+
+-- aadt, nhs, funding, travel_lanes
+-- from cdot_major_roads
+UPDATE  denver_streets
+SET     aadt = m.aadt,
+        nhs = CASE  WHEN nhs IS FALSE
+                        THEN CASE   WHEN m.nhsdesig = '1'
+                                        THEN TRUE
+                                    END
+                    END,
+
+        travel_lanes = thrulnqty
+
+FROM    cdot_major_roads m
+WHERE   denver_streets.tdgid_cdot_major_roads = m.tdg_id;
+
+-- aadt, nhs, funding, travel_lanes
+-- from cdot_local_roads
+UPDATE  denver_streets
+SET     aadt = l.aadt,
+        nhs = CASE  WHEN nhs IS FALSE
+                        THEN CASE   WHEN l.nhsdesig = '1'
+                                        THEN TRUE
+                                    END
+                    END,
+
+        travel_lanes = thrulnqty
+
+FROM    cdot_local_roads l
+WHERE   denver_streets.tdgid_cdot_local_roads = l.tdg_id;
