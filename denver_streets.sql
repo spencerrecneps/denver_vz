@@ -28,7 +28,7 @@ CREATE TABLE generated.denver_streets (
     speed_limit_source TEXT,
     aadt INTEGER,
     aadt_source TEXT,
-    nhs BOOLEAN,
+    nhs BOOLEAN DEFAULT FALSE,
     nhs_source TEXT,
     divided BOOLEAN,
     divided_source TEXT,
@@ -36,8 +36,6 @@ CREATE TABLE generated.denver_streets (
     median_type_source TEXT,
     median_width_ft INTEGER,
     median_width_ft_source TEXT,
-    funding TEXT,
-    funding_source TEXT,
     travel_lanes INTEGER,
     travel_lanes_source TEXT,
     bike_facility TEXT,
@@ -525,8 +523,6 @@ ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_type;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_type_source;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_width_ft;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS median_width_ft_source;
-ALTER TABLE denver_streets DROP COLUMN IF EXISTS funding;
-ALTER TABLE denver_streets DROP COLUMN IF EXISTS funding_source;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS travel_lanes;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS travel_lanes_source;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility;
@@ -541,7 +537,7 @@ ALTER TABLE denver_streets ADD COLUMN speed_limit INTEGER;
 ALTER TABLE denver_streets ADD COLUMN speed_limit_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN aadt INTEGER;
 ALTER TABLE denver_streets ADD COLUMN aadt_source TEXT;
-ALTER TABLE denver_streets ADD COLUMN nhs BOOLEAN;
+ALTER TABLE denver_streets ADD COLUMN nhs BOOLEAN DEFAULT FALSE;
 ALTER TABLE denver_streets ADD COLUMN nhs_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN divided BOOLEAN;
 ALTER TABLE denver_streets ADD COLUMN divided_source TEXT;
@@ -549,8 +545,6 @@ ALTER TABLE denver_streets ADD COLUMN median_type TEXT;
 ALTER TABLE denver_streets ADD COLUMN median_type_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN median_width_ft INTEGER;
 ALTER TABLE denver_streets ADD COLUMN median_width_ft_source TEXT;
-ALTER TABLE denver_streets ADD COLUMN funding TEXT;
-ALTER TABLE denver_streets ADD COLUMN funding_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN travel_lanes INTEGER;
 ALTER TABLE denver_streets ADD COLUMN travel_lanes_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN bike_facility TEXT;
@@ -618,51 +612,128 @@ SET     speed_limit_source = CASE   WHEN speed_limit IS NULL THEN NULL
                                     ELSE 'denver_street_centerline'
                                     END;
 
--- aadt, nhs, divided, median_type, median_width_ft, funding, travel_lanes
+-- aadt, nhs, divided, median_type, median_width_ft, travel_lanes
 -- from cdot_highways
 UPDATE  denver_streets
 SET     aadt = h.aadt,
         nhs = CASE  WHEN nhs IS FALSE
                         THEN CASE   WHEN left(h.nhsdesig,1) = '1'
                                         THEN TRUE
+                                    ELSE FALSE
                                     END
+                    ELSE nhs
                     END,
         divided = CASE  WHEN divided IS NULL
                             THEN CASE   WHEN h.isdivided = 'Yes'
                                             THEN TRUE
                                         END
                         END,
-        travel_lanes = thrulnqty
-
+        median_type = CASE  WHEN left(median,2) = '1 '
+                                THEN NULL
+                            ELSE median
+                            END,
+        median_width_ft = CASE  WHEN left(median,2) = '1 '
+                                    THEN NULL
+                                ELSE medianwd
+                                END,
+        travel_lanes = CASE WHEN travel_lanes IS NULL
+                                THEN h.thrulnqty
+                            ELSE travel_lanes
+                            END
 FROM    cdot_highways h
 WHERE   denver_streets.tdgid_cdot_highways = h.tdg_id;
 
--- aadt, nhs, funding, travel_lanes
+-- sources
+UPDATE  denver_streets
+SET     aadt_source = CASE  WHEN aadt IS NULL THEN NULL
+                            WHEN aadt_source IS NULL THEN 'cdot_highways'
+                            ELSE aadt_source
+                            END,
+        nhs_source = CASE   WHEN nhs IS TRUE AND nhs_source IS NULL
+                                THEN 'cdot_highways'
+                            END,
+        divided_source = CASE   WHEN divided IS NULL THEN NULL
+                                WHEN divided_source IS NULL THEN 'cdot_highways'
+                                ELSE divided_source
+                                END,
+        median_type_source = CASE   WHEN median_type IS NULL THEN NULL
+                                    ELSE 'cdot_highways'
+                                    END,
+        median_width_ft_source = CASE   WHEN median_width_ft IS NULL THEN NULL
+                                        ELSE 'cdot_highways'
+                                        END,
+        travel_lanes_source = CASE  WHEN travel_lanes IS NULL THEN NULL
+                                    WHEN travel_lanes_source IS NULL
+                                        THEN 'cdot_highways'
+                                    ELSE travel_lanes_source
+                                    END
+WHERE   tdgid_cdot_highways IS NOT NULL;
+
+-- aadt, nhs, travel_lanes
 -- from cdot_major_roads
 UPDATE  denver_streets
 SET     aadt = m.aadt,
         nhs = CASE  WHEN nhs IS FALSE
                         THEN CASE   WHEN m.nhsdesig = '1'
                                         THEN TRUE
+                                    ELSE FALSE
                                     END
+                    ELSE nhs
                     END,
-
-        travel_lanes = thrulnqty
-
+        travel_lanes = CASE WHEN travel_lanes IS NULL
+                                THEN m.thrulnqty
+                            ELSE travel_lanes
+                            END
 FROM    cdot_major_roads m
 WHERE   denver_streets.tdgid_cdot_major_roads = m.tdg_id;
 
--- aadt, nhs, funding, travel_lanes
+-- sources
+UPDATE  denver_streets
+SET     aadt_source = CASE  WHEN aadt IS NULL THEN NULL
+                            WHEN aadt_source IS NULL THEN 'cdot_major_roads'
+                            ELSE aadt_source
+                            END,
+        nhs_source = CASE   WHEN nhs IS TRUE AND nhs_source IS NULL
+                                THEN 'cdot_major_roads'
+                            END,
+        travel_lanes_source = CASE  WHEN travel_lanes IS NULL THEN NULL
+                                    WHEN travel_lanes_source IS NULL
+                                        THEN 'cdot_major_roads'
+                                    ELSE travel_lanes_source
+                                    END
+WHERE   tdgid_cdot_major_roads IS NOT NULL;
+
+
+-- aadt, nhs, travel_lanes
 -- from cdot_local_roads
 UPDATE  denver_streets
 SET     aadt = l.aadt,
         nhs = CASE  WHEN nhs IS FALSE
                         THEN CASE   WHEN l.nhsdesig = '1'
                                         THEN TRUE
+                                    ELSE FALSE
                                     END
+                    ELSE nhs
                     END,
-
-        travel_lanes = thrulnqty
-
+        travel_lanes = CASE WHEN travel_lanes IS NULL
+                                THEN l.thrulnqty
+                            ELSE travel_lanes
+                            END
 FROM    cdot_local_roads l
 WHERE   denver_streets.tdgid_cdot_local_roads = l.tdg_id;
+
+-- sources
+UPDATE  denver_streets
+SET     aadt_source = CASE  WHEN aadt IS NULL THEN NULL
+                            WHEN aadt_source IS NULL THEN 'cdot_local_roads'
+                            ELSE aadt_source
+                            END,
+        nhs_source = CASE   WHEN nhs IS TRUE AND nhs_source IS NULL
+                                THEN 'cdot_local_roads'
+                            END,
+        travel_lanes_source = CASE  WHEN travel_lanes IS NULL THEN NULL
+                                    WHEN travel_lanes_source IS NULL
+                                        THEN 'cdot_local_roads'
+                                    ELSE travel_lanes_source
+                                    END
+WHERE   tdgid_cdot_local_roads IS NOT NULL;
