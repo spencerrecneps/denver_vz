@@ -703,7 +703,6 @@ SET     aadt_source = CASE  WHEN aadt IS NULL THEN NULL
                                     END
 WHERE   tdgid_cdot_major_roads IS NOT NULL;
 
-
 -- aadt, nhs, travel_lanes
 -- from cdot_local_roads
 UPDATE  denver_streets
@@ -737,3 +736,28 @@ SET     aadt_source = CASE  WHEN aadt IS NULL THEN NULL
                                     ELSE travel_lanes_source
                                     END
 WHERE   tdgid_cdot_local_roads IS NOT NULL;
+
+-- denver_bicycle_facilities
+UPDATE  denver_streets
+SET     bike_facility = existing_f
+FROM    denver_bicycle_facilities bf
+WHERE   denver_streets.tdgid_denver_bicycle_facilities = bf.tdg_id;
+
+-- source
+UPDATE  denver_streets
+SET     bike_facility_source = 'denver_bicycle_facilities'
+WHERE   bike_facility IS NOT NULL;
+
+-- drcog_bicycle_facility_inventory
+UPDATE  denver_streets
+SET     bike_facility = CASE    WHEN bike_facility IS NULL THEN type_fx
+                                ELSE bike_facility
+                                END
+FROM    drcog_bicycle_facility_inventory bf
+WHERE   denver_streets.tdgid_drcog_bicycle_facility_inventory = bf.tdg_id;
+
+-- source
+UPDATE  denver_streets
+SET     bike_facility_source = 'denver_bicycle_facilities'
+WHERE   bike_facility_source IS NULL
+AND     bike_facility IS NOT NULL;

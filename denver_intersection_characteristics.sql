@@ -14,7 +14,11 @@ CREATE TABLE generated.denver_intersection_characteristics (
     travel_lanes_1 INTEGER,             -- highest number of travel lanes
     travel_lanes_2 INTEGER,             -- next highest number of travel lanes
     travel_lanes_3 INTEGER,             -- next highest number of travel lanes
-    travel_lanes_4 INTEGER              -- next highest number of travel lanes
+    travel_lanes_4 INTEGER,             -- next highest number of travel lanes
+    bike_facility_1 TEXT,               -- existing bike facility (alphabetical order)
+    bike_facility_2 TEXT,               -- existing bike facility (alphabetical order)
+    bike_facility_3 TEXT,               -- existing bike facility (alphabetical order)
+    bike_facility_4 TEXT                -- existing bike facility (alphabetical order)
 );
 INSERT INTO generated.denver_intersection_characteristics SELECT int_id, geom FROM denver_streets_intersections;
 CREATE INDEX sidx_denintcharsgeom ON generated.denver_intersection_characteristics USING GIST (geom);
@@ -33,23 +37,23 @@ AND     i.node_denver_centerline = dci."MASTERID";
 -- class_1
 UPDATE  generated.denver_intersection_characteristics
 SET     class_1 = (
-            SELECT      ds.functional_class
+            SELECT      ds.class_description
             FROM        denver_streets ds
             WHERE       denver_intersection_characteristics.int_id
                             IN (ds.intersection_from,ds.intersection_to)
-            ORDER BY    ds.functional_class_order ASC
+            ORDER BY    ds.class_order ASC
             LIMIT       1
         );
 
 -- class_2
 UPDATE  generated.denver_intersection_characteristics
 SET     class_2 = (
-            SELECT      ds.functional_class
+            SELECT      ds.class_description
             FROM        denver_streets ds
             WHERE       denver_intersection_characteristics.int_id
                             IN (ds.intersection_from,ds.intersection_to)
-            AND         ds.functional_class != class_1
-            ORDER BY    ds.functional_class_order ASC
+            AND         ds.class_description != class_1
+            ORDER BY    ds.class_order ASC
             LIMIT       1
         );
 
@@ -131,4 +135,58 @@ SET     travel_lanes_4 = (
             WHERE       denver_intersection_characteristics.int_id
                             IN (ds.intersection_from,ds.intersection_to)
             AND         ds.travel_lanes < travel_lanes_3
+        );
+
+-- bike_facility_1
+UPDATE  generated.denver_intersection_characteristics
+SET     bike_facility_1 = (
+            SELECT      bike_facility
+            FROM        denver_streets ds
+            WHERE       denver_intersection_characteristics.int_id
+                            IN (ds.intersection_from,ds.intersection_to)
+            ORDER BY    bike_facility ASC
+            LIMIT       1
+        );
+
+-- bike_facility_2
+UPDATE  generated.denver_intersection_characteristics
+SET     bike_facility_2 = (
+            SELECT      bike_facility
+            FROM        denver_streets ds
+            WHERE       denver_intersection_characteristics.int_id
+                            IN (ds.intersection_from,ds.intersection_to)
+            AND         bike_facility != denver_intersection_characteristics.bike_facility_1
+            ORDER BY    bike_facility ASC
+            LIMIT       1
+        );
+
+-- bike_facility_3
+UPDATE  generated.denver_intersection_characteristics
+SET     bike_facility_3 = (
+            SELECT      bike_facility
+            FROM        denver_streets ds
+            WHERE       denver_intersection_characteristics.int_id
+                            IN (ds.intersection_from,ds.intersection_to)
+            AND         bike_facility NOT IN (
+                            denver_intersection_characteristics.bike_facility_1,
+                            denver_intersection_characteristics.bike_facility_2
+                        )
+            ORDER BY    bike_facility ASC
+            LIMIT       1
+        );
+
+-- bike_facility_4
+UPDATE  generated.denver_intersection_characteristics
+SET     bike_facility_4 = (
+            SELECT      bike_facility
+            FROM        denver_streets ds
+            WHERE       denver_intersection_characteristics.int_id
+                            IN (ds.intersection_from,ds.intersection_to)
+            AND         bike_facility NOT IN (
+                            denver_intersection_characteristics.bike_facility_1,
+                            denver_intersection_characteristics.bike_facility_2,
+                            denver_intersection_characteristics.bike_facility_3
+                        )
+            ORDER BY    bike_facility ASC
+            LIMIT       1
         );

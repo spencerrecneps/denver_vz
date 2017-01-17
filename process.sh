@@ -18,3 +18,5 @@ echo 'Processing process_crashes.sql'
 psql -h 192.168.40.225 -U gis -d denver_vz -f process_crashes.sql
 echo 'Processing crash_aggregates.sql'
 psql -h 192.168.40.225 -U gis -d denver_vz -f crash_aggregates.sql
+echo 'Processing denver_intersection_characteristics.sql'
+psql -h 192.168.40.225 -U gis -d denver_vz -f denver_intersection_characteristics.sql
