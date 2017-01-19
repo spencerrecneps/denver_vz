@@ -39,6 +39,7 @@ CREATE TABLE generated.crash_aggregates (
     veh_allfatalinjury_rank INTEGER,
     veh_allcrashes INTEGER,
     veh_allcrashes_rank INTEGER,
+    veh_int_weight INTEGER,
     veh_top10 INTEGER,
     veh_num1s INTEGER,
     veh_num2s INTEGER,
@@ -92,6 +93,7 @@ CREATE TABLE generated.crash_aggregates (
     ped_allfatalinjury_rank INTEGER,
     ped_allcrashes INTEGER,
     ped_allcrashes_rank INTEGER,
+    ped_int_weight INTEGER,
     ped_top10 INTEGER,
     ped_num1s INTEGER,
     ped_num2s INTEGER,
@@ -151,6 +153,7 @@ CREATE TABLE generated.crash_aggregates (
     bike_injuryfatal_rank INTEGER,
     bike_allcrashes INTEGER,
     bike_allcrashes_rank INTEGER,
+    bike_int_weight INTEGER,
     bike_top10 INTEGER,
     bike_num1s INTEGER,
     bike_num2s INTEGER,
@@ -514,6 +517,32 @@ UPDATE  generated.crash_aggregates
 SET     veh_allcrashes_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- veh_int_weight
+UPDATE  generated.crash_aggregates
+SET     veh_int_weight = (
+            SELECT  COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_veh c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_veh
+            AND     NOT flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_veh
+            AND     flag_fatal
+        );
 
 -- veh_top10
 UPDATE  generated.crash_aggregates
@@ -1145,6 +1174,32 @@ UPDATE  generated.crash_aggregates
 SET     ped_allcrashes_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- ped_int_weight
+UPDATE  generated.crash_aggregates
+SET     ped_int_weight = (
+            SELECT  COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_ped c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_ped
+            AND     NOT flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_ped
+            AND     flag_fatal
+        );
 
 -- ped_top10
 UPDATE  generated.crash_aggregates
@@ -1925,6 +1980,42 @@ UPDATE  generated.crash_aggregates
 SET     bike_allcrashes_rank = ranks.rank
 FROM    ranks
 WHERE   crash_aggregates.int_id = ranks.int_id;
+
+-- bike_int_weight
+UPDATE  generated.crash_aggregates
+SET     bike_int_weight = (
+            SELECT  COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatality
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_bike1 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatality
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     NOT fatalcrash
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_bike2 c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     fatalcrash
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_bike
+            AND     NOT flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_jeffco c
+            WHERE   c.int_id = crash_aggregates.int_id
+            AND     flag_bike
+            AND     flag_fatal
+        );
 
 -- bike_top10
 UPDATE  generated.crash_aggregates
