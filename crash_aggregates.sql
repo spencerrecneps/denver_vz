@@ -524,7 +524,7 @@ SET     veh_int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_veh c
@@ -535,7 +535,7 @@ SET     veh_int_weight = (
             FROM    crashes_jeffco c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_veh
-            AND     NOT flag_fatal
+            AND     flag_injury
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_jeffco c
@@ -1181,7 +1181,7 @@ SET     ped_int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_ped c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_ped c
@@ -1192,7 +1192,7 @@ SET     ped_int_weight = (
             FROM    crashes_jeffco c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_ped
-            AND     NOT flag_fatal
+            AND     flag_injury
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_jeffco c
@@ -1987,7 +1987,7 @@ SET     bike_int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_bike1 c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatality
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_bike1 c
@@ -1997,7 +1997,7 @@ SET     bike_int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_bike2 c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_bike2 c
@@ -2008,7 +2008,7 @@ SET     bike_int_weight = (
             FROM    crashes_jeffco c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_bike
-            AND     NOT flag_fatal
+            AND     flag_injury
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_jeffco c
@@ -2309,7 +2309,7 @@ SET     int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_veh c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_veh c
@@ -2319,7 +2319,7 @@ SET     int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_ped c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_ped c
@@ -2329,7 +2329,7 @@ SET     int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_bike1 c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatality
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_bike1 c
@@ -2339,7 +2339,7 @@ SET     int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_bike2 c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT fatalcrash
+            AND     injurycrash
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_bike2 c
@@ -2349,7 +2349,7 @@ SET     int_weight = (
             SELECT  COUNT(*)
             FROM    crashes_jeffco c
             WHERE   c.int_id = crash_aggregates.int_id
-            AND     NOT flag_fatal
+            AND     flag_injury
         ) + (
             SELECT  3 * COUNT(*)
             FROM    crashes_jeffco c
