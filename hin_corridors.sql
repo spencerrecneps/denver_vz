@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS generated.hin_corridors;
 CREATE TABLE generated.hin_corridors (
     id SERIAL PRIMARY KEY,
-    geom geometry(multipoint,2231),
+    geom geometry(linestring,2231),
     base_road_id INTEGER,
     road_id INTEGER,
     weights INTEGER,
