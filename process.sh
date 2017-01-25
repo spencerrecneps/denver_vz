@@ -10,6 +10,8 @@ echo 'Processing crashes_bike1.sql'
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_bike1.sql
 echo 'Processing crashes_bike2.sql'
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_bike2.sql
+echo 'Processing crashes_bike_supplement.sql'
+psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_bike_supplement.sql
 echo 'Processing crashes_jeffco.sql'
 psql -h 192.168.40.225 -U postgres -d denver_vz -f crashes_jeffco.sql
 echo 'Processing crashes_jeffco.sql'

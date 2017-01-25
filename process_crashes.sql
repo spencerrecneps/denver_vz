@@ -332,3 +332,16 @@ SET     fatality = flags.fatality,
         injury = flags.injury
 FROM    received.crashes_bike_flags flags
 WHERE   crashes_bike1.caseid = flags.caseid;
+
+
+----------------------------
+-- crashes_bike_supplement
+----------------------------
+ALTER TABLE received.crashes_bike1 ADD COLUMN driveract1 TEXT;
+ALTER TABLE received.crashes_bike1 ADD COLUMN driveract2 TEXT;
+
+UPDATE  received.crashes_bike1
+SET     driveract1 = supplement.driveract1,
+        driveract2 = supplement.driveract2
+FROM    received.crashes_bike_supplement supplement
+WHERE   crashes_bike1.caseid = supplement.caseid;
