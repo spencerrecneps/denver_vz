@@ -19,6 +19,7 @@ CREATE TABLE generated.denver_streets (
     tdgid_cdot_major_roads VARCHAR(36),
     tdgid_cdot_local_roads VARCHAR(36),
     road_name TEXT,
+    corridor_name TEXT,
     functional_class TEXT,
     volclass TEXT,
     class_order INTEGER,
@@ -506,6 +507,7 @@ ANALYZE generated.denver_streets_intersections (node_denver_centerline);
 
 -- temporary field manipulation
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS road_name;
+ALTER TABLE denver_streets DROP COLUMN IF EXISTS corridor_name;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS functional_class;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS volclass;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS class_order;
@@ -528,6 +530,7 @@ ALTER TABLE denver_streets DROP COLUMN IF EXISTS travel_lanes_source;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility;
 ALTER TABLE denver_streets DROP COLUMN IF EXISTS bike_facility_source;
 ALTER TABLE denver_streets ADD COLUMN road_name TEXT;
+ALTER TABLE denver_streets ADD COLUMN corridor_name TEXT;
 ALTER TABLE denver_streets ADD COLUMN functional_class TEXT;
 ALTER TABLE denver_streets ADD COLUMN volclass TEXT;
 ALTER TABLE denver_streets ADD COLUMN class_order INTEGER;
@@ -550,10 +553,11 @@ ALTER TABLE denver_streets ADD COLUMN travel_lanes_source TEXT;
 ALTER TABLE denver_streets ADD COLUMN bike_facility TEXT;
 ALTER TABLE denver_streets ADD COLUMN bike_facility_source TEXT;
 
--- road_name, functional_class, volclass, one_way, speed_limit, nhs, divided,
--- travel_lanes from denver_street_centerline
+-- road_name, corridor_name,functional_class, volclass, one_way, speed_limit,
+-- nhs, divided, travel_lanes from denver_street_centerline
 UPDATE  denver_streets
 SET     road_name = dsc.fullname,
+        corridor_name = regexp_replace(dsc.fullname,'^[E|W|N|S]\s',''),
         functional_class = dsc.funclass,
         volclass = dsc.volclass,
         class_order = CASE  WHEN dsc.funclass = '11' THEN           1   --interstate urban
@@ -761,3 +765,7 @@ UPDATE  denver_streets
 SET     bike_facility_source = 'denver_bicycle_facilities'
 WHERE   bike_facility_source IS NULL
 AND     bike_facility IS NOT NULL;
+
+-- indexes
+CREATE INDEX idx_dscorrname ON generated.denver_streets (corridor_name);
+ANALYZE generated.denver_streets (corridor_name);

@@ -1,22 +1,31 @@
 -- create tables
-DROP TABLE IF EXISTS generated.hin_corridors;
-DROP TABLE IF EXISTS tmp_streetnames;
-CREATE TABLE generated.hin_corridors (
+DROP TABLE IF EXISTS generated.hin_corridor_windows;
+DROP TABLE IF EXISTS tmp_corridors;
+DROP TABLE IF EXISTS tmp_corridor_ints;
+CREATE TABLE generated.hin_corridor_windows (
     id SERIAL PRIMARY KEY,
-    geom geometry(linestring,2231),
-    base_road_id INTEGER,
-    road_id INTEGER,
-    weights INTEGER,
-    distance INTEGER
+    geom geometry(multilinestring,2231),
+    int_id INTEGER,
+    corridor_name TEXT,
+    total_weight INTEGER,
+    distance INTEGER,
+    weight_per_distance FLOAT
 );
-CREATE TEMPORARY TABLE tmp_streetnames (
+CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
-    road_name TEXT
+    corridor_name TEXT
+);
+CREATE TEMPORARY TABLE tmp_corridor_ints (
+    id SERIAL PRIMARY KEY,
+    base_int_id INTEGER,
+    int_id INTEGER,
+    corridor_name TEXT,
+    int_weight INTEGER
 );
 
--- add road names that have scores > 2
-INSERT INTO tmp_streetnames (road_name)
-SELECT  regexp_replace(ds.road_name,'^[E|W|N|S]\s','')
+-- tmp_corridors
+INSERT INTO tmp_corridors (corridor_name)
+SELECT  ds.corridor_name
 FROM    crash_aggregates ca,
         denver_streets_intersections dsi,
         denver_streets ds
@@ -24,52 +33,79 @@ WHERE   ca.int_id = dsi.int_id
 AND     dsi.int_id = ds.intersection_from
 AND     ca.int_weight > 2
 UNION
-SELECT  regexp_replace(ds.road_name,'^[E|W|N|S]\s','')
+SELECT  ds.corridor_name
 FROM    crash_aggregates ca,
         denver_streets_intersections dsi,
         denver_streets ds
 WHERE   ca.int_id = dsi.int_id
 AND     dsi.int_id = ds.intersection_to
 AND     ca.int_weight > 2;
-CREATE INDEX tidx_tmpsn ON tmp_streetnames (road_name);
-ANALYZE tmp_streetnames;
+CREATE INDEX tidx_tmpcsn ON tmp_corridors (corridor_name);
+ANALYZE tmp_corridors;
 
--- recursively search road network for connected segments
--- and summarize
-WITH RECURSIVE windows(base_road_id, road_id, intersection_from, intersection_to, road_name, distance) AS (
-    SELECT  road_id,
-            road_id,
-            intersection_from,
-            intersection_to,
-            regexp_replace(denver_streets.road_name,'^[E|W|N|S]\s',''),
-            ST_Length(geom)
-    FROM    denver_streets,
-            tmp_streetnames
-    WHERE   tmp_streetnames.road_name = regexp_replace(denver_streets.road_name,'^[E|W|N|S]\s','')
-    --AND     denver_streets.road_name LIKE '%COLFAX AVE'
-    AND     road_id IN (
-                10088,28516,28523,28579,28617,28866,29074,29200,29279,29280,29446,
-                29545,29563,29602,29606,29680,29702,29703,29713,29779,29780,29781
-            )
-    UNION
-    SELECT  windows.road_id,
-            ds.road_id,
-            ds.intersection_from,
-            ds.intersection_to,
-            regexp_replace(ds.road_name,'^[E|W|N|S]\s',''),
-            windows.distance + ST_Length(ds.geom)
-    FROM    denver_streets ds,
-            windows
-    WHERE   windows.road_id != ds.road_id
-    AND     windows.distance + ST_Length(ds.geom) < 1320
-    AND     (
-                ds.intersection_from IN (windows.intersection_from, windows.intersection_to)
-            OR  ds.intersection_to IN (windows.intersection_from, windows.intersection_to)
-            )
-    AND     regexp_replace(ds.road_name,'^[E|W|N|S]\s','') = windows.road_name
+-- tmp_corridor_ints
+INSERT INTO tmp_corridor_ints (
+    base_int_id, int_id, corridor_name, int_weight
 )
-INSERT INTO generated.hin_corridors (
-    base_road_id, road_id, distance
+SELECT  dsi.int_id,
+        windows.node,
+        tmp_corridors.corridor_name,
+        agg.int_weight
+FROM    denver_streets_intersections dsi,
+        tmp_corridors,
+        pgr_drivingdistance('
+            SELECT  road_id AS id,
+                    intersection_from AS source,
+                    intersection_to AS target,
+                    seg_length AS cost,
+                    seg_length AS reverse_cost
+            FROM    denver_streets
+            WHERE   corridor_name = '||quote_literal(tmp_corridors.corridor_name),
+            dsi.int_id,
+            1320,
+            directed:=FALSE
+        ) windows,
+        crash_aggregates agg
+WHERE   EXISTS (
+            SELECT  1
+            FROM    denver_streets ds
+            WHERE   dsi.int_id IN (ds.intersection_from,ds.intersection_to)
+            AND     ds.corridor_name = tmp_corridors.corridor_name
+        )
+AND     windows.node = agg.int_id;
+CREATE INDEX tidx_cinm ON tmp_corridor_ints (corridor_name);
+CREATE INDEX tidx_cibsint ON tmp_corridor_ints (base_int_id);
+CREATE INDEX tidx_ciint ON tmp_corridor_ints (int_id);
+ANALYZE tmp_corridor_ints (corridor_name,base_int_id,int_id);
+
+-- window geoms
+INSERT INTO generated.hin_corridor_windows (
+    geom, int_id, corridor_name
 )
-SELECT      base_road_id, road_id, distance
-FROM        windows;
+SELECT      ST_Multi(ST_Union(ds.geom)),
+            i1.base_int_id,
+            i1.corridor_name
+FROM        generated.denver_streets ds,
+            tmp_corridor_ints i1,
+            tmp_corridor_ints i2
+WHERE       ds.corridor_name = i1.corridor_name
+AND         i1.corridor_name = i2.corridor_name
+AND         i1.base_int_id = i2.base_int_id
+AND         i1.int_id IN (ds.intersection_from,ds.intersection_to)
+AND         i2.int_id IN (ds.intersection_from,ds.intersection_to)
+GROUP BY    i1.base_int_id,
+            i1.corridor_name;
+
+-- index
+CREATE INDEX sidx_hincw_geom ON generated.hin_corridor_windows USING GIST (geom);
+ANALYZE generated.hin_corridor_windows (geom);
+
+-- window weights and distance
+UPDATE  generated.hin_corridor_windows
+SET     total_weight = (
+            SELECT  SUM(int_weight)
+            FROM    tmp_corridor_ints i
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+        ),
+        distance = ST_Length(geom);
