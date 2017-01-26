@@ -11,7 +11,7 @@ CREATE TABLE generated.denver_streets (
     z_to INTEGER DEFAULT 0,
     tdg_id VARCHAR(36) DEFAULT (uuid_generate_v4())::TEXT,
     geom geometry(linestring,2231),
-    seg_length INT,
+    seg_length INTEGER,
     tdgid_denver_street_centerline VARCHAR(36),
     tdgid_denver_bicycle_facilities VARCHAR(36),
     tdgid_drcog_bicycle_facility_inventory VARCHAR(36),

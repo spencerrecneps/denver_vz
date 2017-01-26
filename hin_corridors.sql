@@ -7,9 +7,13 @@ CREATE TABLE generated.hin_corridor_windows (
     geom geometry(multilinestring,2231),
     int_id INTEGER,
     corridor_name TEXT,
+    base_weight INTEGER,
     total_weight INTEGER,
+    avg_weight FLOAT,
+    median_weight INTEGER,
+    hilo_avg_weight FLOAT,
     distance INTEGER,
-    weight_per_distance FLOAT
+    weight_per_mile FLOAT
 );
 CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
@@ -62,7 +66,7 @@ FROM    denver_streets_intersections dsi,
             FROM    denver_streets
             WHERE   corridor_name = '||quote_literal(tmp_corridors.corridor_name),
             dsi.int_id,
-            1320,
+            2640,
             directed:=FALSE
         ) windows,
         crash_aggregates agg
@@ -108,4 +112,41 @@ SET     total_weight = (
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
         ),
+        avg_weight = (
+            SELECT  AVG(int_weight)
+            FROM    tmp_corridor_ints i
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+        ),
+        median_weight = (
+            SELECT  quantile(int_weight, 0.5)
+            FROM    tmp_corridor_ints i
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+        ),
+        hilo_avg_weight = (
+            SELECT  AVG(b.int_weight)
+            FROM    (
+                        SELECT      a.int_weight
+                        FROM        (
+                                        SELECT      int_weight
+                                        FROM        tmp_corridor_ints i
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        ORDER BY    int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        base_weight = (
+            SELECT  int_weight
+            FROM    crash_aggregates
+            WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
+        ),
         distance = ST_Length(geom);
+
+-- per mile weights
+UPDATE  generated.hin_corridor_windows
+SET     weight_per_mile = total_weight / (distance::FLOAT / 5280);
