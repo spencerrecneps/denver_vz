@@ -11,9 +11,12 @@ CREATE TABLE generated.hin_corridor_windows (
     total_weight INTEGER,
     avg_weight FLOAT,
     median_weight INTEGER,
+    hilo_total_weight INTEGER,
     hilo_avg_weight FLOAT,
     distance INTEGER,
-    weight_per_mile FLOAT
+    weight_per_mile FLOAT,
+    hilo_weight_per_mile FLOAT,
+    fatals INTEGER
 );
 CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
@@ -124,6 +127,22 @@ SET     total_weight = (
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
         ),
+        hilo_total_weight = (
+            SELECT  SUM(b.int_weight)
+            FROM    (
+                        SELECT      a.int_weight
+                        FROM        (
+                                        SELECT      int_weight
+                                        FROM        tmp_corridor_ints i
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        ORDER BY    int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
         hilo_avg_weight = (
             SELECT  AVG(b.int_weight)
             FROM    (
@@ -145,8 +164,13 @@ SET     total_weight = (
             FROM    crash_aggregates
             WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
         ),
-        distance = ST_Length(geom);
+        distance = ST_Length(geom),
+        fatals = (
+            SELECT  COUNT(id)
+            FROM
+        );
 
 -- per mile weights
 UPDATE  generated.hin_corridor_windows
-SET     weight_per_mile = total_weight / (distance::FLOAT / 5280);
+SET     weight_per_mile = total_weight / (distance::FLOAT / 5280),
+        hilo_weight_per_mile = hilo_total_weight / (distance::FLOAT / 5280);

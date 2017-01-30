@@ -287,5 +287,104 @@ SELECT  400,
         100 * v.allfatal::FLOAT / a.allfatal
 FROM    a, v;
 
+-- combined
+WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
+        cn AS (
+            SELECT  SUM(ds.seg_length) AS net
+            FROM    generated.denver_streets ds,
+                    generated.denver_streets_intersections dsif,
+                    generated.denver_streets_intersections dsit
+            WHERE   ds.intersection_from = dsif.int_id
+            AND     ds.intersection_to = dsit.int_id
+            AND     EXISTS (
+                        SELECT  1
+                        FROM    generated.hin
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,dsif.geom)
+                        AND     ST_Intersects(hin.tmp_geom_buffer,dsit.geom)
+                    )
+        ),
+        a AS (
+            SELECT  SUM(ped_allcrashes) + SUM(bike_allcrashes) + SUM(veh_allcrashes) AS allcrashes,
+                    SUM(ped_allinjury) + SUM(bike_allinjury) + SUM(veh_allinjury) AS allinjury,
+                    SUM(ped_allfatal) + SUM(bike_allfatal) + SUM(veh_allfatal) AS allfatal
+            FROM    crash_aggregates
+        ),
+        c AS (
+            SELECT  SUM(ped_allcrashes) + SUM(bike_allcrashes) + SUM(veh_allcrashes) AS allcrashes,
+                    SUM(ped_allinjury) + SUM(bike_allinjury) + SUM(veh_allinjury) AS allinjury,
+                    SUM(ped_allfatal) + SUM(bike_allfatal) + SUM(veh_allfatal) AS allfatal
+            FROM    crash_aggregates
+            WHERE   EXISTS (
+                        SELECT  1
+                        FROM    generated.hin
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
+                    )
+        )
+INSERT INTO generated.hin_stats (id, stat_name, stat)
+SELECT  410,
+        'Total combined HIN network (mi)',
+        cn.net / 5280
+FROM    cn
+UNION
+SELECT  420,
+        'Percent combined HIN network',
+        100 * cn.net / an.net::FLOAT
+FROM    an, cn
+UNION
+SELECT  430,
+        'Combined: all crashes',
+        a.allcrashes
+FROM    a
+UNION
+SELECT  440,
+        'Combined: all crashes / mi',
+        a.allcrashes / (an.net::FLOAT / 5280)
+FROM    a, an
+UNION
+SELECT  450,
+        'Combined: all crashes in HIN',
+        c.allcrashes
+FROM    c
+UNION
+SELECT  460,
+        'Combined: HIN crashes / mi',
+        c.allcrashes / (cn.net::FLOAT / 5280)
+FROM    c, cn
+UNION
+SELECT  470,
+        'Combined: all crashes, percent in HIN',
+        100 * c.allcrashes::FLOAT / a.allcrashes
+FROM    a, c
+UNION
+SELECT  480,
+        'Combined: injury crashes',
+        a.allinjury
+FROM    a
+UNION
+SELECT  490,
+        'Combined: injury crashes in HIN',
+        c.allinjury
+FROM    c
+UNION
+SELECT  500,
+        'Combined: injury crashes, percent in HIN',
+        100 * c.allinjury::FLOAT / a.allinjury
+FROM    a, c
+UNION
+SELECT  510,
+        'Combined: fatal crashes',
+        a.allfatal
+FROM    a
+UNION
+SELECT  520,
+        'Combined: fatal crashes in HIN',
+        c.allfatal
+FROM    c
+UNION
+SELECT  530,
+        'Combined: fatal crashes, percent in HIN',
+        100 * c.allfatal::FLOAT / a.allfatal
+FROM    a, c;
+
 
 SELECT * FROM generated.hin_stats ORDER BY id;
