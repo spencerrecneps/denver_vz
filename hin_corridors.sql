@@ -7,16 +7,43 @@ CREATE TABLE generated.hin_corridor_windows (
     geom geometry(multilinestring,2231),
     int_id INTEGER,
     corridor_name TEXT,
-    base_weight INTEGER,
-    total_weight INTEGER,
-    avg_weight FLOAT,
-    median_weight INTEGER,
-    hilo_total_weight INTEGER,
-    hilo_avg_weight FLOAT,
     distance INTEGER,
-    weight_per_mile FLOAT,
-    hilo_weight_per_mile FLOAT,
-    ints_w_fatals INTEGER
+    all_base_weight INTEGER,
+    all_total_weight INTEGER,
+    all_avg_weight FLOAT,
+    all_median_weight INTEGER,
+    all_hilo_total_weight INTEGER,
+    all_hilo_avg_weight FLOAT,
+    all_weight_per_mile FLOAT,
+    all_hilo_weight_per_mile FLOAT,
+    all_ints_w_fatals INTEGER,
+    ped_base_weight INTEGER,
+    ped_total_weight INTEGER,
+    ped_avg_weight FLOAT,
+    ped_median_weight INTEGER,
+    ped_hilo_total_weight INTEGER,
+    ped_hilo_avg_weight FLOAT,
+    ped_weight_per_mile FLOAT,
+    ped_hilo_weight_per_mile FLOAT,
+    ped_ints_w_fatals INTEGER,
+    bike_base_weight INTEGER,
+    bike_total_weight INTEGER,
+    bike_avg_weight FLOAT,
+    bike_median_weight INTEGER,
+    bike_hilo_total_weight INTEGER,
+    bike_hilo_avg_weight FLOAT,
+    bike_weight_per_mile FLOAT,
+    bike_hilo_weight_per_mile FLOAT,
+    bike_ints_w_fatals INTEGER,
+    veh_base_weight INTEGER,
+    veh_total_weight INTEGER,
+    veh_avg_weight FLOAT,
+    veh_median_weight INTEGER,
+    veh_hilo_total_weight INTEGER,
+    veh_hilo_avg_weight FLOAT,
+    veh_weight_per_mile FLOAT,
+    veh_hilo_weight_per_mile FLOAT,
+    veh_ints_w_fatals INTEGER,
 );
 CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
@@ -105,7 +132,9 @@ ANALYZE generated.hin_corridor_windows (geom);
 
 -- window weights and distance
 UPDATE  generated.hin_corridor_windows
-SET     total_weight = (
+SET     distance = ST_Length(geom),
+        -- all
+        all_total_weight = (
             SELECT  SUM(agg.int_weight)
             FROM    tmp_corridor_ints i,
                     crash_aggregates agg
@@ -113,7 +142,7 @@ SET     total_weight = (
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
         ),
-        avg_weight = (
+        all_avg_weight = (
             SELECT  AVG(agg.int_weight)
             FROM    tmp_corridor_ints i,
                     crash_aggregates agg
@@ -121,7 +150,7 @@ SET     total_weight = (
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
         ),
-        median_weight = (
+        all_median_weight = (
             SELECT  quantile(agg.int_weight, 0.5)
             FROM    tmp_corridor_ints i,
                     crash_aggregates agg
@@ -129,7 +158,7 @@ SET     total_weight = (
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
         ),
-        hilo_total_weight = (
+        all_hilo_total_weight = (
             SELECT  SUM(b.int_weight)
             FROM    (
                         SELECT      a.int_weight
@@ -147,7 +176,7 @@ SET     total_weight = (
                         OFFSET      1
                     ) b
         ),
-        hilo_avg_weight = (
+        all_hilo_avg_weight = (
             SELECT  AVG(b.int_weight)
             FROM    (
                         SELECT      a.int_weight
@@ -165,13 +194,12 @@ SET     total_weight = (
                         OFFSET      1
                     ) b
         ),
-        base_weight = (
+        all_base_weight = (
             SELECT  int_weight
             FROM    crash_aggregates
             WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
         ),
-        distance = ST_Length(geom),
-        ints_w_fatals = (
+        all_ints_w_fatals = (
             SELECT  COUNT(agg.int_id)
             FROM    tmp_corridor_ints i,
                     crash_aggregates agg
@@ -179,9 +207,88 @@ SET     total_weight = (
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
             AND     agg.veh_allfatal + agg.ped_allfatal + agg.bike_allfatal > 0
-        );
+        ),
+        --ped
+        ped_total_weight = (
+            SELECT  SUM(agg.ped_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        ped_avg_weight = (
+            SELECT  AVG(agg.ped_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        ped_median_weight = (
+            SELECT  quantile(agg.ped_int_weight, 0.5)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        ped_hilo_total_weight = (
+            SELECT  SUM(b.ped_int_weight)
+            FROM    (
+                        SELECT      a.ped_int_weight
+                        FROM        (
+                                        SELECT      agg.ped_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.ped_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.ped_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        ped_hilo_avg_weight = (
+            SELECT  AVG(b.ped_int_weight)
+            FROM    (
+                        SELECT      a.ped_int_weight
+                        FROM        (
+                                        SELECT      agg.ped_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.ped_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.ped_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        ped_base_weight = (
+            SELECT  ped_int_weight
+            FROM    crash_aggregates
+            WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
+        ),
+        ped_ints_w_fatals = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.ped_allfatal > 0
+        ),
+        --bike
+        
+        --veh
+        ;
 
 -- per mile weights
 UPDATE  generated.hin_corridor_windows
-SET     weight_per_mile = total_weight / (distance::FLOAT / 5280),
-        hilo_weight_per_mile = hilo_total_weight / (distance::FLOAT / 5280);
+SET     all_weight_per_mile = all_total_weight / (distance::FLOAT / 5280),
+        all_all_hilo_weight_per_mile = all_hilo_total_weight / (distance::FLOAT / 5280);
