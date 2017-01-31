@@ -16,7 +16,7 @@ CREATE TABLE generated.hin_corridor_windows (
     distance INTEGER,
     weight_per_mile FLOAT,
     hilo_weight_per_mile FLOAT,
-    fatals INTEGER
+    ints_w_fatals INTEGER
 );
 CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
@@ -26,8 +26,7 @@ CREATE TEMPORARY TABLE tmp_corridor_ints (
     id SERIAL PRIMARY KEY,
     base_int_id INTEGER,
     int_id INTEGER,
-    corridor_name TEXT,
-    int_weight INTEGER
+    corridor_name TEXT
 );
 
 -- tmp_corridors
@@ -52,12 +51,11 @@ ANALYZE tmp_corridors;
 
 -- tmp_corridor_ints
 INSERT INTO tmp_corridor_ints (
-    base_int_id, int_id, corridor_name, int_weight
+    base_int_id, int_id, corridor_name
 )
 SELECT  dsi.int_id,
         windows.node,
-        tmp_corridors.corridor_name,
-        agg.int_weight
+        tmp_corridors.corridor_name
 FROM    denver_streets_intersections dsi,
         tmp_corridors,
         pgr_drivingdistance('
@@ -71,15 +69,13 @@ FROM    denver_streets_intersections dsi,
             dsi.int_id,
             2640,
             directed:=FALSE
-        ) windows,
-        crash_aggregates agg
+        ) windows
 WHERE   EXISTS (
             SELECT  1
             FROM    denver_streets ds
             WHERE   dsi.int_id IN (ds.intersection_from,ds.intersection_to)
             AND     ds.corridor_name = tmp_corridors.corridor_name
-        )
-AND     windows.node = agg.int_id;
+        );
 CREATE INDEX tidx_cinm ON tmp_corridor_ints (corridor_name);
 CREATE INDEX tidx_cibsint ON tmp_corridor_ints (base_int_id);
 CREATE INDEX tidx_ciint ON tmp_corridor_ints (int_id);
@@ -110,33 +106,41 @@ ANALYZE generated.hin_corridor_windows (geom);
 -- window weights and distance
 UPDATE  generated.hin_corridor_windows
 SET     total_weight = (
-            SELECT  SUM(int_weight)
-            FROM    tmp_corridor_ints i
+            SELECT  SUM(agg.int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
         ),
         avg_weight = (
-            SELECT  AVG(int_weight)
-            FROM    tmp_corridor_ints i
+            SELECT  AVG(agg.int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
         ),
         median_weight = (
-            SELECT  quantile(int_weight, 0.5)
-            FROM    tmp_corridor_ints i
+            SELECT  quantile(agg.int_weight, 0.5)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
         ),
         hilo_total_weight = (
             SELECT  SUM(b.int_weight)
             FROM    (
                         SELECT      a.int_weight
                         FROM        (
-                                        SELECT      int_weight
-                                        FROM        tmp_corridor_ints i
+                                        SELECT      agg.int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
                                         WHERE       hin_corridor_windows.int_id = i.base_int_id
                                         AND         hin_corridor_windows.corridor_name = i.corridor_name
-                                        ORDER BY    int_weight DESC
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.int_weight DESC
                                         OFFSET      1
                                     ) a
                         ORDER BY    a.int_weight ASC
@@ -148,11 +152,13 @@ SET     total_weight = (
             FROM    (
                         SELECT      a.int_weight
                         FROM        (
-                                        SELECT      int_weight
-                                        FROM        tmp_corridor_ints i
+                                        SELECT      agg.int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
                                         WHERE       hin_corridor_windows.int_id = i.base_int_id
                                         AND         hin_corridor_windows.corridor_name = i.corridor_name
-                                        ORDER BY    int_weight DESC
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.int_weight DESC
                                         OFFSET      1
                                     ) a
                         ORDER BY    a.int_weight ASC
@@ -165,9 +171,14 @@ SET     total_weight = (
             WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
         ),
         distance = ST_Length(geom),
-        fatals = (
-            SELECT  COUNT(id)
-            FROM
+        ints_w_fatals = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_allfatal + agg.ped_allfatal + agg.bike_allfatal > 0
         );
 
 -- per mile weights
