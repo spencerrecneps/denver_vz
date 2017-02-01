@@ -17,6 +17,10 @@ CREATE TABLE generated.hin_corridor_windows (
     all_weight_per_mile FLOAT,
     all_hilo_weight_per_mile FLOAT,
     all_ints_w_fatals INTEGER,
+    all_ints_gt_zero INTEGER,
+    all_ints_gt_one INTEGER,
+    all_ints_gt_two INTEGER,
+    all_ints_gt_three INTEGER,
     ped_base_weight INTEGER,
     ped_total_weight INTEGER,
     ped_avg_weight FLOAT,
@@ -26,6 +30,10 @@ CREATE TABLE generated.hin_corridor_windows (
     ped_weight_per_mile FLOAT,
     ped_hilo_weight_per_mile FLOAT,
     ped_ints_w_fatals INTEGER,
+    ped_ints_gt_zero INTEGER,
+    ped_ints_gt_one INTEGER,
+    ped_ints_gt_two INTEGER,
+    ped_ints_gt_three INTEGER,
     bike_base_weight INTEGER,
     bike_total_weight INTEGER,
     bike_avg_weight FLOAT,
@@ -35,6 +43,10 @@ CREATE TABLE generated.hin_corridor_windows (
     bike_weight_per_mile FLOAT,
     bike_hilo_weight_per_mile FLOAT,
     bike_ints_w_fatals INTEGER,
+    bike_ints_gt_zero INTEGER,
+    bike_ints_gt_one INTEGER,
+    bike_ints_gt_two INTEGER,
+    bike_ints_gt_three INTEGER,
     veh_base_weight INTEGER,
     veh_total_weight INTEGER,
     veh_avg_weight FLOAT,
@@ -44,6 +56,12 @@ CREATE TABLE generated.hin_corridor_windows (
     veh_weight_per_mile FLOAT,
     veh_hilo_weight_per_mile FLOAT,
     veh_ints_w_fatals INTEGER,
+    veh_ints_gt_zero INTEGER,
+    veh_ints_gt_one INTEGER,
+    veh_ints_gt_two INTEGER,
+    veh_ints_gt_three INTEGER,
+    veh_ints_gt_five INTEGER,
+    veh_ints_gt_ten INTEGER
 );
 CREATE TEMPORARY TABLE tmp_corridors (
     id SERIAL PRIMARY KEY,
@@ -208,6 +226,42 @@ SET     distance = ST_Length(geom),
             AND     i.int_id = agg.int_id
             AND     agg.veh_allfatal + agg.ped_allfatal + agg.bike_allfatal > 0
         ),
+        all_ints_gt_zero = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.int_weight > 0
+        ),
+        all_ints_gt_one = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.int_weight > 1
+        ),
+        all_ints_gt_two = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.int_weight > 2
+        ),
+        all_ints_gt_three = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.int_weight > 3
+        ),
         --ped
         ped_total_weight = (
             SELECT  SUM(agg.ped_int_weight)
@@ -283,12 +337,290 @@ SET     distance = ST_Length(geom),
             AND     i.int_id = agg.int_id
             AND     agg.ped_allfatal > 0
         ),
+        ped_ints_gt_zero = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.ped_int_weight > 0
+        ),
+        ped_ints_gt_one = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.ped_int_weight > 1
+        ),
+        ped_ints_gt_two = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.ped_int_weight > 2
+        ),
+        ped_ints_gt_three = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.ped_int_weight > 3
+        ),
         --bike
-        
+        bike_total_weight = (
+            SELECT  SUM(agg.bike_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        bike_avg_weight = (
+            SELECT  AVG(agg.bike_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        bike_median_weight = (
+            SELECT  quantile(agg.bike_int_weight, 0.5)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        bike_hilo_total_weight = (
+            SELECT  SUM(b.bike_int_weight)
+            FROM    (
+                        SELECT      a.bike_int_weight
+                        FROM        (
+                                        SELECT      agg.bike_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.bike_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.bike_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        bike_hilo_avg_weight = (
+            SELECT  AVG(b.bike_int_weight)
+            FROM    (
+                        SELECT      a.bike_int_weight
+                        FROM        (
+                                        SELECT      agg.bike_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.bike_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.bike_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        bike_base_weight = (
+            SELECT  bike_int_weight
+            FROM    crash_aggregates
+            WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
+        ),
+        bike_ints_w_fatals = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.bike_allfatal > 0
+        ),
+        bike_ints_gt_zero = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.bike_int_weight > 0
+        ),
+        bike_ints_gt_one = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.bike_int_weight > 1
+        ),
+        bike_ints_gt_two = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.bike_int_weight > 2
+        ),
+        bike_ints_gt_three = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.bike_int_weight > 3
+        ),
         --veh
-        ;
+        veh_total_weight = (
+            SELECT  SUM(agg.veh_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        veh_avg_weight = (
+            SELECT  AVG(agg.veh_int_weight)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        veh_median_weight = (
+            SELECT  quantile(agg.veh_int_weight, 0.5)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+        ),
+        veh_hilo_total_weight = (
+            SELECT  SUM(b.veh_int_weight)
+            FROM    (
+                        SELECT      a.veh_int_weight
+                        FROM        (
+                                        SELECT      agg.veh_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.veh_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.veh_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        veh_hilo_avg_weight = (
+            SELECT  AVG(b.veh_int_weight)
+            FROM    (
+                        SELECT      a.veh_int_weight
+                        FROM        (
+                                        SELECT      agg.veh_int_weight
+                                        FROM        tmp_corridor_ints i,
+                                                    crash_aggregates agg
+                                        WHERE       hin_corridor_windows.int_id = i.base_int_id
+                                        AND         hin_corridor_windows.corridor_name = i.corridor_name
+                                        AND         i.int_id = agg.int_id
+                                        ORDER BY    agg.veh_int_weight DESC
+                                        OFFSET      1
+                                    ) a
+                        ORDER BY    a.veh_int_weight ASC
+                        OFFSET      1
+                    ) b
+        ),
+        veh_base_weight = (
+            SELECT  veh_int_weight
+            FROM    crash_aggregates
+            WHERE   hin_corridor_windows.int_id = crash_aggregates.int_id
+        ),
+        veh_ints_w_fatals = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_allfatal > 0
+        ),
+        veh_ints_gt_zero = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 0
+        ),
+        veh_ints_gt_one = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 1
+        ),
+        veh_ints_gt_two = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 2
+        ),
+        veh_ints_gt_three = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 3
+        ),
+        veh_ints_gt_five = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 5
+        ),
+        veh_ints_gt_ten = (
+            SELECT  COUNT(agg.int_id)
+            FROM    tmp_corridor_ints i,
+                    crash_aggregates agg
+            WHERE   hin_corridor_windows.int_id = i.base_int_id
+            AND     hin_corridor_windows.corridor_name = i.corridor_name
+            AND     i.int_id = agg.int_id
+            AND     agg.veh_int_weight > 10
+        );
 
 -- per mile weights
 UPDATE  generated.hin_corridor_windows
 SET     all_weight_per_mile = all_total_weight / (distance::FLOAT / 5280),
-        all_all_hilo_weight_per_mile = all_hilo_total_weight / (distance::FLOAT / 5280);
+        all_hilo_weight_per_mile = all_hilo_total_weight / (distance::FLOAT / 5280),
+        ped_weight_per_mile = ped_total_weight / (distance::FLOAT / 5280),
+        ped_hilo_weight_per_mile = ped_hilo_total_weight / (distance::FLOAT / 5280),
+        bike_weight_per_mile = bike_total_weight / (distance::FLOAT / 5280),
+        bike_hilo_weight_per_mile = bike_hilo_total_weight / (distance::FLOAT / 5280),
+        veh_weight_per_mile = veh_total_weight / (distance::FLOAT / 5280),
+        veh_hilo_weight_per_mile = veh_hilo_total_weight / (distance::FLOAT / 5280);
