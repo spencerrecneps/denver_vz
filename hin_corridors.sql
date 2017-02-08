@@ -193,22 +193,6 @@ SET     distance = ST_Length(geom),
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
         ),
-        all_vicinity_weight = (
-            SELECT  SUM(agg.int_weight)
-            FROM    crash_aggregates agg,
-                    pgr_drivingdistance('
-                        SELECT  road_id AS id,
-                                intersection_from AS source,
-                                intersection_to AS target,
-                                seg_length AS cost,
-                                seg_length AS reverse_cost
-                        FROM    denver_streets',
-                        hin_corridor_windows.int_id,
-                        2640,
-                        directed:=FALSE
-                    ) vicinity
-            WHERE   vicinity.node = agg.int_id
-        ),
         all_avg_weight = (
             SELECT  AVG(agg.int_weight)
             FROM    scratch.hin_corridor_ints i,
@@ -319,22 +303,6 @@ SET     distance = ST_Length(geom),
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
-        ),
-        ped_vicinity_weight = (
-            SELECT  SUM(agg.ped_int_weight)
-            FROM    crash_aggregates agg,
-                    pgr_drivingdistance('
-                        SELECT  road_id AS id,
-                                intersection_from AS source,
-                                intersection_to AS target,
-                                seg_length AS cost,
-                                seg_length AS reverse_cost
-                        FROM    denver_streets',
-                        hin_corridor_windows.int_id,
-                        2640,
-                        directed:=FALSE
-                    ) vicinity
-            WHERE   vicinity.node = agg.int_id
         ),
         ped_avg_weight = (
             SELECT  AVG(agg.ped_int_weight)
@@ -447,22 +415,6 @@ SET     distance = ST_Length(geom),
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
         ),
-        bike_vicinity_weight = (
-            SELECT  SUM(agg.bike_int_weight)
-            FROM    crash_aggregates agg,
-                    pgr_drivingdistance('
-                        SELECT  road_id AS id,
-                                intersection_from AS source,
-                                intersection_to AS target,
-                                seg_length AS cost,
-                                seg_length AS reverse_cost
-                        FROM    denver_streets',
-                        hin_corridor_windows.int_id,
-                        2640,
-                        directed:=FALSE
-                    ) vicinity
-            WHERE   vicinity.node = agg.int_id
-        ),
         bike_avg_weight = (
             SELECT  AVG(agg.bike_int_weight)
             FROM    scratch.hin_corridor_ints i,
@@ -573,22 +525,6 @@ SET     distance = ST_Length(geom),
             WHERE   hin_corridor_windows.int_id = i.base_int_id
             AND     hin_corridor_windows.corridor_name = i.corridor_name
             AND     i.int_id = agg.int_id
-        ),
-        veh_vicinity_weight = (
-            SELECT  SUM(agg.veh_int_weight)
-            FROM    crash_aggregates agg,
-                    pgr_drivingdistance('
-                        SELECT  road_id AS id,
-                                intersection_from AS source,
-                                intersection_to AS target,
-                                seg_length AS cost,
-                                seg_length AS reverse_cost
-                        FROM    denver_streets',
-                        hin_corridor_windows.int_id,
-                        2640,
-                        directed:=FALSE
-                    ) vicinity
-            WHERE   vicinity.node = agg.int_id
         ),
         veh_avg_weight = (
             SELECT  AVG(agg.veh_int_weight)
@@ -711,6 +647,82 @@ SET     distance = ST_Length(geom),
             AND     agg.veh_int_weight > 10
         );
 
+-- vicinity weights
+-- window weights and distance
+UPDATE  generated.hin_corridor_windows
+SET     all_vicinity_weight = (
+            SELECT  SUM(agg.int_weight)
+            FROM    crash_aggregates agg,
+                    pgr_drivingdistance('
+                        SELECT  road_id AS id,
+                                intersection_from AS source,
+                                intersection_to AS target,
+                                seg_length AS cost,
+                                seg_length AS reverse_cost
+                        FROM    denver_streets',
+                        hin_corridor_windows.int_id,
+                        2640,
+                        directed:=FALSE
+                    ) vicinity
+            WHERE   vicinity.node = agg.int_id
+        )
+WHERE   all_ints_gt_zero > 2;
+UPDATE  generated.hin_corridor_windows
+SET     ped_vicinity_weight = (
+            SELECT  SUM(agg.ped_int_weight)
+            FROM    crash_aggregates agg,
+                    pgr_drivingdistance('
+                        SELECT  road_id AS id,
+                                intersection_from AS source,
+                                intersection_to AS target,
+                                seg_length AS cost,
+                                seg_length AS reverse_cost
+                        FROM    denver_streets',
+                        hin_corridor_windows.int_id,
+                        2640,
+                        directed:=FALSE
+                    ) vicinity
+            WHERE   vicinity.node = agg.int_id
+        )
+WHERE   ped_ints_gt_zero > 1;
+UPDATE  generated.hin_corridor_windows
+SET     bike_vicinity_weight = (
+            SELECT  SUM(agg.bike_int_weight)
+            FROM    crash_aggregates agg,
+                    pgr_drivingdistance('
+                        SELECT  road_id AS id,
+                                intersection_from AS source,
+                                intersection_to AS target,
+                                seg_length AS cost,
+                                seg_length AS reverse_cost
+                        FROM    denver_streets',
+                        hin_corridor_windows.int_id,
+                        2640,
+                        directed:=FALSE
+                    ) vicinity
+            WHERE   vicinity.node = agg.int_id
+        )
+WHERE   bike_ints_gt_zero > 1;
+UPDATE  generated.hin_corridor_windows
+SET     veh_vicinity_weight = (
+            SELECT  SUM(agg.veh_int_weight)
+            FROM    crash_aggregates agg,
+                    pgr_drivingdistance('
+                        SELECT  road_id AS id,
+                                intersection_from AS source,
+                                intersection_to AS target,
+                                seg_length AS cost,
+                                seg_length AS reverse_cost
+                        FROM    denver_streets',
+                        hin_corridor_windows.int_id,
+                        2640,
+                        directed:=FALSE
+                    ) vicinity
+            WHERE   vicinity.node = agg.int_id
+        )
+WHERE   veh_ints_gt_zero > 2;
+
+
 -- per mile weights
 UPDATE  generated.hin_corridor_windows
 SET     all_weight_per_mile = all_window_weight / (distance::FLOAT / 5280),
@@ -746,8 +758,16 @@ AND         EXISTS (
                 WHERE   w.int_id = i1.base_int_id
                 AND     w.int_id = i2.base_int_id
                 AND     w.corridor_name = i1.corridor_name
-                AND     w.ped_hilo_weight_per_mile >= 4
-                AND     w.ped_ints_gt_one > 2
+                AND     (
+                            (
+                                w.ped_hilo_weight_per_mile >= 4
+                            AND w.ped_ints_gt_one > 2
+                            )
+                        OR  (
+                                w.ped_ints_gt_zero > 3
+                            AND w.ped_window_weight::FLOAT / w.ped_vicinity_weight > 0.8
+                            )
+                        )
             )
 GROUP BY    i1.corridor_name;
 
@@ -771,8 +791,16 @@ AND         EXISTS (
                 WHERE   w.int_id = i1.base_int_id
                 AND     w.int_id = i2.base_int_id
                 AND     w.corridor_name = i1.corridor_name
-                AND     w.bike_hilo_weight_per_mile >= 4
-                AND     w.bike_ints_gt_zero > 3
+                AND     (
+                            (
+                                w.bike_hilo_weight_per_mile >= 4
+                            AND w.bike_ints_gt_zero > 3
+                            )
+                        OR  (
+                                w.bike_ints_gt_zero > 3
+                            AND w.bike_window_weight::FLOAT / w.bike_vicinity_weight > 0.8
+                            )
+                        )
             )
 GROUP BY    i1.corridor_name;
 
