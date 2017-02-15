@@ -437,6 +437,11 @@ SET     veh_allfatal = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_veh
             AND     jc.flag_fatal
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_veh
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -485,6 +490,11 @@ SET     veh_allfatalinjury = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_veh
             AND     (jc.flag_injury OR jc.flag_fatal)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_veh
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -507,6 +517,11 @@ SET     veh_allcrashes = (
             FROM    crashes_jeffco jc
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_veh
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_veh
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -542,6 +557,11 @@ SET     veh_int_weight = (
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_veh
             AND     flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_veh
         );
 
 -- veh_top10
@@ -1094,6 +1114,11 @@ SET     ped_allfatal = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_ped
             AND     jc.flag_fatal
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_ped
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1142,6 +1167,11 @@ SET     ped_allfatalinjury = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_ped
             AND     (jc.flag_injury OR jc.flag_fatal)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_ped
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1164,6 +1194,11 @@ SET     ped_allcrashes = (
             FROM    crashes_jeffco jc
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_ped
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_ped
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1199,6 +1234,11 @@ SET     ped_int_weight = (
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_ped
             AND     flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_ped
         );
 
 -- ped_top10
@@ -1886,6 +1926,11 @@ SET     bike_allfatal = (
             AND     jc.flag_bike
             AND     jc.flag_fatal
             --AND     EXTRACT(YEAR FROM "date") >= 2013
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_bike
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1944,6 +1989,11 @@ SET     bike_injuryfatal = (
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_bike
             AND     (jc.flag_injury OR jc.flag_fatal)
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_bike
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -1970,6 +2020,11 @@ SET     bike_allcrashes = (
             FROM    crashes_jeffco jc
             WHERE   jc.int_id = crash_aggregates.int_id
             AND     jc.flag_bike
+        ) + (
+            SELECT  COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_bike
         );
 WITH ranks AS (
     SELECT  int_id,
@@ -2015,6 +2070,11 @@ SET     bike_int_weight = (
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_bike
             AND     flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
+            AND     cf.flag_bike
         );
 
 -- bike_top10
@@ -2355,4 +2415,8 @@ SET     int_weight = (
             FROM    crashes_jeffco c
             WHERE   c.int_id = crash_aggregates.int_id
             AND     flag_fatal
+        ) + (
+            SELECT  3 * COUNT(*)
+            FROM    crashes_fatals cf
+            WHERE   cf.int_id = crash_aggregates.int_id
         );

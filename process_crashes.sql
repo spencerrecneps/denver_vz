@@ -345,3 +345,44 @@ SET     driveract1 = supplement.driveract1,
         driveract2 = supplement.driveract2
 FROM    received.crashes_bike_supplement supplement
 WHERE   crashes_bike1.caseid = supplement.caseid;
+
+
+----------------------------
+-- crashes_fatals
+----------------------------
+-- set columns
+ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS int_id;
+ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_ped;
+ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_bike;
+ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_veh;
+ALTER TABLE received.crashes_fatals ADD COLUMN int_id INTEGER;
+ALTER TABLE received.crashes_fatals ADD COLUMN flag_ped BOOLEAN;
+ALTER TABLE received.crashes_fatals ADD COLUMN flag_bike BOOLEAN;
+ALTER TABLE received.crashes_fatals ADD COLUMN flag_veh BOOLEAN;
+
+-- update new columns
+UPDATE  received.crashes_fatals
+SET     int_id = (
+            SELECT      ints.int_id
+            FROM        denver_streets_intersections ints
+            ORDER BY    ST_Distance(ints.geom,crashes_fatals.geom) ASC
+            LIMIT       1
+        ),
+        flag_ped =  CASE    WHEN 'Pedestrian' IN (first_traf, second_tra) THEN TRUE
+                            ELSE FALSE
+                            END,
+        flag_bike = CASE    WHEN 'Bike' IN (first_traf, second_tra) THEN TRUE
+                            ELSE FALSE
+                            END;
+
+UPDATE  received.crashes_fatals
+SET     flag_veh =  CASE    WHEN flag_ped OR flag_bike THEN FALSE
+                            ELSE TRUE
+                            END;
+
+-- indexes
+CREATE INDEX idx_crshftl_ped ON received.crashes_fatals (flag_ped) WHERE flag_ped IS TRUE;
+CREATE INDEX idx_crshftl_bike ON received.crashes_fatals (flag_bike) WHERE flag_bike IS TRUE;
+CREATE INDEX idx_crshftl_veh ON received.crashes_fatals (flag_veh) WHERE flag_veh IS TRUE;
+CREATE INDEX idx_crshftl_intid ON received.crashes_fatals (int_id);
+ANALYZE received.crashes_fatals;
