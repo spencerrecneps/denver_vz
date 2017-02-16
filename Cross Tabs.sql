@@ -31,7 +31,7 @@ SELECT      (
                 SELECT      ds.travel_lanes
                 FROM        denver_streets ds
                 WHERE       ca.int_id IN (ds.intersection_from,ds.intersection_to)
-                ORDER BY    ds.travel_lanes ASC
+                ORDER BY    ds.travel_lanes DESC
                 LIMIT       1
             ) AS "Number of Lanes",
             SUM(veh_allinjury) AS "Vehicle - Injury",
@@ -45,13 +45,13 @@ GROUP BY    (
                 SELECT      ds.travel_lanes
                 FROM        denver_streets ds
                 WHERE       ca.int_id IN (ds.intersection_from,ds.intersection_to)
-                ORDER BY    ds.travel_lanes ASC
+                ORDER BY    ds.travel_lanes DESC
                 LIMIT       1
             )
 ORDER BY    (
                 SELECT      ds.travel_lanes
                 FROM        denver_streets ds
                 WHERE       ca.int_id IN (ds.intersection_from,ds.intersection_to)
-                ORDER BY    ds.travel_lanes ASC
+                ORDER BY    ds.travel_lanes DESC
                 LIMIT       1
             ) DESC;
