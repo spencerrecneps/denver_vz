@@ -386,5 +386,7 @@ SELECT  530,
         100 * c.allfatal::FLOAT / a.allfatal
 FROM    a, c;
 
+-- drop temporary buffer column
+ALTER TABLE generated.hin DROP COLUMN IF EXISTS tmp_geom_buffer;
 
 SELECT * FROM generated.hin_stats ORDER BY id;
