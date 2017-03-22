@@ -40,7 +40,7 @@ SELECT  int_id,
             FROM    hin,
                     denver_streets_intersections i
             WHERE   i.int_id = hin_corridor_windows.int_id
-            AND     hin.mode = 'pedestrian'
+            AND     hin.ped
             AND     ST_Intersects(i.geom,hin.tmp_geom_buffer)
             LIMIT   1
         ),0) AS ped_final_hin,
@@ -69,7 +69,7 @@ SELECT  int_id,
             FROM    hin,
                     denver_streets_intersections i
             WHERE   i.int_id = hin_corridor_windows.int_id
-            AND     hin.mode = 'bike'
+            AND     hin.bike
             AND     ST_Intersects(i.geom,hin.tmp_geom_buffer)
             LIMIT   1
         ),0) AS bike_final_hin,
@@ -97,7 +97,7 @@ SELECT  int_id,
             FROM    hin,
                     denver_streets_intersections i
             WHERE   i.int_id = hin_corridor_windows.int_id
-            AND     hin.mode = 'vehicle'
+            AND     hin.veh
             AND     ST_Intersects(i.geom,hin.tmp_geom_buffer)
             LIMIT   1
         ),0) AS veh_final_hin

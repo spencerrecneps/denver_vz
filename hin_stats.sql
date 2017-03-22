@@ -23,7 +23,7 @@ ANALYZE generated.hin (tmp_geom_buffer);
 --------------------------
 -- ped
 WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
-        pn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE mode='pedestrian'),
+        pn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE ped),
         a AS (
             SELECT  SUM(ped_allcrashes) AS allcrashes,
                     SUM(ped_allinjury) AS allinjury,
@@ -39,7 +39,7 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
                         SELECT  1
                         FROM    generated.hin
                         WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
-                        AND     hin.mode = 'pedestrian'
+                        AND     hin.ped
                     )
         )
 INSERT INTO generated.hin_stats (id, stat_name, stat)
@@ -115,7 +115,7 @@ FROM    a, p;
 
 -- bike
 WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
-        bn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE mode='bike'),
+        bn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE bike),
         a AS (
             SELECT  SUM(bike_allcrashes) AS allcrashes,
                     SUM(bike_allinjury) AS allinjury,
@@ -131,7 +131,7 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
                         SELECT  1
                         FROM    generated.hin
                         WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
-                        AND     hin.mode = 'bike'
+                        AND     hin.bike
                     )
         )
 INSERT INTO generated.hin_stats (id, stat_name, stat)
@@ -202,7 +202,7 @@ FROM    a, b;
 
 -- veh
 WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
-        vn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE mode='vehicle'),
+        vn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE veh),
         a AS (
             SELECT  SUM(bike_allcrashes) AS allcrashes,
                     SUM(bike_allinjury) AS allinjury,
@@ -218,7 +218,7 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
                         SELECT  1
                         FROM    generated.hin
                         WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
-                        AND     hin.mode = 'vehicle'
+                        AND     hin.veh
                     )
         )
 INSERT INTO generated.hin_stats (id, stat_name, stat)

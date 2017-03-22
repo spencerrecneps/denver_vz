@@ -44,7 +44,7 @@ SET     ped_hin = COALESCE((
             AND     dsi2.int_id IN (ds.intersection_to, ds.intersection_from)
             AND     ST_Intersects(hin.tmp_geom_buffer, dsi1.geom)
             AND     ST_Intersects(hin.tmp_geom_buffer, dsi2.geom)
-            AND     hin.mode = 'pedestrian'
+            AND     hin.ped
             LIMIT   1
         ),0),
         bike_hin = COALESCE((
@@ -58,7 +58,7 @@ SET     ped_hin = COALESCE((
                     AND     dsi2.int_id IN (ds.intersection_to, ds.intersection_from)
                     AND     ST_Intersects(hin.tmp_geom_buffer, dsi1.geom)
                     AND     ST_Intersects(hin.tmp_geom_buffer, dsi2.geom)
-                    AND     hin.mode = 'bike'
+                    AND     hin.bike
                     LIMIT   1
                 ),0),
         vehicle_hin = COALESCE((
@@ -72,7 +72,7 @@ SET     ped_hin = COALESCE((
                     AND     dsi2.int_id IN (ds.intersection_to, ds.intersection_from)
                     AND     ST_Intersects(hin.tmp_geom_buffer, dsi1.geom)
                     AND     ST_Intersects(hin.tmp_geom_buffer, dsi2.geom)
-                    AND     hin.mode = 'vehicle'
+                    AND     hin.veh
                     LIMIT   1
                 ),0);
 
