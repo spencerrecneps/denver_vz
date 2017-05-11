@@ -204,15 +204,15 @@ FROM    a, b;
 WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
         vn AS (SELECT SUM(ST_Length(geom)) AS net FROM generated.hin WHERE veh),
         a AS (
-            SELECT  SUM(bike_allcrashes) AS allcrashes,
-                    SUM(bike_allinjury) AS allinjury,
-                    SUM(bike_allfatal) AS allfatal
+            SELECT  SUM(veh_allcrashes) AS allcrashes,
+                    SUM(veh_allinjury) AS allinjury,
+                    SUM(veh_allfatal) AS allfatal
             FROM    crash_aggregates
         ),
         v AS (
-            SELECT  SUM(bike_allcrashes) AS allcrashes,
-                    SUM(bike_allinjury) AS allinjury,
-                    SUM(bike_allfatal) AS allfatal
+            SELECT  SUM(veh_allcrashes) AS allcrashes,
+                    SUM(veh_allinjury) AS allinjury,
+                    SUM(veh_allfatal) AS allfatal
             FROM    crash_aggregates
             WHERE   EXISTS (
                         SELECT  1
