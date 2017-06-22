@@ -28,17 +28,17 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
             SELECT  SUM(ped_allcrashes) AS allcrashes,
                     SUM(ped_allinjury) AS allinjury,
                     SUM(ped_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
         ),
         p AS (
             SELECT  SUM(ped_allcrashes) AS allcrashes,
                     SUM(ped_allinjury) AS allinjury,
                     SUM(ped_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
             WHERE   EXISTS (
                         SELECT  1
                         FROM    generated.hin
-                        WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,intersection_aggregates_revised.geom)
                         AND     hin.ped
                     )
         )
@@ -120,17 +120,17 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
             SELECT  SUM(bike_allcrashes) AS allcrashes,
                     SUM(bike_allinjury) AS allinjury,
                     SUM(bike_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
         ),
         b AS (
             SELECT  SUM(bike_allcrashes) AS allcrashes,
                     SUM(bike_allinjury) AS allinjury,
                     SUM(bike_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
             WHERE   EXISTS (
                         SELECT  1
                         FROM    generated.hin
-                        WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,intersection_aggregates_revised.geom)
                         AND     hin.bike
                     )
         )
@@ -207,17 +207,17 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
             SELECT  SUM(veh_allcrashes) AS allcrashes,
                     SUM(veh_allinjury) AS allinjury,
                     SUM(veh_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
         ),
         v AS (
             SELECT  SUM(veh_allcrashes) AS allcrashes,
                     SUM(veh_allinjury) AS allinjury,
                     SUM(veh_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
             WHERE   EXISTS (
                         SELECT  1
                         FROM    generated.hin
-                        WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,intersection_aggregates_revised.geom)
                         AND     hin.veh
                     )
         )
@@ -307,17 +307,17 @@ WITH    an AS (SELECT SUM(seg_length) AS net FROM generated.denver_streets),
             SELECT  SUM(ped_allcrashes) + SUM(bike_allcrashes) + SUM(veh_allcrashes) AS allcrashes,
                     SUM(ped_allinjury) + SUM(bike_allinjury) + SUM(veh_allinjury) AS allinjury,
                     SUM(ped_allfatal) + SUM(bike_allfatal) + SUM(veh_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
         ),
         c AS (
             SELECT  SUM(ped_allcrashes) + SUM(bike_allcrashes) + SUM(veh_allcrashes) AS allcrashes,
                     SUM(ped_allinjury) + SUM(bike_allinjury) + SUM(veh_allinjury) AS allinjury,
                     SUM(ped_allfatal) + SUM(bike_allfatal) + SUM(veh_allfatal) AS allfatal
-            FROM    crash_aggregates
+            FROM    intersection_aggregates_revised
             WHERE   EXISTS (
                         SELECT  1
                         FROM    generated.hin
-                        WHERE   ST_Intersects(hin.tmp_geom_buffer,crash_aggregates.geom)
+                        WHERE   ST_Intersects(hin.tmp_geom_buffer,intersection_aggregates_revised.geom)
                     )
         )
 INSERT INTO generated.hin_stats (id, stat_name, stat)
