@@ -348,26 +348,28 @@ WHERE   crashes_bike1.caseid = supplement.caseid;
 
 
 ----------------------------
--- crashes_fatals
+-- dpd_fatals_x_intersections
+-- (was crashes_fatals but that was revised by Joe and Kurtis)
 ----------------------------
 -- set columns
-ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS int_id;
-ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_ped;
-ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_bike;
-ALTER TABLE received.crashes_fatals DROP COLUMN IF EXISTS flag_veh;
-ALTER TABLE received.crashes_fatals ADD COLUMN int_id INTEGER;
-ALTER TABLE received.crashes_fatals ADD COLUMN flag_ped BOOLEAN;
-ALTER TABLE received.crashes_fatals ADD COLUMN flag_bike BOOLEAN;
-ALTER TABLE received.crashes_fatals ADD COLUMN flag_veh BOOLEAN;
+ALTER TABLE generated.dpd_fatals_x_intersections DROP COLUMN IF EXISTS int_id;
+ALTER TABLE generated.dpd_fatals_x_intersections DROP COLUMN IF EXISTS flag_ped;
+ALTER TABLE generated.dpd_fatals_x_intersections DROP COLUMN IF EXISTS flag_bike;
+ALTER TABLE generated.dpd_fatals_x_intersections DROP COLUMN IF EXISTS flag_veh;
+ALTER TABLE generated.dpd_fatals_x_intersections ADD COLUMN int_id INTEGER;
+ALTER TABLE generated.dpd_fatals_x_intersections ADD COLUMN flag_ped BOOLEAN;
+ALTER TABLE generated.dpd_fatals_x_intersections ADD COLUMN flag_bike BOOLEAN;
+ALTER TABLE generated.dpd_fatals_x_intersections ADD COLUMN flag_veh BOOLEAN;
 
 -- update new columns
-UPDATE  received.crashes_fatals
-SET     int_id = (
-            SELECT      ints.int_id
-            FROM        denver_streets_intersections ints
-            ORDER BY    ST_Distance(ints.geom,crashes_fatals.geom) ASC
-            LIMIT       1
-        ),
+UPDATE  generated.dpd_fatals_x_intersections
+SET     int_id =    (
+                        SELECT  i.int_id
+                        FROM    denver_streets_intersections i
+                        WHERE   i.node_denver_centerline = dpd_fatals_x_intersections.node
+                        ORDER BY i.int_id ASC
+                        LIMIT   1
+                    ),
         flag_ped =  CASE    WHEN 'Pedestrian' IN (first_traf, second_tra) THEN TRUE
                             ELSE FALSE
                             END,
@@ -375,14 +377,14 @@ SET     int_id = (
                             ELSE FALSE
                             END;
 
-UPDATE  received.crashes_fatals
+UPDATE  generated.dpd_fatals_x_intersections
 SET     flag_veh =  CASE    WHEN flag_ped OR flag_bike THEN FALSE
                             ELSE TRUE
                             END;
 
 -- indexes
-CREATE INDEX idx_crshftl_ped ON received.crashes_fatals (flag_ped) WHERE flag_ped IS TRUE;
-CREATE INDEX idx_crshftl_bike ON received.crashes_fatals (flag_bike) WHERE flag_bike IS TRUE;
-CREATE INDEX idx_crshftl_veh ON received.crashes_fatals (flag_veh) WHERE flag_veh IS TRUE;
-CREATE INDEX idx_crshftl_intid ON received.crashes_fatals (int_id);
-ANALYZE received.crashes_fatals;
+CREATE INDEX idx_dpdcrshftl_ped ON generated.dpd_fatals_x_intersections (flag_ped) WHERE flag_ped IS TRUE;
+CREATE INDEX idx_dpdcrshftl_bike ON generated.dpd_fatals_x_intersections (flag_bike) WHERE flag_bike IS TRUE;
+CREATE INDEX idx_dpdcrshftl_veh ON generated.dpd_fatals_x_intersections (flag_veh) WHERE flag_veh IS TRUE;
+CREATE INDEX idx_dpdcrshftl_intid ON generated.dpd_fatals_x_intersections (int_id);
+ANALYZE generated.dpd_fatals_x_intersections;

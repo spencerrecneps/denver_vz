@@ -439,7 +439,7 @@ SET     veh_allfatal = (
             AND     jc.flag_fatal
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_veh
         );
@@ -492,7 +492,7 @@ SET     veh_allfatalinjury = (
             AND     (jc.flag_injury OR jc.flag_fatal)
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_veh
         );
@@ -519,7 +519,7 @@ SET     veh_allcrashes = (
             AND     jc.flag_veh
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_veh
         );
@@ -559,7 +559,7 @@ SET     veh_int_weight = (
             AND     flag_fatal
         ) + (
             SELECT  3 * COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_veh
         );
@@ -1116,7 +1116,7 @@ SET     ped_allfatal = (
             AND     jc.flag_fatal
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_ped
         );
@@ -1169,7 +1169,7 @@ SET     ped_allfatalinjury = (
             AND     (jc.flag_injury OR jc.flag_fatal)
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_ped
         );
@@ -1196,7 +1196,7 @@ SET     ped_allcrashes = (
             AND     jc.flag_ped
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_ped
         );
@@ -1236,7 +1236,7 @@ SET     ped_int_weight = (
             AND     flag_fatal
         ) + (
             SELECT  3 * COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_ped
         );
@@ -1928,7 +1928,7 @@ SET     bike_allfatal = (
             --AND     EXTRACT(YEAR FROM "date") >= 2013
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_bike
         );
@@ -1991,7 +1991,7 @@ SET     bike_injuryfatal = (
             AND     (jc.flag_injury OR jc.flag_fatal)
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_bike
         );
@@ -2022,7 +2022,7 @@ SET     bike_allcrashes = (
             AND     jc.flag_bike
         ) + (
             SELECT  COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_bike
         );
@@ -2072,7 +2072,7 @@ SET     bike_int_weight = (
             AND     flag_fatal
         ) + (
             SELECT  3 * COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
             AND     cf.flag_bike
         );
@@ -2417,6 +2417,6 @@ SET     int_weight = (
             AND     flag_fatal
         ) + (
             SELECT  3 * COUNT(*)
-            FROM    crashes_fatals cf
+            FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
         );
