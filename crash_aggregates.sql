@@ -170,7 +170,8 @@ CREATE TABLE generated.crash_aggregates (
 INSERT INTO generated.crash_aggregates SELECT int_id, geom FROM denver_streets_intersections;
 CREATE INDEX sidx_crashagggeom ON generated.crash_aggregates USING GIST (geom);
 CREATE INDEX idx_crashintid ON generated.crash_aggregates (int_id);
-ANALYZE crash_aggregates (int_id);
+CREATE INDEX idx_crashaggnode ON generated.crash_aggregates (node);
+ANALYZE crash_aggregates;
 
 -- node and int_name
 UPDATE  generated.crash_aggregates
@@ -2419,4 +2420,82 @@ SET     int_weight = (
             SELECT  3 * COUNT(*)
             FROM    dpd_fatals_x_intersections cf
             WHERE   cf.int_id = crash_aggregates.int_id
+        );
+
+-- adjust crash aggregates to correct for duplicate intersections
+UPDATE  generated.crash_aggregates AS a
+SET     veh_careless = a.veh_careless + (SELECT SUM(b.veh_careless) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_reckless = a.veh_reckless + (SELECT SUM(b.veh_reckless) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_failstopsignal = a.veh_failstopsignal + (SELECT SUM(b.veh_failstopsignal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_failyieldrow = a.veh_failyieldrow + (SELECT SUM(b.veh_failyieldrow) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_singveh_highspeed = a.veh_singveh_highspeed + (SELECT SUM(b.veh_singveh_highspeed) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_singveh_influence = a.veh_singveh_influence + (SELECT SUM(b.veh_singveh_influence) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_singveh_fatal = a.veh_singveh_fatal + (SELECT SUM(b.veh_singveh_fatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_singveh_injury = a.veh_singveh_injury + (SELECT SUM(b.veh_singveh_injury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_multveh_influence = a.veh_multveh_influence + (SELECT SUM(b.veh_multveh_influence) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_multveh_rearend = a.veh_multveh_rearend + (SELECT SUM(b.veh_multveh_rearend) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_multveh_rightangle = a.veh_multveh_rightangle + (SELECT SUM(b.veh_multveh_rightangle) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_multveh_headon = a.veh_multveh_headon + (SELECT SUM(b.veh_multveh_headon) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_multveh_fatal = a.veh_multveh_fatal + (SELECT SUM(b.veh_multveh_fatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_allfatal = a.veh_allfatal + (SELECT SUM(b.veh_allfatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_allinjury = a.veh_allinjury + (SELECT SUM(b.veh_allinjury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_allfatalinjury = a.veh_allfatalinjury + (SELECT SUM(b.veh_allfatalinjury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_allcrashes = a.veh_allcrashes + (SELECT SUM(b.veh_allcrashes) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        veh_int_weight = a.veh_int_weight + (SELECT SUM(b.veh_int_weight) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_carelessreckless = a.ped_carelessreckless + (SELECT SUM(b.ped_carelessreckless) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_failyieldrow = a.ped_failyieldrow + (SELECT SUM(b.ped_failyieldrow) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_disregardsigns = a.ped_disregardsigns + (SELECT SUM(b.ped_disregardsigns) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_highspeed = a.ped_highspeed + (SELECT SUM(b.ped_highspeed) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_affected_influence = a.ped_affected_influence + (SELECT SUM(b.ped_affected_influence) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_affected_distracted = a.ped_affected_distracted + (SELECT SUM(b.ped_affected_distracted) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_straightgrade = a.ped_straightgrade + (SELECT SUM(b.ped_straightgrade) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_lefthook_xwalk = a.ped_lefthook_xwalk + (SELECT SUM(b.ped_lefthook_xwalk) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_lefthook_noxwalk = a.ped_lefthook_noxwalk + (SELECT SUM(b.ped_lefthook_noxwalk) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_midblock = a.ped_midblock + (SELECT SUM(b.ped_midblock) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_carstraight_xwalk = a.ped_carstraight_xwalk + (SELECT SUM(b.ped_carstraight_xwalk) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_carstraight_noxwalk = a.ped_carstraight_noxwalk + (SELECT SUM(b.ped_carstraight_noxwalk) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_righthook = a.ped_righthook + (SELECT SUM(b.ped_righthook) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_entermidblock = a.ped_entermidblock + (SELECT SUM(b.ped_entermidblock) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_againstsignal = a.ped_againstsignal + (SELECT SUM(b.ped_againstsignal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_walkinroad = a.ped_walkinroad + (SELECT SUM(b.ped_walkinroad) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_enterintersection = a.ped_enterintersection + (SELECT SUM(b.ped_enterintersection) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_allfatal = a.ped_allfatal + (SELECT SUM(b.ped_allfatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_allinjury = a.ped_allinjury + (SELECT SUM(b.ped_allinjury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_allfatalinjury = a.ped_allfatalinjury + (SELECT SUM(b.ped_allfatalinjury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_allcrashes = a.ped_allcrashes + (SELECT SUM(b.ped_allcrashes) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        ped_int_weight = a.ped_int_weight + (SELECT SUM(b.ped_int_weight) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_driver_aggressive = a.bike_driver_aggressive + (SELECT SUM(b.bike_driver_aggressive) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_driver_failyield = a.bike_driver_failyield + (SELECT SUM(b.bike_driver_failyield) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_driver_disregardsignal = a.bike_driver_disregardsignal + (SELECT SUM(b.bike_driver_disregardsignal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_highspeed = a.bike_highspeed + (SELECT SUM(b.bike_highspeed) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_biker_aggressive = a.bike_biker_aggressive + (SELECT SUM(b.bike_biker_aggressive) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_biker_failyield = a.bike_biker_failyield + (SELECT SUM(b.bike_biker_failyield) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_biker_disregardsignal = a.bike_biker_disregardsignal + (SELECT SUM(b.bike_biker_disregardsignal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_influence = a.bike_influence + (SELECT SUM(b.bike_influence) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_driver_distracted = a.bike_driver_distracted + (SELECT SUM(b.bike_driver_distracted) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_driver_reckless = a.bike_driver_reckless + (SELECT SUM(b.bike_driver_reckless) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_tbone = a.bike_tbone + (SELECT SUM(b.bike_tbone) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_opp_lhook = a.bike_opp_lhook + (SELECT SUM(b.bike_opp_lhook) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_samedir = a.bike_samedir + (SELECT SUM(b.bike_samedir) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_samedir_rhook1 = a.bike_samedir_rhook1 + (SELECT SUM(b.bike_samedir_rhook1) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_samedir_rhook2 = a.bike_samedir_rhook2 + (SELECT SUM(b.bike_samedir_rhook2) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_perp_rhook = a.bike_perp_rhook + (SELECT SUM(b.bike_perp_rhook) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_perp_rhook_swalk1 = a.bike_perp_rhook_swalk1 + (SELECT SUM(b.bike_perp_rhook_swalk1) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_perp_rhook_swalk2 = a.bike_perp_rhook_swalk2 + (SELECT SUM(b.bike_perp_rhook_swalk2) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_tbone_swalk1 = a.bike_tbone_swalk1 + (SELECT SUM(b.bike_tbone_swalk1) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_tbone_swalk2 = a.bike_tbone_swalk2 + (SELECT SUM(b.bike_tbone_swalk2) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_allfatal = a.bike_allfatal + (SELECT SUM(b.bike_allfatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_allinjury = a.bike_allinjury + (SELECT SUM(b.bike_allinjury) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_injuryfatal = a.bike_injuryfatal + (SELECT SUM(b.bike_injuryfatal) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_allcrashes = a.bike_allcrashes + (SELECT SUM(b.bike_allcrashes) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        bike_int_weight = a.bike_int_weight + (SELECT SUM(b.bike_int_weight) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id),
+        int_weight = a.int_weight + (SELECT SUM(b.int_weight) FROM generated.crash_aggregates b WHERE a.node=b.node AND a.int_id < b.int_id);
+
+-- delete duplicates
+DELETE FROM generated.crash_aggregates AS a
+WHERE   EXISTS (
+            SELECT  1
+            FROM    generated.crash_aggregates b
+            WHERE   a.node=b.node
+            AND     a.int_id > b.int_id
         );
