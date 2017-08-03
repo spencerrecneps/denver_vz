@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS generated.hin_corridors_automated;
 CREATE TABLE generated.hin_corridor_windows (
     id SERIAL PRIMARY KEY,
     geom geometry(multilinestring,2231),
+    geom_local geometry(multilinestring,2231),
     int_id INTEGER,
     corridor_name TEXT,
     distance INTEGER,
@@ -828,3 +829,47 @@ AND         EXISTS (
                 AND     w.veh_ints_gt_two > 2
             )
 GROUP BY    i1.corridor_name;
+
+
+------------------------------------
+-- create table for little windows
+------------------------------------
+UPDATE  hin_corridor_windows AS windows
+SET     geom_local = ST_Multi(ST_Union(
+            (
+                SELECT  ST_Union(
+                            ST_LineSubstring(
+                                ds.geom,
+                                0,
+                                0.5
+                            )
+                        )
+                FROM    generated.denver_streets ds
+                WHERE   ds.intersection_from = windows.int_id
+                AND     EXISTS (
+                            SELECT  1
+                            FROM    hin_corridor_ints ci
+                            WHERE   ci.base_int_id = windows.int_id
+                            AND     ci.int_id = ds.intersection_to
+                            AND     ci.corridor_name = windows.corridor_name
+                        )
+            ),
+            (
+                SELECT  ST_Union(
+                            ST_LineSubstring(
+                                ds.geom,
+                                0.5,
+                                1
+                            )
+                        )
+                FROM    generated.denver_streets ds
+                WHERE   ds.intersection_to = windows.int_id
+                AND     EXISTS (
+                            SELECT  1
+                            FROM    hin_corridor_ints ci
+                            WHERE   ci.base_int_id = windows.int_id
+                            AND     ci.int_id = ds.intersection_from
+                            AND     ci.corridor_name = windows.corridor_name
+                        )
+            )
+        ));
